@@ -40,12 +40,50 @@
 					<origin xyz="0 0 0" rpy="0 0 0"/>
 
 					<inertia
-							ixx="(1/12) * ${BASE_MASS} * (3 * ${BASE_RADIUS} * ${BASE_RADIUS} + ${BASE_THICKNESS} * ${BASE_THICKNESS})" ixy="0" ixz="0"
-							iyy="(1/12) * ${BASE_MASS} * (3 * ${BASE_RADIUS} * ${BASE_RADIUS} + ${BASE_THICKNESS} * ${BASE_THICKNESS})" iyz="0"
-							izz="(1/2) * ${BASE_MASS} * ${BASE_RADIUS} * ${BASE_RADIUS}"/>
+							ixx="${(1/12) * BASE_MASS * (3 * BASE_RADIUS * BASE_RADIUS + BASE_THICKNESS * BASE_THICKNESS)}" ixy="0" ixz="0"
+							iyy="${(1/12) * BASE_MASS * (3 * BASE_RADIUS * BASE_RADIUS + BASE_THICKNESS * BASE_THICKNESS)}" iyz="0"
+							izz="${(1/2) * BASE_MASS * BASE_RADIUS * BASE_RADIUS}"/>
 
 			</inertial>
 
+	</link>
+	
+	<!-- Chutado -->                                      		
+    <xacro:property name="SUPPORT_MASS" value="0.5"/>
+	                                                       
+    <!-- Medidos --> 
+    <xacro:property name="SUPPORT_RADIUS" value="0.019"/>
+    <xacro:property name="SUPPORT_THICKNESS" value="1.25"/>
+
+	<link name="vertical_support_link">
+
+			<visual>
+				<geometry>
+						<cylinder length="${SUPPORT_THICKNESS}" radius="${SUPPORT_RADIUS}"/>
+				</geometry>
+
+				<origin xyz="0 0 -(1/2)*${SUPPORT_THICKNESS}" rpy="0 0 0"/>
+			</visual>
+
+			<collision>
+				<geometry>                                                                  	
+            			<cylinder length="${SUPPORT_THICKNESS}" radius="${SUPPORT_RADIUS}"/>
+            	</geometry>
+                                                                                             
+            	<origin xyz="0 0 -(1/2)*${SUPPORT_THICKNESS}" rpy="0 0 0"/>
+			</collision>
+
+			<inertial>
+					<mass value="${SUPPORT_MASS}"/>
+
+					<origin xyz="0 0 0" rpy="0 0 0"/>
+
+					<inertia
+                    		ixx="${(1/12) * SUPPORT_MASS * (3 * SUPPORT_RADIUS * SUPPORT_RADIUS +SUPPORT_THICKNESS * SUPPORT_THICKNESS)}" ixy="0" ixz="0"
+                    		iyy="${(1/12) * SUPPORT_MASS * (3 * SUPPORT_RADIUS * SUPPORT_RADIUS + SUPPORT_THICKNESS * SUPPORT_THICKNESS)}" iyz="0"
+                    		izz="${(1/2) * SUPPORT_MASS * SUPPORT_RADIUS * SUPPORT_RADIUS}"/>
+
+			</inertial>
 	</link>
 	
 </robot>
