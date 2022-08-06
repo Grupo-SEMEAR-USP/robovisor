@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<robot xmlns="http://www.ros.org/wiki/xacro">
+
+		<property name="PI" value="3.14159"/>
+
+		<!-- Wheel Properties -->
+   		<xacro:property name="wheel_base" value="" />
+    	<xacro:property name="wheel_track" value="" />
+    	<xacro:property name="wheel_vertical_offset" value="" />
+    	<xacro:property name="wheel_width" value="" />
+   		<xacro:property name="wheel_radius" value="" />
+    	<xacro:property name="wheel_mass" value="" />
+
+		<xacro:macro name="wheel_${position_sufffix}_joint" params="position_suffix ">
+		</xacro:macro>
+
+		<xacro:macro name="generic_wheel" params="position_prefix lado proa">
+
+        	<link name="${position_fixed}_wheel">
+
+           		<visual>
+
+                	<origin xyz="${lado*wheel_radius} ${-lado*wheel_width/2} ${-wheel_radius}" rpy="${PI/2} 0 ${lado*PI/2+PI/2}" />
+
+            	</visual>
+
+            	<collision>
+
+               		<geometry></geometry>
+
+                	<origin></origin>
+
+            	</collision>
+
+            	<inertial>
+
+                	<mass></mass>
+
+                	<origin></origin>
+
+                	<inertia></inertia> 
+
+            	</inertial>
+
+        	</link>
+
+    	</xacro:macro>
+		
+</robot>

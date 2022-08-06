@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+			
+        <joint name="base_inferior_lidar" type="fixed">
+
+            <parent link="base_inferior"/>
+            <child link="lidar"/>
+
+            <origin xyz="" rpy=""/>
+
+            <axis xyz=""/>
+
+            <limit lower="" upper="" velocity="" effort="" />
+
+        </joint>
+
+</robot>

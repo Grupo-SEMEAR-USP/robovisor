@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- TODO entender oq ta acontecendo certinho, de forma que de pra criar parâmetros genéricos, assim da pra ter vários launches para coisas diferentes -->
+
+<launch>
+
+	<!-- Load controller settings -->
+	<rosparam file="$(find prototipo1)/config/diff_driver_controller_params.yaml" command="load"/>
+
+	<!-- Load robot urdf model -->
+	<param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+
+    	<!-- Load hardware interface (antigo)
+    	<node name="Robovisor_hardware_interface" pkg="robovisor_control" type="robovisor_hw_interface" output="screen"/> -->	
+
+	<!-- Load hardware interface-->
+	<node name="robot_hardware_interface" pkg="prototipo1" type="prototipo1_hardware_interface" output="screen"> 
+			<remap from="/robot/DiffDriveController/cmd_vel" to="/cmd_vel" />
+	</node>
+
+	<!-- Load robot state publisher --> 
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+	<!-- Load rviz, to visualize path -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1/config/rviz_config.rviz" />
+
+	<!-- Load controller manager-->
+	<!-- Poderíamos adicionar um parâmetro "ns=..." que indicaria/possibilitaria namespaces dentro do arquivo de configuracao .yaml, mas por enquanto vamos manter simples -->
+	<node name="prototipo1_controller_manager" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
+			/robot/mobile_base_controller
+			/robot/joints_update" />
+	
+	<!-- TODO see how to send teleop commands via wifi -->
+	<!-- Load keyboard control module -->
+	<node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard"/>
+
+</launch>
+
