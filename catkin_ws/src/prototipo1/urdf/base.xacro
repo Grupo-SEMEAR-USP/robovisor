@@ -12,6 +12,9 @@
 
 	<link name="base_link">
 			<visual>
+					<material name="green">
+						<color rgba="0.2 1 0.2 1"/>
+					</material>
 					<geometry>	
 							<cylinder length="${BASE_THICKNESS}" radius="${BASE_RADIUS}" />
 					</geometry>
@@ -53,7 +56,7 @@
 						<cylinder length="${SUPPORT_THICKNESS}" radius="${SUPPORT_RADIUS}"/>
 				</geometry>
 
-				<origin xyz="0 0 -(1/2)*${SUPPORT_THICKNESS}" rpy="0 0 0"/>
+				<origin xyz="0 0 ${(1/2)*SUPPORT_THICKNESS}" rpy="0 0 0"/>
 			</visual>
 
 			<collision>
@@ -61,7 +64,7 @@
             			<cylinder length="${SUPPORT_THICKNESS}" radius="${SUPPORT_RADIUS}"/>
             	</geometry>
                                                                                              
-            	<origin xyz="0 0 -(1/2)*${SUPPORT_THICKNESS}" rpy="0 0 0"/>
+            	<origin xyz="0 0 ${(1/2)*SUPPORT_THICKNESS}" rpy="0 0 0"/>
 			</collision>
 
 			<inertial>

@@ -15,9 +15,9 @@
 		<joint name="base_support_joint" type="fixed">
 
 				<parent link="base_link"/>
-				<parent link="vertical_support_link"/>
+				<child link="vertical_support_link"/>
 
-				<origin xyz="0.205 0 ${(1/2)*BASE_THICKNESS}" rpy="0 0 0"/>
+				<origin xyz="0.205 0 ${(1/2)*BASE_THICKNESS + 0.05}" rpy="0 0 0"/>
 
 		</joint>
 
