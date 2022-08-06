@@ -4,48 +4,38 @@
 <robot xmlns:xacro="https://www.ros.org/wiki/xacro">  
 
 	<!-- Chutado -->
-	<xacro:property name="BASE_MASS" value="1"/>
+	<xacro:property name="BASE_MASS" value="1.0"/>
 
 	<!-- Medidos --> 
 	<xacro:property name="BASE_RADIUS" value="0.28"/>
 	<xacro:property name="BASE_THICKNESS" value="0.0155"/>
 
 	<link name="base_link">
-
 			<visual>
-
 					<geometry>	
 							<cylinder length="${BASE_THICKNESS}" radius="${BASE_RADIUS}" />
 					</geometry>
 
 					<origin xyz="0 0 0.05" rpy="0 0 0" />
-
 			</visual>
 
 			<collision>
-
 					<geometry>
 						<cylinder length="${BASE_THICKNESS}" radius="${BASE_RADIUS}"/>
 					</geometry>
 
 					<origin xyz="0 0 0.05" rpy="0 0 0" />
-
 			</collision>
 
 			<inertial>
-
 					<mass value="${BASE_MASS}"/>
 
 					<!-- Centro de massa -->
 					<origin xyz="0 0 0" rpy="0 0 0"/>
-
 					<inertia
-							ixx="(1/12) * ${BASE_MASS} * (3 * ${BASE_RADIUS} * ${BASE_RADIUS} + ${BASE_THICKNESS} * ${BASE_THICKNESS})" ixy="0" ixz="0"
-							iyy="(1/12) * ${BASE_MASS} * (3 * ${BASE_RADIUS} * ${BASE_RADIUS} + ${BASE_THICKNESS} * ${BASE_THICKNESS})" iyz="0"
-							izz="(1/2) * ${BASE_MASS} * ${BASE_RADIUS} * ${BASE_RADIUS}"/>
-
+							ixx="${(1/12) * BASE_MASS * (3 * BASE_RADIUS * BASE_RADIUS + BASE_THICKNESS * BASE_THICKNESS)}" ixy="0" ixz="0"
+							iyy="${(1/12) * BASE_MASS * (3 * BASE_RADIUS * BASE_RADIUS + BASE_THICKNESS * BASE_THICKNESS)}" iyz="0"
+							izz="${(1/2) * BASE_MASS * BASE_RADIUS * BASE_RADIUS}"/>
 			</inertial>
-
 	</link>
-	
 </robot>
