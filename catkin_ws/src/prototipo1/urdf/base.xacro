@@ -3,39 +3,53 @@
 <!-- TODO medir parametros inerciais reais -->
 <robot xmlns:xacro="https://www.ros.org/wiki/xacro">  
 
+	<material name="gray">
+  		<color rgba="0.5 0.5 0.5 1"/>
+  	</material>
+
+	<material name="white">
+  		<color rgba="1 1 1 1"/>
+  	</material>
+
 	<!-- Chutado -->
-	<xacro:property name="BASE_MASS" value="1.0"/>
+	<xacro:property name="CHASSI_MASS" value="1.0"/>
 
 	<!-- Medidos --> 
-	<xacro:property name="BASE_RADIUS" value="0.28"/>
-	<xacro:property name="BASE_THICKNESS" value="0.0155"/>
+	<xacro:property name="CHASSI_RADIUS" value="0.28"/>
+	<xacro:property name="CHASSI_THICKNESS" value="0.0155"/>
 
-	<link name="base_link">
+	<!-- Virtual base as recommended -->
+	<link name="base_link"/>
+
+	<!-- Real base, named as chassi -->
+	<link name="chassi_link">
+
 			<visual>
 					<geometry>	
-							<cylinder length="${BASE_THICKNESS}" radius="${BASE_RADIUS}" />
+							<cylinder length="${CHASSI_THICKNESS}" radius="${CHASSI_RADIUS}" />
 					</geometry>
 
-					<origin xyz="0 0 0.05" rpy="0 0 0" />
+					<origin xyz="0 0 0" rpy="0 0 0" />
+					<material name="white"/>
 			</visual>
 
 			<collision>
 					<geometry>
-						<cylinder length="${BASE_THICKNESS}" radius="${BASE_RADIUS}"/>
+						<cylinder length="${CHASSI_THICKNESS}" radius="${CHASSI_RADIUS}"/>
 					</geometry>
 
-					<origin xyz="0 0 0.05" rpy="0 0 0" />
+					<origin xyz="0 0 0" rpy="0 0 0" />
 			</collision>
 
 			<inertial>
-					<mass value="${BASE_MASS}"/>
+					<mass value="${CHASSI_MASS}"/>
 
 					<!-- Centro de massa -->
 					<origin xyz="0 0 0" rpy="0 0 0"/>
 					<inertia
-							ixx="${(1/12) * BASE_MASS * (3 * BASE_RADIUS * BASE_RADIUS + BASE_THICKNESS * BASE_THICKNESS)}" ixy="0" ixz="0"
-							iyy="${(1/12) * BASE_MASS * (3 * BASE_RADIUS * BASE_RADIUS + BASE_THICKNESS * BASE_THICKNESS)}" iyz="0"
-							izz="${(1/2) * BASE_MASS * BASE_RADIUS * BASE_RADIUS}"/>
+							ixx="${(1/12) * CHASSI_MASS * (3 * CHASSI_RADIUS * CHASSI_RADIUS + CHASSI_THICKNESS * CHASSI_THICKNESS)}" ixy="0" ixz="0"
+							iyy="${(1/12) * CHASSI_MASS * (3 * CHASSI_RADIUS * CHASSI_RADIUS + CHASSI_THICKNESS * CHASSI_THICKNESS)}" iyz="0"
+							izz="${(1/2) * CHASSI_MASS * CHASSI_RADIUS * CHASSI_RADIUS}"/>
 			</inertial>
 	</link>
 	
@@ -53,7 +67,9 @@
 						<cylinder length="${SUPPORT_THICKNESS}" radius="${SUPPORT_RADIUS}"/>
 				</geometry>
 
-				<origin xyz="0 0 -(1/2)*${SUPPORT_THICKNESS}" rpy="0 0 0"/>
+				<origin xyz="0 0 ${(1/2) * SUPPORT_THICKNESS}" rpy="0 0 0"/>
+
+				<material name="gray"/>
 			</visual>
 
 			<collision>
@@ -61,7 +77,7 @@
             			<cylinder length="${SUPPORT_THICKNESS}" radius="${SUPPORT_RADIUS}"/>
             	</geometry>
                                                                                              
-            	<origin xyz="0 0 -(1/2)*${SUPPORT_THICKNESS}" rpy="0 0 0"/>
+            	<origin xyz="0 0 ${(1/2) * SUPPORT_THICKNESS}" rpy="0 0 0"/>
 			</collision>
 
 			<inertial>

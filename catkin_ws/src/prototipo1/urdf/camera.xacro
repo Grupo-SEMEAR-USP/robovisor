@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="https://www.ros.org/wiki/xacro">  
+
+	<!-- Chutado -->
+	<xacro:property name="CAMERA_MASS" value="1.0"/>
+
+	<!-- Medidos --> 
+	<xacro:property name="CAMERA_RADIUS" value="0.05"/>
+	<xacro:property name="CAMERA_THICKNESS" value="0.1"/>
+
+	<link name="camera_link">
+
+			<visual>
+					<geometry>	
+							<cylinder length="${CAMERA_THICKNESS}" radius="${CAMERA_RADIUS}" />
+					</geometry>
+
+					<origin xyz="0 0 0" rpy="0 0 0" />
+					<material name="gray"/>
+			</visual>
+
+			<collision>
+					<geometry>
+						<cylinder length="${CAMERA_THICKNESS}" radius="${CAMERA_RADIUS}"/>
+					</geometry>
+
+					<origin xyz="0 0 0" rpy="0 0 0" />
+			</collision>
+
+			<inertial>
+					<mass value="${CAMERA_MASS}"/>
+
+					<!-- Centro de massa -->
+					<origin xyz="0 0 0" rpy="0 0 0"/>
+					<inertia
+							ixx="${(1/12) * CAMERA_MASS * (3 * CAMERA_RADIUS * CAMERA_RADIUS + CAMERA_THICKNESS * CAMERA_THICKNESS)}" ixy="0" ixz="0"
+							iyy="${(1/12) * CAMERA_MASS * (3 * CAMERA_RADIUS * CAMERA_RADIUS + CAMERA_THICKNESS * CAMERA_THICKNESS)}" iyz="0"
+							izz="${(1/2) * CAMERA_MASS * CAMERA_RADIUS * CAMERA_RADIUS}"/>
+			</inertial>
+	</link>
+	
+	
+</robot>

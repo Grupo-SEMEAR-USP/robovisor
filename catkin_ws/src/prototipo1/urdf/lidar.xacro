@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="https://www.ros.org/wiki/xacro">  
+
+	<!-- Chutado -->
+	<xacro:property name="LIDAR_MASS" value="1.0"/>
+
+	<!-- Medidos --> 
+	<xacro:property name="LIDAR_RADIUS" value="0.0185"/>
+	<xacro:property name="LIDAR_THICKNESS" value="0.05"/>
+
+	<link name="lidar_link">
+
+			<visual>
+					<geometry>	
+							<cylinder length="${LIDAR_THICKNESS}" radius="${LIDAR_RADIUS}" />
+					</geometry>
+
+					<origin xyz="0 0 ${(1/2)*LIDAR_THICKNESS}" rpy="0 0 0" />
+					<material name="black"/>
+			</visual>
+
+			<collision>
+					<geometry>
+						<cylinder length="${LIDAR_THICKNESS}" radius="${LIDAR_RADIUS}"/>
+					</geometry>
+
+					<origin xyz="0 0 ${(1/2)*LIDAR_THICKNESS}" rpy="0 0 0" />
+			</collision>
+
+			<inertial>
+					<mass value="${LIDAR_MASS}"/>
+
+					<!-- Centro de massa -->
+					<origin xyz="0 0 0" rpy="0 0 0"/>
+					<inertia
+							ixx="${(1/12) * LIDAR_MASS * (3 * LIDAR_RADIUS * LIDAR_RADIUS + LIDAR_THICKNESS * LIDAR_THICKNESS)}" ixy="0" ixz="0"
+							iyy="${(1/12) * LIDAR_MASS * (3 * LIDAR_RADIUS * LIDAR_RADIUS + LIDAR_THICKNESS * LIDAR_THICKNESS)}" iyz="0"
+							izz="${(1/2) * LIDAR_MASS * LIDAR_RADIUS * LIDAR_RADIUS}"/>
+			</inertial>
+	</link>
+	
+	
+</robot>

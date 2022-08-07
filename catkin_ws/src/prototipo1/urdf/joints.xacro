@@ -1,24 +1,72 @@
 <?xml version="1.0"?>
 
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
-			
-		<!-- Joint to connect lidar to base 
-        <joint name="base_lidar_joint" type="fixed">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-            <parent link="base_link"/>
-            <child link="lidar"/>
+	<!-- Constants-->
+	<xacro:property name="PI" value="3.14159" />
 
-            <origin xyz="" rpy=""/>
+	<!-- Joint distance parameters -->
+	<xacro:property name="CAMERA_HEIGHT" value="${(4/5)*SUPPORT_THICKNESS}" />
+	<xacro:property name="BASE_LIDAR_DIST" value="0.2" />
+	<xacro:property name="BASE_WHEEL_DIST" value="0.28" />
+	<xacro:property name="BASE_SUPPORT_DIST" value="0.205" />
+	<xacro:property name="CHASSI_HEIGHT" value="0.05" />
 
-		</joint> -->
+	<!-- To connect virtual (center of rotation) base to real one (chassi) -->
+	<joint name="base_chassi_joint" type="fixed">
+		<parent link="base_link" />
+		<child link="chassi_link" />
 
-		<joint name="base_support_joint" type="fixed">
+		<origin xyz="-0.001 0 0" rpy="0 0 0" />
+	</joint>
 
-				<parent link="base_link"/>
-				<parent link="support"/>
+	<joint name="base_support_joint" type="fixed">
 
-				<origin xyz="0.205 0 ${(1/2)*BASE_THICKNESS}" rpy="0 0 0"/>
+		<parent link="base_link" />
+		<child link="vertical_support_link" />
 
+		<origin xyz="${-BASE_SUPPORT_DIST} 0 ${(1/2)*CHASSI_THICKNESS}" rpy="0 0 0" />
+
+	</joint>
+
+
+	<!-- By the conventions of ROS urdf/tf, left side is positive y axis, as so, side parameter is 1 if left, -1 if right-->
+	<xacro:macro name="wheel_joint" params="position_prefix side">
+
+		<joint name="${position_prefix}_wheel_joint" type="continuous">
+			<parent link="base_link" />
+			<child link="${position_prefix}_wheel_link" />
+
+			<!-- Adjust position based on the side that's on-->
+			<origin xyz="0 ${side*BASE_WHEEL_DIST} 0" rpy="${-(1/2)*PI*side} 0 0" />
+
+			<!-- Positive around counterclockwise z-axis -->
+			<axis xyz="0 0 ${side}" />
 		</joint>
 
+	</xacro:macro>
+
+	<!-- Define actual joints-->
+	<xacro:wheel_joint position_prefix="left" side="1" />
+	<xacro:wheel_joint position_prefix="right" side="-1" />
+
+	<!-- Joint to connect lidar to base -->
+	<joint name="base_lidar_joint" type="fixed">
+
+		<parent link="base_link" />
+		<child link="lidar_link" />
+
+		<origin xyz="${BASE_LIDAR_DIST} 0 ${(1/2)*CHASSI_THICKNESS}" rpy="0 0 0" />
+
+	</joint>
+
+	<!-- Joint to connect camera to support -->
+	<joint name="vertical_support_camera_joint" type="fixed">
+
+		<parent link="vertical_support_link" />
+		<child link="camera_link" />
+
+		<origin xyz="${SUPPORT_RADIUS} 0 ${CAMERA_HEIGHT}" rpy="${PI/2} 0 0" />
+
+	</joint>
 </robot>

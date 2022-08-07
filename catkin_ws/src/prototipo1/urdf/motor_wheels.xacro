@@ -1,50 +1,56 @@
 <?xml version="1.0"?>
 
-<robot xmlns="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-		<property name="PI" value="3.14159"/>
+	<material name="black">
+		<color rgba="0 0 0 1"/>
+	</material> 
 
-		<!-- Wheel Properties -->
-   		<xacro:property name="wheel_base" value="" />
-    	<xacro:property name="wheel_track" value="" />
-    	<xacro:property name="wheel_vertical_offset" value="" />
-    	<xacro:property name="wheel_width" value="" />
-   		<xacro:property name="wheel_radius" value="" />
-    	<xacro:property name="wheel_mass" value="" />
+	<!-- Wheel Properties -->
+	<xacro:property name="WHEEL_THICKNESS" value="0.051" />
+	<xacro:property name="WHEEL_RADIUS" value="0.08" />
 
-		<xacro:macro name="wheel_${position_sufffix}_joint" params="position_suffix ">
-		</xacro:macro>
+	<!-- Chutado -->
+	<xacro:property name="WHEEL_MASS" value="1" />
 
-		<xacro:macro name="generic_wheel" params="position_prefix lado proa">
+	<xacro:macro name="wheel_link" params="position_prefix">
 
-        	<link name="${position_fixed}_wheel">
+		<link name="${position_prefix}_wheel_link">
 
-           		<visual>
+			<visual>
 
-                	<origin xyz="${lado*wheel_radius} ${-lado*wheel_width/2} ${-wheel_radius}" rpy="${PI/2} 0 ${lado*PI/2+PI/2}" />
+				<geometry>
+					<cylinder length="${WHEEL_THICKNESS}" radius="${WHEEL_RADIUS}" />
+				</geometry>
+				<!-- 
+				<origin xyz="0 0 ${(1/2)*WHEEL_THICKNESS}" rpy="0 0 0" /> 
+				-->
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<material name="black" />
 
-            	</visual>
+			</visual>
 
-            	<collision>
+			<collision>
 
-               		<geometry></geometry>
+				<geometry>
+					<cylinder length="${WHEEL_THICKNESS}" radius="${WHEEL_RADIUS}" />
+				</geometry>
+				<origin xyz="0 0 0" rpy="0 0 0" />
 
-                	<origin></origin>
+			</collision>
 
-            	</collision>
+			<inertial>
+				<mass value="${WHEEL_MASS}" />
 
-            	<inertial>
+				<!-- Centro de massa -->
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<inertia ixx="${(1/12) * WHEEL_MASS * (3 * WHEEL_RADIUS * WHEEL_RADIUS + WHEEL_THICKNESS * WHEEL_THICKNESS)}" ixy="0" ixz="0" iyy="${(1/12) * WHEEL_MASS * (3 * WHEEL_RADIUS * WHEEL_RADIUS + WHEEL_THICKNESS * WHEEL_THICKNESS)}" iyz="0" izz="${(1/2) * WHEEL_MASS * WHEEL_RADIUS * WHEEL_RADIUS}" />
+			</inertial>
 
-                	<mass></mass>
+		</link>
+	</xacro:macro>
 
-                	<origin></origin>
+	<xacro:wheel_link position_prefix="left" />
+	<xacro:wheel_link position_prefix="right" />
 
-                	<inertia></inertia> 
-
-            	</inertial>
-
-        	</link>
-
-    	</xacro:macro>
-		
 </robot>
