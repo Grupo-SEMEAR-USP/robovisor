@@ -25,6 +25,9 @@
 	<link name="chassi_link">
 
 			<visual>
+					<material name="green">
+						<color rgba="0.2 1 0.2 1"/>
+					</material>
 					<geometry>	
 							<cylinder length="${CHASSI_THICKNESS}" radius="${CHASSI_RADIUS}" />
 					</geometry>
