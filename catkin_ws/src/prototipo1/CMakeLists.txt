@@ -131,6 +131,9 @@ include_directories(
 #   src/${PROJECT_NAME}/prototipo1.cpp
 # )
 
+#TODO: uncomment this later.
+#add_library(i2c_ros src/i2c_ros.cpp)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -140,6 +143,9 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/prototipo1_node.cpp)
+
+add_executable(robot_hw_if_node src/robot_hw_if_node.cpp)
+target_link_libraries(robot_hw_if_node ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

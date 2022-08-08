@@ -9,12 +9,16 @@
     <!-- Load motors settings -->
     <rosparam file="$(find prototipo1)/config/joint_limits.yaml" command="load"/>
 
+    <!-- Hardware interface -->
+    <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
+			<remap from="/robot/DiffDriveController/cmd_vel" to="/cmd_vel" />
+	</node>
+
     <!-- Controller Manager 
     joints_update configures a JointStateController 
     mobile_base_controller configures a DiffDriveController -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
         args="
-            spawn
             /joints_update
             /mobile_base_controller">
     </node>

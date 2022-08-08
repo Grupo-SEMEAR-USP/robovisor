@@ -1,19 +1,19 @@
 #include <prototipo1/robot_hw_if.hpp>
 
-robot_hw_interface::robot_hw_interface (ros::NodeHandle& nh) : nh_(nh) {
+RobotHWInterface::RobotHWInterface (ros::NodeHandle& nh) : nh_(nh) {
     init();
 
     controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
     loop_hz_=10;
     ros::Duration update_freq = ros::Duration(1.0/loop_hz_);
 	
-    non_realtime_loop_ = nh_.createTimer(update_freq, &robot_hw_interface::update, this);
+    non_realtime_loop_ = nh_.createTimer(update_freq, &RobotHWInterface::update, this);
 }
 
-robot_hw_interface::~robot_hw_interface() {
+RobotHWInterface::~RobotHWInterface() {
 }
 
-void robot_hw_interface::init() {
+void RobotHWInterface::init() {
 	
 	for(int i=0; i<2; i++)
 	{
@@ -38,7 +38,7 @@ void robot_hw_interface::init() {
     registerInterface(&velocityJointSaturationInterface);
 }
 
-void robot_hw_interface::update(const ros::TimerEvent& e) {
+void RobotHWInterface::update(const ros::TimerEvent& e) {
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
     read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
@@ -46,7 +46,7 @@ void robot_hw_interface::update(const ros::TimerEvent& e) {
 }
 
 // TODO 
-void robot_hw_interfac::read() {
+void RobotHWInterface::read() {
     /*
     uint8_t rbuff[1];
     int x;
@@ -65,7 +65,7 @@ void robot_hw_interfac::read() {
     */
 }
 
-void robot_hw_interfac::write(ros::Duration elapsed_time) {
+void RobotHWInterface::write(ros::Duration elapsed_time) {
    
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
@@ -107,7 +107,7 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     ros::MultiThreadedSpinner spinner(2); 
-    robot_hw_interface robot(nh);
+    RobotHWInterface robot(nh);
 
     spinner.spin();
     return 0;

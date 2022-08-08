@@ -10,29 +10,21 @@
 #include <rospy_tutorials/Floats.h>
 #include <angles/angles.h>
 
-#include <prototipo1/i2c_ros.h>
+//#include <prototipo1/i2c_ros.h>
 
-class robot_hw_interface : public hardware_interface::ROBOTHW
+class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
 public:
     // Constructor receives the node handler
-    robot_hw_interface(ros::NodeHandle &nh);
-
-    ~robot_hw_interface();
-
+    RobotHWInterface(ros::NodeHandle &nh);
+    ~RobotHWInterface();
     void init();
-
     void update(const ros::TimerEvent &e);
-
     void read();
-
     void write(ros::Duration elapsed_time);
-
     ros::Publisher pub;
-
     ros::ServiceClient client;
-
     rospy_tutorials::Floats joints_pub;
 
 protected: 
@@ -58,5 +50,4 @@ protected:
     ros::Duration elapsed_time_;
     double loop_hz_;
     boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
-
-}
+};
