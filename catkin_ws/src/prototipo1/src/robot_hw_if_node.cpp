@@ -63,6 +63,9 @@ void RobotHWInterface::read() {
 
     ROS_INFO("pos=%.2f x=%d ",pos,x);
     */
+
+    joint_position_[0]=2;
+    joint_position_[1]=1;
 }
 
 void RobotHWInterface::write(ros::Duration elapsed_time) {
