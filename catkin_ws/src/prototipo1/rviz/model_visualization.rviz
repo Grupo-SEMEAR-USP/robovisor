@@ -119,6 +119,8 @@ Visualization Manager:
           Value: true
         lidar_link:
           Value: true
+        odom:
+          Value: true
         right_wheel_link:
           Value: true
         vertical_support_link:
@@ -130,25 +132,26 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          chassi_link:
-            {}
-          left_wheel_link:
-            {}
-          lidar_link:
-            {}
-          right_wheel_link:
-            {}
-          vertical_support_link:
-            camera_link:
+        odom:
+          base_link:
+            chassi_link:
               {}
+            left_wheel_link:
+              {}
+            lidar_link:
+              {}
+            right_wheel_link:
+              {}
+            vertical_support_link:
+              camera_link:
+                {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
