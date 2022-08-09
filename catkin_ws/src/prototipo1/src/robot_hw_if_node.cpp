@@ -70,6 +70,11 @@ void RobotHWInterface::read() {
     ROS_INFO("pos=%.2f dtheta_l=%d ",left_motor_pos,dtheta_l);
     ROS_INFO("pos=%.2f dtheta_r=%d ",right_motor_pos,dtheta_r);
 
+<<<<<<< HEAD
+=======
+    joint_position_[0]=2*((int)ros::Time::now().toSec()%50);
+    joint_position_[1]=1*((int)ros::Time::now().toSec()%50);
+>>>>>>> 7a34f1c6123a367447a16907349f59b0c1177902
 }
 
 void RobotHWInterface::write(ros::Duration elapsed_time) {

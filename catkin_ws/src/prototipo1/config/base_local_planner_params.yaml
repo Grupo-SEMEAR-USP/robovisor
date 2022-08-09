@@ -1,0 +1,15 @@
+#Reference: http://wiki.ros.org/navigation/Tutorials/RobotSetup
+#The first section of parameters above define the velocity limits of the robot. 
+#The second section defines the acceleration limits of the robot.
+
+TrajectoryPlannerROS:
+  max_vel_x: 0.45
+  min_vel_x: 0.1
+  max_vel_theta: 1.0
+  min_in_place_vel_theta: 0.4
+
+  acc_lim_theta: 3.2
+  acc_lim_x: 2.5
+  acc_lim_y: 2.5
+
+  holonomic_robot: true
