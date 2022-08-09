@@ -1,0 +1,16 @@
+#Reference: http://wiki.ros.org/navigation/Tutorials/RobotSetup
+#The "global_frame" parameter defines what coordinate frame the costmap should run in, in this case, we'll choose the /map frame. The "robot_base_frame" parameter defines the coordinate frame the costmap should reference for the base of the robot. The "update_frequency" parameter determines the frequency, in Hz, at which the costmap will run its update loop. The "static_map" parameter determines whether or not the costmap should initialize itself based on a map served by the map_server.
+#"publish_frequency" parameter determines the rate, in Hz, at which the costmap will publish visualization information.
+#"rolling_window" parameter to true means that the costmap will remain centered around the robot as the robot moves through the world.
+#The "width," "height," and "resolution" parameters set the width (meters), height (meters), and resolution (meters/cell) of the costmap.
+
+local_costmap:
+  global_frame: odom
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: false
+  rolling_window: true
+  width: 6.0
+  height: 6.0
+  resolution: 0.05

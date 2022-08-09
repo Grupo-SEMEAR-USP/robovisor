@@ -1,0 +1,17 @@
+#Reference: http://wiki.ros.org/navigation/Tutorials/RobotSetup
+#"obstacle_range" parameter determines the maximum range sensor reading that will result in an obstacle being put into the costmap.
+#"raytrace_range" parameter determines the range to which we will raytrace freespace given a sensor reading.
+#"inflation radius" should be set to the maximum distance from obstacles at which a cost should be incurred.
+
+#"observation_sources" parameter defines a list of sensors that are going to be passing information to the costmap separated by spaces. 
+#The "frame_name" parameter should be set to the name of the coordinate frame of the sensor, the "data_type" parameter should be set to LaserScan or PointCloud depending on which message the topic uses, and the "topic_name" should be set to the name of the topic that the sensor publishes data on. The "marking" and "clearing" parameters determine whether the sensor will be used to add obstacle information to the costmap, clear obstacle information from the costmap, or do both.
+
+obstacle_range: 2.5
+raytrace_range: 3.0
+robot_radius: 0.28
+inflation_radius: 0.55
+
+observation_sources: laser_scan_sensor
+
+#We may have to change the topic name later.
+laser_scan_sensor: {sensor_frame: lidar_link, data_type: LaserScan, topic: /scan, marking: true, clearing: true}
