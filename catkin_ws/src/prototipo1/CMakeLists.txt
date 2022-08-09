@@ -17,7 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_srvs
   control_msgs
   controller_manager
-  move_base
   tf
   tf2
 )
@@ -134,8 +133,7 @@ include_directories(
 #   src/${PROJECT_NAME}/prototipo1.cpp
 # )
 
-#TODO: uncomment this later.
-#add_library(i2c_ros src/i2c_ros.cpp)
+add_library(i2c_ros src/i2c_ros.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -148,7 +146,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/prototipo1_node.cpp)
 
 add_executable(robot_hw_if_node src/robot_hw_if_node.cpp)
-target_link_libraries(robot_hw_if_node ${catkin_LIBRARIES})
+target_link_libraries(robot_hw_if_node i2c_ros ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

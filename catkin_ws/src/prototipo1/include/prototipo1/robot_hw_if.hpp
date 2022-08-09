@@ -9,8 +9,8 @@
 #include <ros/ros.h>
 #include <rospy_tutorials/Floats.h>
 #include <angles/angles.h>
+#include <prototipo1/i2c_ros.h>
 
-//#include <prototipo1/i2c_ros.h>
 #define BUS_ADDRESS 0x08
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
