@@ -23,6 +23,9 @@
             /mobile_base_controller">
     </node>
 
+    <!-- LiDAR setup, publishes in /scan topic -->
+    <include file="$(find prototipo1)/launch/rplidar.launch"/>
+
     <!-- Launch RVIZ with config file for visualization -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" />
 
