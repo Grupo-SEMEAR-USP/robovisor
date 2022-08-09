@@ -11,7 +11,7 @@
 #include <angles/angles.h>
 
 //#include <prototipo1/i2c_ros.h>
-
+#define BUS_ADDRESS 0x08
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
@@ -42,8 +42,7 @@ protected:
 
     double left_motor_pos = 0, right_motor_pos = 0;
     int left_prev_cmd = 0, right_prev_cmd = 0;
-    //i2c_ros::I2C left_motor = i2c_ros::I2C(0, 0x08);
-    //i2c_ros::I2C right_motor = i2c_ros::I2C(1, 0x09);
+    i2c_ros::I2C motors = i2c_ros::I2C(0, BUS_ADDRESS);
 
     ros::NodeHandle nh_;
     ros::Timer non_realtime_loop_;

@@ -10,11 +10,14 @@ project(prototipo1)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
+  nav_msgs
+  geometry_msgs
   diff_drive_controller
   actionlib
   std_srvs
   control_msgs
   controller_manager
+  move_base
   tf
   tf2
 )
