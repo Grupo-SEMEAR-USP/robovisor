@@ -4,7 +4,7 @@ RobotHWInterface::RobotHWInterface (ros::NodeHandle& nh) : nh_(nh) {
     init();
 
     controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
-    loop_hz_=10;
+    loop_hz_=10000;
     ros::Duration update_freq = ros::Duration(1.0/loop_hz_);
 	
     non_realtime_loop_ = nh_.createTimer(update_freq, &RobotHWInterface::update, this);
