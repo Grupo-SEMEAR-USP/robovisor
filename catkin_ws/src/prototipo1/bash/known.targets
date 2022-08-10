@@ -1,0 +1,11 @@
+# Arquivo com hosts conhecidos pelo aplicativo de mac2ip
+# Insira comentários com # e dispostivos com $. Sempre dê um espaço depois do símbolo.
+# Para inserir um dispositivo, insira o endereço MAC, o último endereço IP que ele já assumiu e o papel dele ("server", "client" ou "both")
+# Sempre manter uma linha vazia no final do arquivo e não pular linhas.
+# --------------------------------------------------------------------
+# Jetson Xavier NX
+$ B4:B0:24:80:1D:72 192.168.1.106 server
+# --------------------------------------------------------------------
+# Computador do Toschi
+$ E0:D4:E8:C7:74:F0 192.168.1.108 client
+# --------------------------------------------------------------------
