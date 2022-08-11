@@ -7,8 +7,17 @@
 
 #define INITIAL_TIMEOUT_MS 250
 
-#define LEFT 0
-#define RIGHT 1 
+enum MOTOR_SIDE
+{
+    LEFT,
+    RIGHT
+};
+
+enum MOTOR_ROTATION
+{
+    CCW,
+    CW
+};
 
 #define PICO_MOTOR_L_CHB 22
 #define PICO_MOTOR_L_BRK 21
