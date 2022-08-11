@@ -1,21 +1,24 @@
-if (TARGET tinyusb_device)
+if(TARGET tinyusb_device)
     add_executable(main
-    main.c
-    encoder.c
-        )
+        main.c
+        encoder.c
+        pwm.c
+    )
 
     # pull in common dependencies
     target_link_libraries(main pico_stdlib)
     target_link_libraries(encoder pico_stdlib hardware_pio hardware_gpio)
+    target_link_libraries(pwm pico_stdlib hardware_gpio hardware_pwm)
 
     # enable usb output, disable uart output
     pico_enable_stdio_usb(main 1)
     pico_enable_stdio_uart(main 0)
     pico_add_extra_outputs(encoder)
+    pico_add_extra_outputs(pwm)
 
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(main)
-    
+
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building hello_usb because TinyUSB submodule is not initialized in
         the SDK")
