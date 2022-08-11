@@ -27,14 +27,6 @@
 #define PICO_SDA_0 8
 #define PICO_SCL_0 9
 
-/*Encoder GPIO*/
-// GPIO 10 is Encoder phase A,
-// GPIO 11 is Encoder phase B,
-// GPIO 12 is the encoder push botton switch.
-// change these as needed
-#define ENC_A 10
-#define ENC_B 11
-
 uint32_t div = 0, top = 0;   
 uint slice_num_l, channel_l; 
 uint slice_num_r, channel_r; 

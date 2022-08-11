@@ -10,7 +10,6 @@ void init_pinnage()
     stdio_init_all();
 
     // Init pwm pinnage
-
     gpio_init(PICO_MOTOR_L_BRK);
     gpio_set_dir(PICO_MOTOR_L_BRK, GPIO_OUT);
 
@@ -32,19 +31,6 @@ void init_pinnage()
 
     pwm_set_wrap(slice_num_l, top);
     pwm_set_wrap(slice_num_r, top);
-
-    // Init encoder pinnage
-    gpio_init(ENC_A);
-    gpio_set_dir(ENC_A, GPIO_IN);
-    gpio_disable_pulls(ENC_A);
-
-    gpio_init(ENC_B);
-    gpio_set_dir(ENC_B, GPIO_IN);
-    gpio_disable_pulls(ENC_B);
-
-    gpio_set_irq_enabled_with_callback(ENC_SW, GPIO_IRQ_EDGE_FALL, true, &encoder_callback);
-    gpio_set_irq_enabled(ENC_A, GPIO_IRQ_EDGE_FALL, true);
-    gpio_set_irq_enabled(ENC_B, GPIO_IRQ_EDGE_FALL, true);
 
     return;
 }
