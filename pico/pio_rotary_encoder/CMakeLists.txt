@@ -1,0 +1,13 @@
+add_executable(pio_rotary_encoder
+pio_rotary_encoder.cpp
+)
+
+pico_generate_pio_header(pio_rotary_encoder ${CMAKE_CURRENT_LIST_DIR}/pio_rotary_encoder.pio)
+
+pico_enable_stdio_usb(pio_rotary_encoder 1)
+pico_enable_stdio_uart(pio_rotary_encoder 1)
+pico_add_extra_outputs(pio_rotary_encoder)
+
+pico_add_extra_outputs(pio_rotary_encoder)
+
+target_link_libraries(pio_rotary_encoder pico_stdlib hardware_pio hardware_irq)
