@@ -17,8 +17,8 @@ void init_pinnage()
     gpio_init(PICO_MOTOR_R_BRK);
     gpio_set_dir(PICO_MOTOR_R_BRK, GPIO_OUT);
 
-    gpio_set_outover(PICO_MOTOR_L_BRK, GPIO_OVERRIDE_LOW);
-    gpio_set_outover(PICO_MOTOR_R_BRK, GPIO_OVERRIDE_LOW);
+    gpio_set_outover(PICO_MOTOR_L_BRK, GPIO_OVERRIDE_HIGH);
+    gpio_set_outover(PICO_MOTOR_R_BRK, GPIO_OVERRIDE_HIGH);
 
     slice_num_l = pwm_gpio_to_slice_num(PICO_MOTOR_L_PWM);
     channel_l = pwm_gpio_to_channel(PICO_MOTOR_L_PWM);
