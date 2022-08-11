@@ -105,7 +105,9 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "prototipo1_hw_if");
     ros::NodeHandle nh;
 
-    ros::MultiThreadedSpinner spinner(2);
+    // Not sure if needed
+    //ros::MultiThreadedSpinner spinner(2);
+    // Interesting alternative: AsyncSpinner
     RobotHWInterface robot(nh);
 
     spinner.spin();
