@@ -7,4 +7,4 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
-add_subdirectory(pio_rotary_encoder)
+add_subdirectory(main)

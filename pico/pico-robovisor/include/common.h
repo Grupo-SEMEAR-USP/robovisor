@@ -1,5 +1,5 @@
 #ifndef __COMMON__
-#define __COMMON_
+#define __COMMON__
 
 #include <stdio.h>
 
@@ -7,17 +7,17 @@
 
 #define INITIAL_TIMEOUT_MS 250
 
-enum MOTOR_SIDE
+typedef enum
 {
     LEFT,
     RIGHT
-};
+} MOTOR_SIDE;
 
-enum MOTOR_ROTATION
+typedef enum 
 {
     CCW,
     CW
-};
+} MOTOR_ROTATION;
 
 #define PICO_MOTOR_L_CHB 22
 #define PICO_MOTOR_L_BRK 21
@@ -35,9 +35,5 @@ enum MOTOR_ROTATION
 #define PICO_SCL_5V 7
 #define PICO_SDA_0 8
 #define PICO_SCL_0 9
-
-uint32_t div = 0, top = 0;   
-uint slice_num_l, channel_l; 
-uint slice_num_r, channel_r; 
 
 #endif

@@ -8,44 +8,9 @@ void init_pinnage()
     sleep_ms(INITIAL_TIMEOUT_MS);
     stdio_init_all();
 
-    // Init pwm pinnage
-    gpio_init(PICO_MOTOR_L_BRK);
-    gpio_set_dir(PICO_MOTOR_L_BRK, GPIO_OUT);
-
-    gpio_init(PICO_MOTOR_R_BRK);
-    gpio_set_dir(PICO_MOTOR_R_BRK, GPIO_OUT);
-
-    gpio_set_outover(PICO_MOTOR_L_BRK, GPIO_OVERRIDE_HIGH);
-    gpio_set_outover(PICO_MOTOR_R_BRK, GPIO_OVERRIDE_HIGH);
-
-    slice_num_l = pwm_gpio_to_slice_num(PICO_MOTOR_L_PWM);
-    channel_l = pwm_gpio_to_channel(PICO_MOTOR_L_PWM);
-    gpio_set_function(PICO_MOTOR_L_PWM, GPIO_FUNC_PWM);
-
-    slice_num_r = pwm_gpio_to_slice_num(PICO_MOTOR_R_PWM);
-    channel_r = pwm_gpio_to_channel(PICO_MOTOR_R_PWM);
-    gpio_set_function(PICO_MOTOR_R_PWM, GPIO_FUNC_PWM);
-
-    set_pwm_freq(slice_num_l, (int)PWM_FREQ, &div, &top);
-
-    pwm_set_wrap(slice_num_l, top);
-    pwm_set_wrap(slice_num_r, top);
+    init_pwm_pinnage();
+    init_encoder_pinnage();
     
-    // Init encoder pinnage
-    gpio_init(PICO_MOTOR_R_CHA);
-    gpio_set_dir(PICO_MOTOR_R_CHA, GPIO_IN);
-    gpio_set_irq_enabled_with_callback(PICO_MOTOR_R_CHA, GPIO_IRQ_EDGE_FALL, true, encoderCallback);
-
-    gpio_init(PICO_MOTOR_R_CHB);
-    gpio_set_dir(PICO_MOTOR_R_CHB, GPIO_IN);
-
-    gpio_init(PICO_MOTOR_L_CHA);
-    gpio_set_dir(PICO_MOTOR_L_CHA, GPIO_IN);
-    gpio_set_irq_enabled_with_callback(PICO_MOTOR_L_CHA, GPIO_IRQ_EDGE_FALL, true, encoderCallback);
-
-    gpio_init(PICO_MOTOR_L_CHB);
-    gpio_set_dir(PICO_MOTOR_L_CHB, GPIO_IN);
-
     return;
 }
 
@@ -93,8 +58,6 @@ void read_velocity_commands(int* velocity)
     // Possibly problematic
     velocity[LEFT] = (int) ((velocity_l[1] << 8) | velocity_l[0]);
     velocity[RIGHT] = (int) ((velocity_r[1] << 8) | velocity_r[0]);
-
-    return velocity;
 }
 
 int main(void)
@@ -105,13 +68,13 @@ int main(void)
     int dtheta[2];
     int velocity[2];
 
-    while (true)
+    while(1)
     {
         // AFAIK this is intended for loop optimization 
         tight_loop_contents();
 
         // Read displacement output from encoders, in degress, and pass those values back to ROS
-        dtheta = read_encoders();
+        read_encoders(dtheta);
 
         send_encoder_values(dtheta);
 

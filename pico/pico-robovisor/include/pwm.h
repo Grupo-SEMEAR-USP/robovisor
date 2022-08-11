@@ -1,3 +1,6 @@
+#ifndef __PWM__
+#define __PWM__
+
 #include "common.h"
 #include "pico/time.h"                                                    
 #include "hardware/pwm.h"                                                 
@@ -9,7 +12,10 @@
 #define PWM_FREQ 2000
 #define TOP_MAX 65534
 #define DUTY_50_PCT (TOP_MAX/2) 
-                                                                          
+
+void init_pwm_pinnage();                                                  
 void set_velocity(int* velocity);
 bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top);   
-int set_pwm_duty (uint slice, uint channel, uint32_t top, uint32_t duty); 
+int set_pwm_duty (uint slice, uint channel, uint32_t top, uint32_t duty);
+
+#endif
