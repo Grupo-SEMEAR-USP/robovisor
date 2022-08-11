@@ -115,7 +115,7 @@ int main(void)
 
         send_encoder_values(dtheta);
 
-        velocity = read_velocity_commands(&velocity);
+        read_velocity_commands(velocity);
 
         set_velocity(velocity);
     }
