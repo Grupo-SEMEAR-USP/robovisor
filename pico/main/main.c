@@ -30,7 +30,7 @@ void init_pinnage()
 
     pwm_set_wrap(slice_num_l, top);
     pwm_set_wrap(slice_num_r, top);
-
+    
     // Init encoder pinnage
     gpio_init(PICO_MOTOR_R_CHA);
     gpio_set_dir(PICO_MOTOR_R_CHA, GPIO_IN);

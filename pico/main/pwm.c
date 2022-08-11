@@ -57,6 +57,25 @@ int main (void)
 
 void set_velocity(int *velocity)
 {
+    // Verify velocity signal
+    if (velocity[LEFT] >= 0)
+    {
+        gpio_set_outover(PICO_MOTOR_L_DIR, GPIO_OVERRIDE_LOW);
+    }
+    else
+    {
+        gpio_set_outover(PICO_MOTOR_L_DIR, GPIO_OVERRIDE_HIGH);
+        duty *= -1;
+    }
+    if (velocity[RIGHT] >= 0)
+    {
+        gpio_set_outover(PICO_MOTOR_R_DIR, GPIO_OVERRIDE_LOW);
+    }
+    else
+    {
+        gpio_set_outover(PICO_MOTOR_R_DIR, GPIO_OVERRIDE_HIGH);
+        duty *= -1;
+    }
 
     set_pwm_duty(slice_num_l, channel_l, top, (uint32_t)velocity[LEFT]);
     set_pwm_duty(slice_num_r, channel_r, top, (uint32_t)velocity[RIGHT]);
