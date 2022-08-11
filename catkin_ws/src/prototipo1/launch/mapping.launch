@@ -19,7 +19,6 @@
     mobile_base_controller configures a DiffDriveController -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
         args="
-            /joints_update
             /mobile_base_controller">
     </node>
 
