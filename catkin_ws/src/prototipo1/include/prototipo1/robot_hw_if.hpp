@@ -9,10 +9,11 @@
 #include <ros/ros.h>
 #include <rospy_tutorials/Floats.h>
 #include <angles/angles.h>
-#include <prototipo1/i2c_ros.h>
 
-#define BUS_ADDRESS_L 0x3E
-#define BUS_ADDRESS_R 0x3F
+#include <string>
+#include <serial/serial.h>
+
+#define SERIAL_PORT_NAME "/dev/ttyACM0"
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
@@ -43,8 +44,8 @@ protected:
 
     double left_motor_pos = 0, right_motor_pos = 0;
     int left_prev_cmd = 0, right_prev_cmd = 0;
-    i2c_ros::I2C left_motor = i2c_ros::I2C(0, BUS_ADDRESS_L);
-    i2c_ros::I2C right_motor = i2c_ros::I2C(1, BUS_ADDRESS_R);
+
+    serial::Serial* serialPort = new serial::Serial(std::string(SERIAL_PORT_NAME), 115200, serial::Timeout::simpleTimeout(250));
 
     ros::NodeHandle nh_;
     ros::Timer non_realtime_loop_;

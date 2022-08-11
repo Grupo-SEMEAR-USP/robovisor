@@ -51,16 +51,16 @@ void RobotHWInterface::update(const ros::TimerEvent &e)
 
 void RobotHWInterface::read()
 {
-    uint8_t rbuff[1];
+    uint8_t serialBuffer[1];
     int dtheta;
 
-    left_motor.readBytes(rbuff, 1);
-    dtheta = (int8_t)rbuff[0];
+    serialPort->read(serialBuffer, sizeof(uint8_t));
+    dtheta = (int8_t)serialBuffer[0];
     left_motor_pos += angles::from_degrees((double)dtheta);
     joint_position_[0] = left_motor_pos;
 
-    right_motor.readBytes(rbuff, 1);
-    dtheta = (int8_t)rbuff[0];
+    serialPort->read(serialBuffer, sizeof(uint8_t));
+    dtheta = (int8_t)serialBuffer[0];
     right_motor_pos += angles::from_degrees((double)dtheta);
     joint_position_[1] = right_motor_pos;
 
@@ -71,31 +71,30 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 {
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
-	uint8_t wbuff[2];
+	uint8_t serialBuffer[2];
 
     int velocity,result;
     
-    //velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
-    velocity = 1;
-	wbuff[0]=velocity;
-    wbuff[1]=velocity >> 8;
+    velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
+	serialBuffer[0]=velocity;
+    serialBuffer[1]=velocity >> 8;
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(left_prev_cmd!=velocity)
     {
-	    result = left_motor.writeData(wbuff,2);
+	    result = serialPort->write(serialBuffer, 2*sizeof(uint8_t));
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    left_prev_cmd=velocity;
     }
     
-    //velocity=(int)angles::to_degrees(joint_velocity_command_[1]);
-	wbuff[0]=velocity;
-    wbuff[1]=velocity >> 8;
+    velocity=(int)angles::to_degrees(joint_velocity_command_[1]);
+	serialBuffer[0]=velocity;
+    serialBuffer[1]=velocity >> 8;
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(right_prev_cmd!=velocity)
     {
-	    result = right_motor.writeData(wbuff,2);
+	    result = serialPort->write(serialBuffer, 2*sizeof(uint8_t));
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    right_prev_cmd=velocity;
     }
