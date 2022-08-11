@@ -1,32 +1,4 @@
-/*
-    Raspberry Pi Pico PWM example
-
-    Scott Beasley (2021) No Copyright.
-
-    Code used by Damien P. George Copyright (c) 2020
-    From the RPI Pico MicroPython project. See below for copyright info.
-    https://github.com/raspberrypi/micropython/blob/pico/ports/rp2/machine_pwm.c
-*/
-
-#include "pico/stdlib.h"
-#include <stdio.h>
-#include "pico/time.h"
-#include "hardware/pwm.h"
-#include "hardware/clocks.h"
-
-#define PICO_MOTOR_L_BRK 21
-#define PICO_MOTOR_L_PWM 20
-
-#define PICO_MOTOR_R_BRK 12
-#define PICO_MOTOR_R_PWM 13
-
-#define DUTY_50_PCT 32767
-// Maximum "top" is set at 65534 to be able to achieve 100% duty with 65535.
-#define TOP_MAX 65534
-
-bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top);
-int set_pwm_duty (uint slice, uint channel, uint32_t top, uint32_t duty);
-
+/* Example of use 
 int main (void) 
 {
     uint32_t div = 0, top = 0;
@@ -73,6 +45,7 @@ int main (void)
         sleep_ms(2000);
     }
 }
+*/
 
 //
 // These functions work ok up to 10khz, but get off values after
@@ -81,36 +54,6 @@ int main (void)
 // functions and see if they display the same issues.
 //
 
-/*
- * This file is part of the MicroPython project, http://micropython.org/
- *
- * The MIT License (MIT)
- *
- * Copyright (c) 2020 Damien P. George
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-// Code used from https://github.com/raspberrypi/micropython/blob/pico/ports/rp2/machine_pwm.c
-// Function - machine_pwm_freq
-// Shaped for my needs (Scott Beasley) No Copyright.
-// MIT License (MIT) Damien P. George Copyright (c) 2020
 bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top) 
 {
     // Set the frequency, making "top" as large as possible for maximum resolution.
