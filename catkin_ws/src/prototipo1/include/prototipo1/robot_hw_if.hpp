@@ -14,6 +14,7 @@
 #include <serial/serial.h>
 
 #define SERIAL_PORT_NAME "/dev/ttyACM0"
+#define PICO_BAUD_RATE 115200
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
@@ -45,7 +46,7 @@ protected:
     double left_motor_pos = 0, right_motor_pos = 0;
     int left_prev_cmd = 0, right_prev_cmd = 0;
 
-    serial::Serial* serialPort = new serial::Serial(std::string(SERIAL_PORT_NAME), 115200, serial::Timeout::simpleTimeout(250));
+    serial::Serial* serialPort = new serial::Serial(std::string(SERIAL_PORT_NAME), PICO_BAUD_RATE, serial::Timeout::simpleTimeout(250));
 
     ros::NodeHandle nh_;
     ros::Timer non_realtime_loop_;
