@@ -55,7 +55,7 @@ while read -r symb mac ip role source destination; do
         ROS_MASTER_URI='http://'${ip}':11311'
     elif [[ "$role" == 'client' ]]; then
         sed -i "s/^$ ${mac}.*/$ ${mac} ${ip} client/" ${file_setup}
-        ROS_IP='http://'${ip}':11311'
+        ROS_IP=${ip}':11311'
     fi
 done <$file_setup
 
