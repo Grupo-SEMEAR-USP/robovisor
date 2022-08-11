@@ -1,5 +1,16 @@
 #include "../encoder.h"
 
+uint8_t* read_encoders(){
+
+	uint8_t retval_dtheta[2];
+
+	// Logic to be implemented, for now 
+	retval_dtheta[LEFT] = 1;
+	retval_dtheta[RIGHT] = 1; 
+
+	return retval_dtheta;
+}
+
 void encoder_callback(uint gpio, uint32_t events) 
 {
 	

@@ -45,6 +45,9 @@ This can be implemented by adding additional code to hangle the switch interrupt
 #include "hardware/gpio.h"
 #include "stdlib.h"
 
+// Get encoder values
+uint8_t* read_encoders();
+
 /* Encoder Callback*/
 /*
         "LEVEL_LOW",  // 0x1

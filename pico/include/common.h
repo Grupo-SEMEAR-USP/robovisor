@@ -3,8 +3,12 @@
 
 #include <stdio.h>
 
-// ??????
 #include "pico/stdlib.h"
+
+#define INITIAL_TIMEOUT_MS 250
+
+#define LEFT 0
+#define RIGHT 1 
 
 #define PICO_MOTOR_L_CHB 22
 #define PICO_MOTOR_L_BRK 21
@@ -28,9 +32,11 @@
 // GPIO 11 is Encoder phase B,
 // GPIO 12 is the encoder push botton switch.
 // change these as needed
-
 #define ENC_A 10
 #define ENC_B 11
-#define ENC_SW 12
+
+uint32_t div = 0, top = 0;   
+uint slice_num_l, channel_l; 
+uint slice_num_r, channel_r; 
 
 #endif

@@ -1,5 +1,5 @@
-/* Example of use 
-int main (void) 
+/* Example of use
+int main (void)
 {
     uint32_t div = 0, top = 0;
     uint slice_num_l, channel_l;
@@ -7,7 +7,7 @@ int main (void)
 
     gpio_init (PICO_MOTOR_L_BRK);
     gpio_set_dir (PICO_MOTOR_L_BRK, GPIO_OUT);
-    
+
     gpio_init (PICO_MOTOR_R_BRK);
     gpio_set_dir (PICO_MOTOR_R_BRK, GPIO_OUT);
 
@@ -24,7 +24,7 @@ int main (void)
 
     // Set up a 2khz freq PWM
     set_pwm_freq (slice_num_l, (int)2000, &div, &top)
-    
+
     // Set the PWM counter wrap value to reset on
     pwm_set_wrap (slice_num_l, top);
     pwm_set_wrap (slice_num_r, top);
@@ -49,36 +49,58 @@ int main (void)
 
 //
 // These functions work ok up to 10khz, but get off values after
-// 11k and above. It could be type/casting issues, but I have not 
-// investigated any further yey. I plan to test the Micropython 
+// 11k and above. It could be type/casting issues, but I have not
+// investigated any further yey. I plan to test the Micropython
 // functions and see if they display the same issues.
 //
+#include "../include/pwm.h"
 
-bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top) 
+void set_velocity(int *velocity)
+{
+
+    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t)velocity[LEFT]);
+    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t)velocity[RIGHT]);
+
+    return;
+}
+
+bool set_pwm_freq(uint slice, int freq, uint32_t *div, uint32_t *top)
 {
     // Set the frequency, making "top" as large as possible for maximum resolution.
-    *div = (uint32_t)(16 * clock_get_hz (clk_sys) / (uint32_t)freq);
+    *div = (uint32_t)(16 * clock_get_hz(clk_sys) / (uint32_t)freq);
     *top = 1;
-    for (;;) {
+
+    for (;;)
+    {
         // Try a few small prime factors to get close to the desired frequency.
-        if (*div >= 16 * 5 && *div % 5 == 0 && *top * 5 <= TOP_MAX) {
+        if (*div >= 16 * 5 && *div % 5 == 0 && *top * 5 <= TOP_MAX)
+        {
             *div /= 5;
             *top *= 5;
-        } else if (*div >= 16 * 3 && *div % 3 == 0 && *top * 3 <= TOP_MAX) {
+        }
+        else if (*div >= 16 * 3 && *div % 3 == 0 && *top * 3 <= TOP_MAX)
+        {
             *div /= 3;
             *top *= 3;
-        } else if (*div >= 16 * 2 && *top * 2 <= TOP_MAX) {
+        }
+        else if (*div >= 16 * 2 && *top * 2 <= TOP_MAX)
+        {
             *div /= 2;
             *top *= 2;
-        } else {
+        }
+        else
+        {
             break;
         }
     }
 
-    if (*div < 16) {
+    if (*div < 16)
+    {
         *div = 0;
         *top = 0;
-    } else if (*div >= 256 * 16) {
+    }
+    else if (*div >= 256 * 16)
+    {
         *div = 0;
         *top = 0;
     }
@@ -88,14 +110,12 @@ bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top)
 // Function - machine_pwm_duty_u16
 // Shaped for my needs (Scott Beasley) No Copyright.
 // MIT License (MIT) Damien P. George Copyright (c) 2020
-int set_pwm_duty (uint slice, uint channel, uint32_t top, uint32_t duty)
+int set_pwm_duty(uint slice, uint channel, uint32_t top, uint32_t duty)
 {
     // Set duty cycle.
     uint32_t cc = duty * (top + 1) / 65535;
-    pwm_set_chan_level (slice, channel, cc);
-    pwm_set_enabled (slice, true);
+    pwm_set_chan_level(slice, channel, cc);
+    pwm_set_enabled(slice, true);
 
     return 0;
 }
-
-
