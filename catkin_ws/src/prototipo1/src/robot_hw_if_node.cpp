@@ -71,25 +71,30 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 {
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
-	int16_t serialBuffer[1];
-    int result;
+	uint8_t serialBuffer[2];
+
+    int velocity,result;
     
-    serialBuffer[0] = (int16_t)angles::to_degrees(joint_velocity_command_[0]);
+    velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
+	serialBuffer[0]=velocity;
+    serialBuffer[1]=velocity >> 8;
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(left_prev_cmd!=velocity)
     {
-	    result = serialPort->write(serialBuffer, sizeof(int16_t));
+	    result = serialPort->write(serialBuffer, 2*sizeof(uint8_t));
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    left_prev_cmd=velocity;
     }
     
-    serialBuffer[0] = (int16_t)angles::to_degrees(joint_velocity_command_[1]);
+    velocity=(int)angles::to_degrees(joint_velocity_command_[1]);
+	serialBuffer[0]=velocity;
+    serialBuffer[1]=velocity >> 8;
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(right_prev_cmd!=velocity)
     {
-	    result = serialPort->write(serialBuffer, sizeof(int16_t));
+	    result = serialPort->write(serialBuffer, 2*sizeof(uint8_t));
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    right_prev_cmd=velocity;
     }
@@ -104,7 +109,7 @@ int main(int argc, char **argv)
     //ros::MultiThreadedSpinner spinner(2);
     // Interesting alternative: AsyncSpinner
     RobotHWInterface robot(nh);
-
-    spinner.spin();
+    ros::spin();
+    
     return 0;
 }
