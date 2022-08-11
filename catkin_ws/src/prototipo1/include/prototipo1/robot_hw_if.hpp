@@ -15,6 +15,8 @@
 
 #define SERIAL_PORT_NAME "/dev/ttyACM0"
 #define PICO_BAUD_RATE 115200
+#define PPR_1QUAD 200
+#define TICKS2DEGREES ((double) 360)/((double) PPR_1QUAD)
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 

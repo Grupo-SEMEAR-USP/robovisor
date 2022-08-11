@@ -56,12 +56,12 @@ void RobotHWInterface::read()
 
     serialPort->read(serialBuffer, sizeof(uint8_t));
     dtheta = (int8_t)serialBuffer[0];
-    left_motor_pos += angles::from_degrees((double)dtheta);
+    left_motor_pos += angles::from_degrees(TICKS2DEGREES*(double)dtheta);
     joint_position_[0] = left_motor_pos;
 
     serialPort->read(serialBuffer, sizeof(uint8_t));
     dtheta = (int8_t)serialBuffer[0];
-    right_motor_pos += angles::from_degrees((double)dtheta);
+    right_motor_pos += angles::from_degrees(TICKS2DEGREES*(double)dtheta);
     joint_position_[1] = right_motor_pos;
 
     // ROS_INFO("pos=%.2f x=%d ",pos,x);
@@ -71,30 +71,25 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 {
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
-	uint8_t serialBuffer[2];
-
-    int velocity,result;
+	int16_t serialBuffer[1];
+    int result;
     
-    velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
-	serialBuffer[0]=velocity;
-    serialBuffer[1]=velocity >> 8;
+    serialBuffer[0] = (int16_t)angles::to_degrees(joint_velocity_command_[0]);
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(left_prev_cmd!=velocity)
     {
-	    result = serialPort->write(serialBuffer, 2*sizeof(uint8_t));
+	    result = serialPort->write(serialBuffer, sizeof(int16_t));
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    left_prev_cmd=velocity;
     }
     
-    velocity=(int)angles::to_degrees(joint_velocity_command_[1]);
-	serialBuffer[0]=velocity;
-    serialBuffer[1]=velocity >> 8;
+    serialBuffer[0] = (int16_t)angles::to_degrees(joint_velocity_command_[1]);
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(right_prev_cmd!=velocity)
     {
-	    result = serialPort->write(serialBuffer, 2*sizeof(uint8_t));
+	    result = serialPort->write(serialBuffer, sizeof(int16_t));
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    right_prev_cmd=velocity;
     }
