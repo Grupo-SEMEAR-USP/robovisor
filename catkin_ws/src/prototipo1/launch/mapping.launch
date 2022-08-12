@@ -27,7 +27,7 @@
     <include file="$(find prototipo1)/launch/rplidar.launch"/>
 
     <!-- Manual robot control -->
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/>
+    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
 
     <!-- Launch RVIZ with config file for visualization -->
     <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" /> -->
