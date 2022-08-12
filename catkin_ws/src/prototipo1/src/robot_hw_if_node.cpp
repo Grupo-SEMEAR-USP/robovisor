@@ -112,10 +112,10 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     // Not sure if needed
-    //ros::MultiThreadedSpinner spinner(2);
+    ros::MultiThreadedSpinner spinner(4);
     // Interesting alternative: AsyncSpinner
     RobotHWInterface robot(nh);
-    ros::spin();
+    spinner.spin();
 
     return 0;
 }
