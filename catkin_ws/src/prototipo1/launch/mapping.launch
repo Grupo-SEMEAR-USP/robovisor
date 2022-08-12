@@ -11,7 +11,7 @@
 
     <!-- Hardware interface -->
     <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
-	    <remap from="/mobile_base_controller/cmd_vel_out" to="/cmd_vel" />
+	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
 	</node>
 
     <!-- Controller Manager 
@@ -27,7 +27,9 @@
     <include file="$(find prototipo1)/launch/rplidar.launch"/>
 
     <!-- Manual robot control -->
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/>
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen">
+        <remap from="/cmd_vel" to="/mobile_base_controller/cmd_vel" />
+    </node>
 
     <!-- Launch RVIZ with config file for visualization -->
     <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" /> -->
