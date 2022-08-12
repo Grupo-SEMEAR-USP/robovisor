@@ -2,11 +2,17 @@
 
 /*
  *	Global variables
- *	direction storage the motor movement direction.
- *  pulseCounter storage the angle displacement since last serial connection.
+ *	direction storages the motor movement direction.
+ *  pulseCounter storages the angle displacement since last serial connection.
+ *  read_current_velocity storages the current motor velocity.
+ *  last_time is the last absolute time registered at encoder interruption.
+ *  read_delta_time storages the time elapsed between encoder readings.
  */
 int direction[2] = {0, 0};
 int pulseCounter[2] = {0, 0};
+double read_current_velocity[2] = {0, 0};
+double last_time = 0;
+double read_delta_time = 0;
 
 void init_encoder_pinnage()
 {
@@ -27,8 +33,17 @@ void init_encoder_pinnage()
 
 void read_encoders(int* dtheta)
 {
+	read_delta_time = to_ms_since_boot(get_absolute_time()) - last_time;
+
 	dtheta[LEFT] = (direction[LEFT] == CCW ? -1 : 1)*pulseCounter[LEFT];
 	dtheta[RIGHT] = (direction[RIGHT] == CCW ? 1 : -1)*pulseCounter[RIGHT];
+
+	read_current_velocity[LEFT] = (double) dtheta[LEFT]/read_delta_time;
+	read_current_velocity[RIGHT] = (double) dtheta[RIGHT]/read_delta_time;
+
+	//Sends encoder information to the Core 0 for PID control.
+	multicore_fifo_push_blocking(read_current_velocity[LEFT]);
+	multicore_fifo_push_blocking(read_current_velocity[RIGHT]);
 
 	pulseCounter[LEFT] = 0;
 	pulseCounter[RIGHT] = 0;
@@ -64,4 +79,6 @@ void encoder_callback(uint gpio, uint32_t events)
 			printf("[encoder_callback] Problem reading encoders.");
 			break;
     }
+
+	last_time = to_ms_since_boot(get_absolute_time());
 }

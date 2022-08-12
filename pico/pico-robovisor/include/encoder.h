@@ -11,6 +11,15 @@ int direction[2];
 //Encoder reading pulse count.
 int pulseCounter[2];
 
+//Encoder reading current velocity.
+double read_current_velocity[2];
+
+//Last absolute time registered at encoder interruption.
+double last_time;;
+
+//Time elapsed between encoder readings.
+double read_delta_time;
+
 /*
 Init all encoder relevant pins.
 */

@@ -29,7 +29,7 @@ void init_pwm_pinnage()
     pwm_set_wrap(slice_num_r, top);
 }
 
-void set_velocity(int *velocity)
+void set_velocity(float *velocity)
 {
     // Verify velocity signal
     if (velocity[LEFT] >= 0)
@@ -51,8 +51,8 @@ void set_velocity(int *velocity)
         velocity[RIGHT] *= -1;
     }
 
-    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t) velocity[LEFT]);
-    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t) velocity[RIGHT]);
+    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t) (uint32_t) velocity[LEFT]);
+    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t) (uint32_t) velocity[RIGHT]);
 
     return;
 }

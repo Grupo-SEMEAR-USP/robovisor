@@ -4,6 +4,7 @@ if(TARGET tinyusb_device)
         encoder.c
         pwm.c
         core1.c
+        PID.c
     )
 
     include_directories(
@@ -11,7 +12,7 @@ if(TARGET tinyusb_device)
     )
 
     # pull in common dependencies
-    target_link_libraries(main pico_stdlib hardware_gpio hardware_irq hardware_pwm pico_multicore)
+    target_link_libraries(main pico_stdlib hardware_gpio hardware_irq hardware_pwm pico_multicore pico_time)
 
     # enable usb output, disable uart output
     pico_enable_stdio_usb(main 1)
