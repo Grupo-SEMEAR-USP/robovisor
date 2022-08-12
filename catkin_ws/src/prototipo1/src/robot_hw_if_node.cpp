@@ -44,6 +44,7 @@ void RobotHWInterface::init()
 
 void RobotHWInterface::update(const ros::TimerEvent &e)
 {
+    std::cout << "[UPDATE!]" << std::endl;
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
     read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
