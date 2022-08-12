@@ -33,16 +33,26 @@
 	<!-- By the conventions of ROS urdf/tf, left side is positive y axis, as so, side parameter is 1 if left, -1 if right-->
 	<xacro:macro name="wheel_joint" params="position_prefix side">
 
-		<joint name="${position_prefix}_wheel_joint" type="continuous">
-			<parent link="base_link" />
-			<child link="${position_prefix}_wheel_link" />
+		<transmission name="${position_prefix}_wheel_joint_trans">
+			<type> transmission_interface/SimpleTransmission </type>
+			<joint name="${position_prefix}_wheel_joint" type="continuous">
+				<parent link="base_link" />
+				<child link="${position_prefix}_wheel_link" />
 
-			<!-- Adjust position based on the side that's on-->
-			<origin xyz="0 ${side*BASE_WHEEL_DIST} 0" rpy="${-(1/2)*PI*side} 0 0" />
+				<!-- Adjust position based on the side that's on-->
+				<origin xyz="0 ${side*BASE_WHEEL_DIST} 0" rpy="${-(1/2)*PI*side} 0 0" />
 
-			<!-- Positive around counterclockwise z-axis -->
-			<axis xyz="0 0 ${side}" />
-		</joint>
+				<!-- Positive around counterclockwise z-axis -->
+				<axis xyz="0 0 ${side}" />
+
+				<hardwareInterface> hardware_interface/VelocityJointInterface </hardwareInterface>
+			</joint>
+
+			<actuator name="${position_prefix}_wheel_joint_motor">
+				<hardwareInterface> hardware_interface/VelocityJointInterface </hardwareInterface>
+				<mechanicalReduction>50</mechanicalReduction>
+			</actuator>
+		</transmission>
 
 	</xacro:macro>
 
