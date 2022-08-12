@@ -1,4 +1,5 @@
 #include <prototipo1/robot_hw_if.hpp>
+#include <iostream>
 
 RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
 {
@@ -59,12 +60,14 @@ void RobotHWInterface::read()
     left_motor_pos += angles::from_degrees(TICKS2DEGREES*(double)dtheta);
     joint_position_[0] = left_motor_pos;
 
+    std::cout << "[READ] Left Motor: " << "dtheta = " << dtheta << "joint_position_[0] = " << joint_position_[0] << std::endl;
+
     serialPort->read(serialBuffer, sizeof(uint8_t));
     dtheta = (int8_t)serialBuffer[0];
     right_motor_pos += angles::from_degrees(TICKS2DEGREES*(double)dtheta);
     joint_position_[1] = right_motor_pos;
 
-    // ROS_INFO("pos=%.2f x=%d ",pos,x);
+    std::cout << "[READ] Right Motor: " << "dtheta = " << dtheta << "joint_position_[0] = " << joint_position_[0] << std::endl;
 }
 
 void RobotHWInterface::write(ros::Duration elapsed_time)
@@ -79,6 +82,7 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 	serialBuffer[0]=velocity;
     serialBuffer[1]=velocity >> 8;
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
+    std::cout << "[WRITE] Left Motor:" << "joint_velocity_command_[0] = " << joint_velocity_command_[0] << "velocity = " << velocity << "serialBuffer[0] = " << serialBuffer[0] << "serialBuffer[1] = " << serialBuffer[1] << std::endl;
 
     if(left_prev_cmd!=velocity)
     {
@@ -91,6 +95,7 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 	serialBuffer[0]=velocity;
     serialBuffer[1]=velocity >> 8;
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
+    std::cout << "[WRITE] Left Motor:" << "joint_velocity_command_[0] = " << joint_velocity_command_[0] << "velocity = " << velocity << "serialBuffer[0] = " << serialBuffer[0] << "serialBuffer[1] = " << serialBuffer[1] << std::endl;
 
     if(right_prev_cmd!=velocity)
     {
@@ -110,6 +115,6 @@ int main(int argc, char **argv)
     // Interesting alternative: AsyncSpinner
     RobotHWInterface robot(nh);
     ros::spin();
-    
+
     return 0;
 }
