@@ -32,10 +32,7 @@
 
 	<!-- By the conventions of ROS urdf/tf, left side is positive y axis, as so, side parameter is 1 if left, -1 if right-->
 	<xacro:macro name="wheel_joint" params="position_prefix side">
-
-		<transmission name="${position_prefix}_wheel_joint_trans">
-			<type> transmission_interface/SimpleTransmission </type>
-			<joint name="${position_prefix}_wheel_joint" type="continuous">
+		<joint name="${position_prefix}_wheel_joint" type="continuous">
 				<parent link="base_link" />
 				<child link="${position_prefix}_wheel_link" />
 
@@ -45,6 +42,14 @@
 				<!-- Positive around counterclockwise z-axis -->
 				<axis xyz="0 0 ${side}" />
 
+				<hardwareInterface> hardware_interface/VelocityJointInterface </hardwareInterface>
+			</joint>
+	</xacro:macro>
+
+	<xacro:macro name="transmission_wheel" params="position_prefix">
+		<transmission name="${position_prefix}_wheel_joint_trans">
+			<type> transmission_interface/SimpleTransmission </type>
+			<joint name="${position_prefix}_wheel_joint" type="continuous">
 				<hardwareInterface> hardware_interface/VelocityJointInterface </hardwareInterface>
 			</joint>
 
@@ -59,6 +64,8 @@
 	<!-- Define actual joints-->
 	<xacro:wheel_joint position_prefix="left" side="1" />
 	<xacro:wheel_joint position_prefix="right" side="-1" />
+	<xacro:transmission_wheel position_prefix="left" />
+	<xacro:transmission_wheel position_prefix="right" />
 
 	<!-- Joint to connect lidar to base -->
 	<joint name="base_lidar_joint" type="fixed">
