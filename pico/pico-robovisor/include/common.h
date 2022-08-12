@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "pico/stdlib.h"
+#include "pico/multicore.h"
 
 #define INITIAL_TIMEOUT_MS 250
 

@@ -1,8 +1,12 @@
 #include "../include/encoder.h"
 
-direction[2] = {0, 0};
-
-pulseCounter[2] = {0, 0};
+/*
+ *	Global variables
+ *	direction storage the motor movement direction.
+ *  pulseCounter storage the angle displacement since last serial connection.
+ */
+int direction[2] = {0, 0};
+int pulseCounter[2] = {0, 0};
 
 void init_encoder_pinnage()
 {
@@ -32,6 +36,8 @@ void read_encoders(int* dtheta)
 
 void encoder_callback(uint gpio, uint32_t events) 
 {
+	printf("[encoder_callback] Active! gpio = %d, event = %d\n", gpio, events);
+
 	switch(gpio)
     {
 		case PICO_MOTOR_L_CHA:

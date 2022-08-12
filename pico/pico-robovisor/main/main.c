@@ -1,18 +1,6 @@
 #include "../include/common.h"
-#include "../include/encoder.h"
 #include "../include/pwm.h"
-
-void init_pinnage()
-{
-    // General pinnage
-    sleep_ms(INITIAL_TIMEOUT_MS);
-    stdio_init_all();
-
-    init_pwm_pinnage();
-    init_encoder_pinnage();
-    
-    return;
-}
+#include "../include/core1.h"
 
 /**
  * @brief main functionality of the low level control features of application
@@ -37,12 +25,6 @@ void init_pinnage()
  *
  */
 
-void send_encoder_values(int *dtheta)
-{
-    printf("%d%d", dtheta[LEFT], dtheta[RIGHT]);
-    return;
-}
-
 void read_velocity_commands(int* velocity)
 {
     uint8_t velocity_l[2], velocity_r[2];
@@ -60,26 +42,38 @@ void read_velocity_commands(int* velocity)
     velocity[RIGHT] = (int) ((velocity_r[1] << 8) | velocity_r[0]);
 }
 
+void setup_core0()
+{
+    //Init pinnage
+    sleep_ms(INITIAL_TIMEOUT_MS);
+    stdio_init_all();
+
+    init_pwm_pinnage();
+
+    //Init multicore
+    multicore_launch_core1(core1_main);
+    
+    return;
+}
+
 int main(void)
 {
-    // Set all pins to it's respective functions, including direction and other related parameters
-    init_pinnage();
+    // Set all pins and init multicore.
+    setup_core0();
 
-    int dtheta[2];
+    // Velocity target to be fed into PID.
     int velocity[2];
 
+    //Core 0 main loop.
     while(1)
     {
         // AFAIK this is intended for loop optimization 
         tight_loop_contents();
 
-        // Read displacement output from encoders, in degress, and pass those values back to ROS
-        read_encoders(dtheta);
-
-        send_encoder_values(dtheta);
-
+        // Read velocity from Serial
         read_velocity_commands(velocity);
 
+        // Send velocity target to motors.
         set_velocity(velocity);
     }
 }

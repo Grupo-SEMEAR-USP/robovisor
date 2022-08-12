@@ -11,6 +11,9 @@ int direction[2];
 //Encoder reading pulse count.
 int pulseCounter[2];
 
+/*
+Init all encoder relevant pins.
+*/
 void init_encoder_pinnage();
 
 /* 
