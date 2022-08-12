@@ -11,7 +11,7 @@
 
     <!-- Hardware interface -->
     <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
-	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
+	    <remap from="/mobile_base_controller/cmd_vel_out" to="/cmd_vel" />
 	</node>
 
     <!-- Controller Manager 
@@ -19,6 +19,7 @@
     mobile_base_controller configures a DiffDriveController -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
         args="
+            /joints_update
             /mobile_base_controller">
     </node>
 
