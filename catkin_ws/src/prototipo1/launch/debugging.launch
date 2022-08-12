@@ -3,4 +3,14 @@
     <param name="robot_description" command="$(find xacro)/xacro '$(find prototipo1)/urdf/robot.urdf.xacro'" />
     <!-- Converts URDF model in TF -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Load controller settings -->
+	<rosparam file="$(find prototipo1)/config/diff_drive_controller_params.yaml" command="load"/>
+    <!-- Load motors settings -->
+    <rosparam file="$(find prototipo1)/config/joint_limits.yaml" command="load"/>
+
+    <!-- Hardware interface -->
+    <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
+	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
+	</node>
 </launch>
