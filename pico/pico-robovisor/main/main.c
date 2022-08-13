@@ -26,6 +26,8 @@
  *
  */
 
+#define READ_TIMEOUT_US 1000000
+
 //Global variable that storages what is the next motor info to be read.
 int read_order = LEFT;
 
@@ -40,10 +42,7 @@ float output_PWM[2];
 
 float absFloat(float value)
 {
-    if (value < 0)
-        return -value;
-    else
-        return value;
+    return ((value < 0) ? -1 : 1)*value;
 }
 
 void read_velocity_commands(float* velocity)
@@ -51,11 +50,11 @@ void read_velocity_commands(float* velocity)
     int velocity_l[2], velocity_r[2];
 
     // Left 
-    velocity_l[0] = getchar_timeout_us(1000000);
+    velocity_l[0] = getchar_timeout_us(READ_TIMEOUT_US);
     //velocity_l[1] = getchar_timeout_us(5000000);
     
     // Right 
-    velocity_r[0] = getchar_timeout_us(1000000);
+    velocity_r[0] = getchar_timeout_us(READ_TIMEOUT_US);
     //velocity_r[1] = getchar_timeout_us(5000000);
 
     if(velocity_l[0] == PICO_ERROR_TIMEOUT ||
@@ -111,10 +110,11 @@ void setup_core0()
     irq_set_exclusive_handler(SIO_IRQ_PROC0, get_current_velocity_interrupt_handle);
     irq_set_enabled(SIO_IRQ_PROC0, true);
 
+    // As pwm is handled by core0, it's pinnage is setted here
     init_pwm_pinnage();
 
     //Init multicore
-    multicore_launch_core1(core1_main);
+    multicore_launch_core1(main_core1);
 
     return;
 }
@@ -141,8 +141,8 @@ int main(void)
     //Core 0 main loop.
     while(1)
     {
-        // AFAIK this is intended for loop optimization 
-        tight_loop_contents();
+        // AFAIK this is intended for SMALL loop optimization, not sure if useful here
+        //tight_loop_contents();
 
         // Read velocity from Serial
         read_velocity_commands(velocity_target);
@@ -151,18 +151,18 @@ int main(void)
         //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
 
         if (pid_need_compute(pid_left) || pid_need_compute(pid_right)) {
+
             get_current_velocity_interrupt_handle();
+
             // Compute new PID output value
 			pid_compute(pid_left);
             pid_compute(pid_right);
 
-            if(velocity_target[LEFT] < 0)
-                output_PWM[LEFT] *= -1;
+            if(velocity_target[LEFT] < 0) output_PWM[LEFT] *= -1;
             
-            if(velocity_target[RIGHT] < 0)
-                output_PWM[RIGHT] *= -1;
+            if(velocity_target[RIGHT] < 0) output_PWM[RIGHT] *= -1;
 
-            //printf("AFTER PID go brr!\n");
+            //printf("AFTER PID go brr!\n"); Very mature
             //printf("[LEFT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
             //printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
 

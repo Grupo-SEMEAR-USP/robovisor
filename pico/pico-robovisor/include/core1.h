@@ -6,7 +6,7 @@
 #include "encoder.h"
 
 void send_encoder_values();
-void core1_setup();
-void core1_main();
+void setup_core1();
+void main_core1();
 
 #endif

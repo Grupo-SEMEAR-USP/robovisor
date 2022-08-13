@@ -17,7 +17,7 @@ int pulseCounter[2];
 float read_current_velocity[2];
 
 //Last absolute time registered at encoder interruption.
-float last_time;;
+float last_time;
 
 //Time elapsed between encoder readings.
 float read_delta_time;
