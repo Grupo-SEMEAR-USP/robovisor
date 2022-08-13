@@ -22,6 +22,7 @@
 /*-------------------------------------------------------------*/
 /*		Includes and dependencies			*/
 /*-------------------------------------------------------------*/
+#include "common.h"
 #include "pico/time.h"
 #include <stdbool.h>
 #include <stdint.h>

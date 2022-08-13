@@ -10,9 +10,9 @@
  */
 int direction[2] = {0, 0};
 int pulseCounter[2] = {0, 0};
-double read_current_velocity[2] = {0, 0};
-double last_time = 0;
-double read_delta_time = 0;
+float read_current_velocity[2] = {0, 0};
+float last_time = 0;
+float read_delta_time = 0;
 
 void init_encoder_pinnage()
 {
@@ -29,21 +29,28 @@ void init_encoder_pinnage()
 
     gpio_init(PICO_MOTOR_L_CHB);
     gpio_set_dir(PICO_MOTOR_L_CHB, GPIO_IN);
+
+	last_time = to_ms_since_boot(get_absolute_time());
 }
 
 void read_encoders(int* dtheta)
 {
-	read_delta_time = to_ms_since_boot(get_absolute_time()) - last_time;
+	read_delta_time = (to_ms_since_boot(get_absolute_time()) - last_time)/1000;
+	last_time = to_ms_since_boot(get_absolute_time());
 
 	dtheta[LEFT] = (direction[LEFT] == CCW ? -1 : 1)*pulseCounter[LEFT];
 	dtheta[RIGHT] = (direction[RIGHT] == CCW ? 1 : -1)*pulseCounter[RIGHT];
 
-	read_current_velocity[LEFT] = (double) dtheta[LEFT]/read_delta_time;
-	read_current_velocity[RIGHT] = (double) dtheta[RIGHT]/read_delta_time;
+	//printf("dtheta[LEFT] = %d, dtheta[RIGHT] = %d\n", dtheta[LEFT], dtheta[RIGHT]);
+
+	read_current_velocity[LEFT] = ((float) dtheta[LEFT]*TICKS2DEGREES)/read_delta_time;
+	read_current_velocity[RIGHT] = ((float) dtheta[RIGHT]*TICKS2DEGREES)/read_delta_time;
+
+	//printf("read_current_velocity[LEFT] = %.2f, read_current_velocity[RIGHT] = %.2f\n", read_current_velocity[LEFT], read_current_velocity[RIGHT]);
 
 	//Sends encoder information to the Core 0 for PID control.
-	multicore_fifo_push_blocking(read_current_velocity[LEFT]);
-	multicore_fifo_push_blocking(read_current_velocity[RIGHT]);
+	multicore_fifo_push_blocking((uint32_t) read_current_velocity[LEFT]);
+	multicore_fifo_push_blocking((uint32_t) read_current_velocity[RIGHT]);
 
 	pulseCounter[LEFT] = 0;
 	pulseCounter[RIGHT] = 0;
@@ -51,7 +58,7 @@ void read_encoders(int* dtheta)
 
 void encoder_callback(uint gpio, uint32_t events) 
 {
-	printf("[encoder_callback] Active! gpio = %d, event = %d\n", gpio, events);
+	//printf("[encoder_callback] Active! gpio = %d, event = %d\n", gpio, events);
 
 	switch(gpio)
     {
@@ -79,6 +86,4 @@ void encoder_callback(uint gpio, uint32_t events)
 			printf("[encoder_callback] Problem reading encoders.");
 			break;
     }
-
-	last_time = to_ms_since_boot(get_absolute_time());
 }

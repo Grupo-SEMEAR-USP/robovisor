@@ -13,10 +13,6 @@
 #define TOP_MAX 65534
 #define DUTY_50_PCT (TOP_MAX/2)
 
-double kp, ki, kd;
-struct pid_controller ctrldata_left, ctrldata_right;
-pid_cont_t pid_left, pid_right;
-
 void init_pwm_pinnage();                                                  
 void set_velocity(float* velocity);
 bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top);   

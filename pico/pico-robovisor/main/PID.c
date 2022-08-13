@@ -34,7 +34,8 @@ pid_cont_t pid_create(pid_cont_t pid, float* in, float* out, float* set, float k
 	pid_limits(pid, 0, 255);
 
 	// Set default sample time to 100 ms
-	pid->sampletime = 100 * (TICK_SECOND / 1000);
+	pid->sampletime = 100;
+	//printf("sampletime = %.5f", pid->sampletime);
 
 	pid_direction(pid, E_PID_DIRECT);
 	pid_cont_tune(pid, kp, ki, kd);
@@ -54,8 +55,8 @@ void pid_compute(pid_cont_t pid)
 {
 	// Check if control is enabled
 	if (!pid->automode)
-		return false;
-	
+		return;
+
 	float in = *(pid->input);
 	// Compute error
 	float error = (*(pid->setpoint)) - in;
@@ -68,7 +69,9 @@ void pid_compute(pid_cont_t pid)
 	// Compute differential on input
 	float dinput = in - pid->lastin;
 	// Compute PID output
+	//printf("Kp = %.2f, error = %.2f, pid->iterm = %.2f, Kd = %.2f, dinput = %.2f\n", pid->Kp, error, pid->iterm, pid->Kd, dinput);
 	float out = pid->Kp * error + pid->iterm - pid->Kd * dinput;
+	//printf("input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
 	// Apply limit to output value
 	if (out > pid->omax)
 		out = pid->omax;
@@ -76,9 +79,10 @@ void pid_compute(pid_cont_t pid)
 		out = pid->omin;
 	// Output to pointed variable
 	(*pid->output) = out;
+	//printf("input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
 	// Keep track of some variables for next execution
 	pid->lastin = in;
-	pid->lasttime = tick_get();;
+	pid->lasttime = tick_get();
 }
 
 void pid_cont_tune(pid_cont_t pid, float kp, float ki, float kd)
@@ -94,6 +98,8 @@ void pid_cont_tune(pid_cont_t pid, float kp, float ki, float kd)
 	pid->Ki = ki * ssec;
 	pid->Kd = kd / ssec;
 
+	//printf("ssec = %.2f, sampletime = %.2f, kd = %.2f", ssec, pid->sampletime, pid->Kd);
+
 	if (pid->direction == E_PID_REVERSE) {
 		pid->Kp = 0 - pid->Kp;
 		pid->Ki = 0 - pid->Ki;
@@ -105,9 +111,11 @@ void pid_sample(pid_cont_t pid, uint32_t time)
 {
 	if (time > 0) {
 		float ratio = (float) (time * (TICK_SECOND / 1000)) / (float) pid->sampletime;
+		//printf("ratio = %.2f, sampletime = %.2f, kd = %.2f", ratio, pid->sampletime, pid->Kd);
 		pid->Ki *= ratio;
 		pid->Kd /= ratio;
 		pid->sampletime = time * (TICK_SECOND / 1000);
+		//printf("ratio = %.2f, sampletime = %.2f, kd = %.2f", ratio, pid->sampletime, pid->Kd);
 	}
 }
 

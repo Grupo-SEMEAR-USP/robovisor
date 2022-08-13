@@ -27,5 +27,7 @@ void core1_main()
         // Read displacement output from encoders, in degress, and pass those values back to ROS
         read_encoders(dtheta);
         send_encoder_values(dtheta);
+
+        sleep_ms(100);
     }
 }

@@ -5,6 +5,8 @@
 #include "hardware/irq.h"
 #include "common.h"
 
+#define TICKS2DEGREES 1.8
+
 //Motors direction
 int direction[2];
 
@@ -12,13 +14,13 @@ int direction[2];
 int pulseCounter[2];
 
 //Encoder reading current velocity.
-double read_current_velocity[2];
+float read_current_velocity[2];
 
 //Last absolute time registered at encoder interruption.
-double last_time;;
+float last_time;;
 
 //Time elapsed between encoder readings.
-double read_delta_time;
+float read_delta_time;
 
 /*
 Init all encoder relevant pins.
