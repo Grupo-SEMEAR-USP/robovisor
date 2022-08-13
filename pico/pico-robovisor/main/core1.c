@@ -3,15 +3,15 @@
 void send_encoder_values(int* dtheta)
 {
     //Send encoder values
-    printf("%d%d", dtheta[LEFT], dtheta[RIGHT]);
+    //printf("%d%d", dtheta[LEFT], dtheta[RIGHT]);
+    //printf("[SENDING] Valores dos encoders: %d, %d\n", dtheta[LEFT], dtheta[RIGHT]);
 }
 
 void setup_core1()
 {
-
     // As encoder is handled by core1, it's pinnage is setted here
     init_encoder_pinnage();
-}
+}   
 
 void main_core1()
 {
@@ -30,6 +30,6 @@ void main_core1()
         read_encoders(dtheta);
         send_encoder_values(dtheta);
 
-        sleep_ms(100);
+        sleep_ms(20);
     }
 }

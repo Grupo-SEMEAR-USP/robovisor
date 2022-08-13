@@ -40,6 +40,9 @@ float velocity_target[2];
 //Global variable that storages the PWM value to be fed to the motors.
 float output_PWM[2];
 
+//Debug - CLEAN LATER.
+float last_velocity_target[2];
+
 float absFloat(float value)
 {
     return ((value < 0) ? -1 : 1)*value;
@@ -51,22 +54,31 @@ void read_velocity_commands(float* velocity)
 
     // Left 
     velocity_l[0] = getchar_timeout_us(READ_TIMEOUT_US);
-    //velocity_l[1] = getchar_timeout_us(5000000);
+    velocity_l[1] = getchar_timeout_us(READ_TIMEOUT_US);
     
     // Right 
     velocity_r[0] = getchar_timeout_us(READ_TIMEOUT_US);
-    //velocity_r[1] = getchar_timeout_us(5000000);
+    velocity_r[1] = getchar_timeout_us(READ_TIMEOUT_US);
 
     if(velocity_l[0] == PICO_ERROR_TIMEOUT ||
-       //velocity_l[1] == PICO_ERROR_TIMEOUT ||
-       velocity_r[0] == PICO_ERROR_TIMEOUT)
-       //velocity_r[1] == PICO_ERROR_TIMEOUT)
+       velocity_l[1] == PICO_ERROR_TIMEOUT ||
+       velocity_r[0] == PICO_ERROR_TIMEOUT ||
+       velocity_r[1] == PICO_ERROR_TIMEOUT)
+    {
+        printf("[RECEIVING] TIMEOUT!\n");
         return;
+    }
+        
+    velocity[LEFT] = (float) velocity_l[1]*256 + velocity_l[0];
+    velocity[RIGHT] = (float) velocity_r[1]*256 + velocity_r[0];
 
-    velocity[LEFT] = (float) velocity_l[0];
-    velocity[RIGHT] = (float) velocity_r[0];
-
-    //printf("velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+    if(velocity[LEFT] != last_velocity_target[LEFT] || velocity[RIGHT] != last_velocity_target[RIGHT])
+    {
+        last_velocity_target[LEFT] = velocity[LEFT];
+        last_velocity_target[RIGHT] = velocity[RIGHT];
+        printf("[RECEIVING] velocity_l[0] = %d, velocity_l[1] = %d, velocity_r[0] = %d, velocity_r[1] = %d\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
+        printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+    }
 }
 
 void get_current_velocity_interrupt_handle()
@@ -104,17 +116,17 @@ void setup_core0()
     //Init pinnage
     sleep_ms(INITIAL_TIMEOUT_MS);
     stdio_init_all();
-    
-    //Configure a interruption to update current velocity each time the encoders are read.
-    multicore_fifo_clear_irq();
-    irq_set_exclusive_handler(SIO_IRQ_PROC0, get_current_velocity_interrupt_handle);
-    irq_set_enabled(SIO_IRQ_PROC0, true);
 
     // As pwm is handled by core0, it's pinnage is setted here
     init_pwm_pinnage();
 
     //Init multicore
     multicore_launch_core1(main_core1);
+
+    //Configure a interruption to update current velocity each time the encoders are read.
+    multicore_fifo_clear_irq();
+    irq_set_exclusive_handler(SIO_IRQ_PROC0, get_current_velocity_interrupt_handle);
+    irq_set_enabled(SIO_IRQ_PROC0, true);
 
     return;
 }
@@ -128,8 +140,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 1;
-    double ki = 20;
+    double kp = 100;
+    double ki = 2000;
     double kd = 0;
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
     pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp, ki, kd);
@@ -151,20 +163,16 @@ int main(void)
         //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
 
         if (pid_need_compute(pid_left) || pid_need_compute(pid_right)) {
-
-            get_current_velocity_interrupt_handle();
-
             // Compute new PID output value
 			pid_compute(pid_left);
             pid_compute(pid_right);
 
             if(velocity_target[LEFT] < 0) output_PWM[LEFT] *= -1;
-            
             if(velocity_target[RIGHT] < 0) output_PWM[RIGHT] *= -1;
 
             //printf("AFTER PID go brr!\n"); Very mature
-            //printf("[LEFT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
-            //printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
+            printf("[LEFT]  current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+            printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
 
 			// Send velocity target to motors.
 			set_velocity(output_PWM);

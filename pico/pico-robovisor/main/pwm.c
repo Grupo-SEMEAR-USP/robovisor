@@ -51,8 +51,9 @@ void set_velocity(float *velocity)
         velocity[RIGHT] *= -1;
     }
 
-    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t) (uint32_t) velocity[LEFT]);
-    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t) (uint32_t) velocity[RIGHT]);
+    printf("[PWM] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t) velocity[LEFT]);
+    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t) velocity[RIGHT]);
 
     return;
 }
@@ -106,7 +107,8 @@ bool set_pwm_freq(uint slice, int freq, uint32_t *div, uint32_t *top)
 int set_pwm_duty(uint slice, uint channel, uint32_t top, uint32_t duty)
 {
     // Set duty cycle.
-    uint32_t cc = duty * (top + 1) / 65535;
+    uint16_t cc = (uint16_t) duty * (top + 1) / 65535;
+    printf("[PWM] cc = %d\n", cc);
     pwm_set_chan_level(slice, channel, cc);
     pwm_set_enabled(slice, true);
 
