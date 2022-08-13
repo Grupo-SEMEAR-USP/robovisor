@@ -5,7 +5,7 @@
 #include "hardware/irq.h"
 #include "common.h"
 
-#define TICKS2DEGREES 1.8
+#define TICKS2DEGREES 0.9
 
 //Motors direction
 int direction[2];

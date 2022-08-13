@@ -5,9 +5,15 @@ import serial
 
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=10) 
 
-number = 630
+number = 300
 low_byte = number % 256
 high_byte = number // 256
+print(low_byte)
+print(high_byte)
+print(chr(low_byte))
+print(chr(high_byte))
+print(chr(low_byte).encode())
+print(chr(high_byte).encode())
 
 while True:
     ser.write(chr(low_byte).encode())

@@ -7,7 +7,7 @@
 #include "pico/multicore.h"
 #include "pico/time.h"
 
-#define INITIAL_TIMEOUT_MS 250
+#define INITIAL_TIMEOUT_MS 10
 
 typedef enum
 {

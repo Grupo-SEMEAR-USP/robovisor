@@ -26,7 +26,7 @@
  *
  */
 
-#define READ_TIMEOUT_US 1000000
+#define READ_TIMEOUT_US 5000000
 
 //Global variable that storages what is the next motor info to be read.
 int read_order = LEFT;
@@ -76,7 +76,7 @@ void read_velocity_commands(float* velocity)
     {
         last_velocity_target[LEFT] = velocity[LEFT];
         last_velocity_target[RIGHT] = velocity[RIGHT];
-        printf("[RECEIVING] velocity_l[0] = %d, velocity_l[1] = %d, velocity_r[0] = %d, velocity_r[1] = %d\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
+        printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
         printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
     }
 }
@@ -140,8 +140,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 100;
-    double ki = 2000;
+    double kp = 200;
+    double ki = 0;
     double kd = 0;
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
     pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp, ki, kd);
@@ -162,20 +162,22 @@ int main(void)
         //printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
         //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
 
-        if (pid_need_compute(pid_left) || pid_need_compute(pid_right)) {
+        if (pid_need_compute(pid_left)) {
             // Compute new PID output value
 			pid_compute(pid_left);
-            pid_compute(pid_right);
-
             if(velocity_target[LEFT] < 0) output_PWM[LEFT] *= -1;
-            if(velocity_target[RIGHT] < 0) output_PWM[RIGHT] *= -1;
-
-            //printf("AFTER PID go brr!\n"); Very mature
             printf("[LEFT]  current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
-            printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
-
-			// Send velocity target to motors.
-			set_velocity(output_PWM);
 		}
+
+        if (pid_need_compute(pid_right))
+        {
+            // Compute new PID output value
+            pid_compute(pid_right);
+            if(velocity_target[RIGHT] < 0) output_PWM[RIGHT] *= -1;
+            printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
+        }
+
+        // Send velocity target to motors.
+        set_velocity(output_PWM);
     }
 }

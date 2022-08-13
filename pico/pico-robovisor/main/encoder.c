@@ -41,12 +41,12 @@ void read_encoders(int* dtheta)
 	dtheta[LEFT] = (direction[LEFT] == CCW ? -1 : 1)*pulseCounter[LEFT];
 	dtheta[RIGHT] = (direction[RIGHT] == CCW ? 1 : -1)*pulseCounter[RIGHT];
 
-	//printf("dtheta[LEFT] = %d, dtheta[RIGHT] = %d\n", dtheta[LEFT], dtheta[RIGHT]);
+	//printf("[ENCODER] dtheta[LEFT] = %d, dtheta[RIGHT] = %d\n", dtheta[LEFT], dtheta[RIGHT]);
 
 	read_current_velocity[LEFT] = ((float) dtheta[LEFT]*TICKS2DEGREES)/read_delta_time;
 	read_current_velocity[RIGHT] = ((float) dtheta[RIGHT]*TICKS2DEGREES)/read_delta_time;
 
-	//printf("read_current_velocity[LEFT] = %.2f, read_current_velocity[RIGHT] = %.2f\n", read_current_velocity[LEFT], read_current_velocity[RIGHT]);
+	//printf("[ENCODER] read_current_velocity[LEFT] = %.2f, read_current_velocity[RIGHT] = %.2f\n", read_current_velocity[LEFT], read_current_velocity[RIGHT]);
 
 	//Sends encoder information to the Core 0 for PID control.
 	multicore_fifo_push_blocking((uint32_t) read_current_velocity[LEFT]);
