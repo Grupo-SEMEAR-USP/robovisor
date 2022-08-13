@@ -71,7 +71,7 @@ void pid_compute(pid_cont_t pid)
 	// Compute PID output
 	//printf("Kp = %.2f, error = %.2f, pid->iterm = %.2f, Kd = %.2f, dinput = %.2f\n", pid->Kp, error, pid->iterm, pid->Kd, dinput);
 	float out = pid->Kp * error + pid->iterm - pid->Kd * dinput;
-	printf("[PID] input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
+	//printf("[PID] input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
 	// Apply limit to output value
 	if (out > pid->omax)
 		out = pid->omax;

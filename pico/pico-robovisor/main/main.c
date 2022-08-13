@@ -3,6 +3,9 @@
 #include "../include/core1.h"
 #include "hardware/irq.h"
 
+#include "pbPlots.h"
+#include "supportLib.h"
+
 /**
  * @brief main functionality of the low level control features of application
  *
@@ -65,7 +68,7 @@ void read_velocity_commands(float* velocity)
        velocity_r[0] == PICO_ERROR_TIMEOUT ||
        velocity_r[1] == PICO_ERROR_TIMEOUT)
     {
-        printf("[RECEIVING] TIMEOUT!\n");
+        //printf("[RECEIVING] TIMEOUT!\n");
         return;
     }
         
@@ -76,8 +79,8 @@ void read_velocity_commands(float* velocity)
     {
         last_velocity_target[LEFT] = velocity[LEFT];
         last_velocity_target[RIGHT] = velocity[RIGHT];
-        printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
-        printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+        //printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
+        //printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
     }
 }
 
@@ -140,7 +143,7 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 200;
+    double kp = 150;
     double ki = 0;
     double kd = 0;
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
@@ -166,7 +169,7 @@ int main(void)
             // Compute new PID output value
 			pid_compute(pid_left);
             if(velocity_target[LEFT] < 0) output_PWM[LEFT] *= -1;
-            printf("[LEFT]  current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+            //printf("[LEFT]  current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
 		}
 
         if (pid_need_compute(pid_right))
@@ -174,8 +177,11 @@ int main(void)
             // Compute new PID output value
             pid_compute(pid_right);
             if(velocity_target[RIGHT] < 0) output_PWM[RIGHT] *= -1;
-            printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
+            //printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
         }
+
+        printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+        //printf("%.2f, %.2f, %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
 
         // Send velocity target to motors.
         set_velocity(output_PWM);
