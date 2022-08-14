@@ -4,6 +4,11 @@ uint32_t div = 0, top = 0;
 uint slice_num_l, channel_l;
 uint slice_num_r, channel_r;
 
+float absFloat(float value)
+{
+    return ((value < 0) ? -1 : 1) * value;
+}
+
 void init_pwm_pinnage()
 {
 
@@ -20,7 +25,7 @@ void init_pwm_pinnage()
     gpio_set_function(PICO_MOTOR_L_PWM, GPIO_FUNC_PWM);
     set_pwm_freq(slice_num_l, (int)PWM_FREQ, &div, &top);
     pwm_set_wrap(slice_num_l, top);
-    
+
     // Right
 
     // --- BRK ---
@@ -38,37 +43,15 @@ void init_pwm_pinnage()
 
 void set_velocity(float *pwm_velocity)
 {
-    // Verify velocity signal
 
     // --- Left
-    if (pwm_velocity[LEFT] >= 0)
-    {
-        gpio_set_outover(PICO_MOTOR_L_DIR, GPIO_OVERRIDE_LOW);
-    }
-    else
-    {
-        gpio_set_outover(PICO_MOTOR_L_DIR, GPIO_OVERRIDE_HIGH);
-        pwm_velocity[LEFT] *= -1;
-    }
-
-    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t)pwm_velocity[LEFT]);
-
+    gpio_set_outover(PICO_MOTOR_L_DIR, ((pwm_velocity[LEFT] >= 0) ? GPIO_OVERRIDE_LOW : GPIO_OVERRIDE_HIGH));
+    set_pwm_duty(slice_num_l, channel_l, top, (uint32_t)absFloat(pwm_velocity[LEFT]));
 
     // --- Right
-    if (pwm_velocity[RIGHT] >= 0)
-    {
-        gpio_set_outover(PICO_MOTOR_R_DIR, GPIO_OVERRIDE_LOW);
-    }
-    else
-    {
-        gpio_set_outover(PICO_MOTOR_R_DIR, GPIO_OVERRIDE_HIGH);
-        pwm_velocity[RIGHT] *= -1;
-    }
-
-    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t)pwm_velocity[RIGHT]);
-
-
-    // printf("[PWM] pwm_velocity[LEFT] = %.2f, pwm_velocity[RIGHT] = %.2f\n", pwm_velocity[LEFT], pwm_velocity[RIGHT]);
+    gpio_set_outover(PICO_MOTOR_R_DIR, ((pwm_velocity[RIGHT] >= 0) ? GPIO_OVERRIDE_LOW : GPIO_OVERRIDE_HIGH));
+    set_pwm_duty(slice_num_r, channel_r, top, (uint32_t)absFloat(pwm_velocity[RIGHT]));
+    
     return;
 }
 

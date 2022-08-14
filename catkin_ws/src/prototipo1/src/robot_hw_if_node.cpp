@@ -14,7 +14,6 @@ RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
     init();
 
     controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
-    loop_hz_ = HW_IF_UPDATE_FREQ;
     ros::Duration update_freq = ros::Duration(1.0 / loop_hz_);
 
     non_realtime_loop_ = nh_.createTimer(update_freq, &RobotHWInterface::update, this);
@@ -22,6 +21,7 @@ RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
 
 RobotHWInterface::~RobotHWInterface()
 {
+    serialPort->close();
 }
 
 void RobotHWInterface::init()
@@ -103,9 +103,10 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "prototipo1_hw_if");
     ros::NodeHandle nh;
 
-    // Not sure if needed
-    ros::MultiThreadedSpinner spinner(4);
+    // Not sure why needed
+    ros::MultiThreadedSpinner spinner(N_THREADS);
     // Interesting alternative: AsyncSpinner
+
     RobotHWInterface robot(nh);
     spinner.spin();
 

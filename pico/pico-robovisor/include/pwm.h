@@ -12,6 +12,7 @@
 #define PWM_FREQ 2000
 #define MAX_PWM 65535
 
+float absFloat(float value);
 void init_pwm_pinnage();                                                  
 void set_velocity(float* velocity);
 bool set_pwm_freq (uint slice, int freq, uint32_t *div, uint32_t *top);   

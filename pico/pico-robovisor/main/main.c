@@ -32,25 +32,32 @@
 #define READ_TIMEOUT_US 5000000
 
 //Global variable that storages what is the next motor info to be read.
-int read_order = LEFT;
-
+int read_order = LEFT;            
+                                  
 //Global variable that storages the current velocity of each motor.
 float current_velocity[2] = {0.0, 0.0};
-
+                                  
 //Global variable that storages the target velocity.
 float velocity_target[2]= {0.0, 0.0};
-
+                                  
 //Global variable that storages the PWM value to be fed to the motors.
-float output_PWM[2]= {0.0, 0.0};
+float output_PWM[2]= {0.0, 0.0};  
 
+// TODO
 //Debug - CLEAN LATER.
-float last_velocity_target[2]= {0.0, 0.0};
+// float last_velocity_target[2]= {0.0, 0.0};
 
-float absFloat(float value)
-{
-    return ((value < 0) ? -1 : 1)*value;
-}
 
+// TODO:
+// Need's further consideration of types & sizes, using int 
+// in this manner is bad, since it doesnt especify the size
+// eg: ROS is sending unsigned 32 bit integer per motor, which 
+// only makes sense here if sizeof(int) == 16 bits == 2 bytes, 
+// which is not according to docs 
+// https://raspberry-projects.com/pi/programming-in-c/memory/variables 
+// for now let's abstract that, in the end, velocity
+// (which is a signed floating type) is correctly 
+// especified in the end
 void read_velocity_commands(float* velocity)
 {
     int velocity_l[2], velocity_r[2];
@@ -68,6 +75,10 @@ void read_velocity_commands(float* velocity)
        velocity_r[0] == PICO_ERROR_TIMEOUT ||
        velocity_r[1] == PICO_ERROR_TIMEOUT)
     {
+        // TODO: Possibly analise the logic behind just setting
+        // velocity[...] = previous_velocity[...];
+        // to avoid problems at startup and/or bad connection
+
         //printf("[RECEIVING] TIMEOUT!\n");
         return;
     }
@@ -75,6 +86,7 @@ void read_velocity_commands(float* velocity)
     velocity[LEFT] = (float) velocity_l[1]*256 + velocity_l[0];
     velocity[RIGHT] = (float) velocity_r[1]*256 + velocity_r[0];
 
+    /*
     if(velocity[LEFT] != last_velocity_target[LEFT] || velocity[RIGHT] != last_velocity_target[RIGHT])
     {
         last_velocity_target[LEFT] = velocity[LEFT];
@@ -82,6 +94,7 @@ void read_velocity_commands(float* velocity)
         //printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
         //printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
     }
+    */
 }
 
 void get_current_velocity_interrupt_handle()
@@ -94,21 +107,23 @@ void get_current_velocity_interrupt_handle()
         switch(read_order)
         {
             case LEFT:
-                current_velocity[LEFT] = absFloat((float) raw);
+                //current_velocity[LEFT] = absFloat((float) raw);
+                current_velocity[LEFT] = (float) raw;
                 //printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
                 break;
 
             case RIGHT:
-                current_velocity[RIGHT] = absFloat((float) raw);
+                //current_velocity[RIGHT] = absFloat((float) raw);
+                current_velocity[RIGHT] = (float) raw;
                 //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
                 break;
 
             default:
-                printf("[get_current_velocity_interrupt_handle] Erro no cálclo de velocidade atual!");
+                printf("[get_current_velocity_interrupt_handle] Erro no cálculo de velocidade atual!");
                 break;
         }
 
-        read_order = !read_order;
+        read_order = 1 - read_order;
     }
 
     multicore_fifo_clear_irq();
@@ -168,23 +183,13 @@ int main(void)
         //printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
         //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
 
-        if (pid_need_compute(pid_left)) {
-            // Compute new PID output value
+        if (pid_need_compute(pid_left)) 
 			pid_compute(pid_left);
-            if(velocity_target[LEFT] < 0) output_PWM[LEFT] *= -1;
-            //printf("[LEFT]  current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
-		}
 
         if (pid_need_compute(pid_right))
-        {
-            // Compute new PID output value
             pid_compute(pid_right);
-            if(velocity_target[RIGHT] < 0) output_PWM[RIGHT] *= -1;
-            //printf("[RIGHT] current = %.2f, output_pwm = %.2f, velocity_target = %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
-        }
 
         printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
-        //printf("%.2f, %.2f, %.2f\n", current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
 
         // Send velocity target to motors.
         set_velocity(output_PWM);

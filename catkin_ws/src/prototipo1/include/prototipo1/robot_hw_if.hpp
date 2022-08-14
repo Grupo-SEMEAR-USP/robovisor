@@ -17,8 +17,9 @@
 #define PICO_BAUD_RATE 115200
 #define PPR_1QUAD 200
 #define TICKS2DEGREES ((double) 360)/((double) PPR_1QUAD)
-#define HW_IF_UPDATE_FREQ 10000
+#define HW_IF_UPDATE_FREQ 10000.0
 #define LAST_BYTE_MASK 0xFF
+#define N_THREADS 4
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
@@ -30,9 +31,12 @@ public:
     void update(const ros::TimerEvent &e);
     void read();
     void write(ros::Duration elapsed_time);
+
+    /* Not sure if needed 
     ros::Publisher pub;
     ros::ServiceClient client;
     rospy_tutorials::Floats joints_pub;
+    */
 
 protected: 
 
@@ -48,13 +52,12 @@ protected:
     double joint_velocity_command_[2];
 
     double left_motor_pos = 0, right_motor_pos = 0;
-    int left_prev_cmd = 0, right_prev_cmd = 0;
 
     serial::Serial* serialPort = new serial::Serial(std::string(SERIAL_PORT_NAME), PICO_BAUD_RATE, serial::Timeout::simpleTimeout(250));
 
     ros::NodeHandle nh_;
     ros::Timer non_realtime_loop_;
     ros::Duration elapsed_time_;
-    double loop_hz_;
+    double loop_hz_ = HW_IF_UPDATE_FREQ;
     boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
 };
