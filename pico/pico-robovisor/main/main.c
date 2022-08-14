@@ -143,13 +143,13 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 150;
+    double kp = 183;
     double ki = 0;
     double kd = 0;
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
     pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp, ki, kd);
-    pid_limits(pid_left, 0, 65535);
-    pid_limits(pid_right, 0, 65535);
+    pid_limits(pid_left, -65535, 65535);
+    pid_limits(pid_right, -65535, 65535);
     pid_auto(pid_left);
     pid_auto(pid_right);
 

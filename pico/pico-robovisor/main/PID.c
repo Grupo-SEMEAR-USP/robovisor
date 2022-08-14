@@ -34,7 +34,7 @@ pid_cont_t pid_create(pid_cont_t pid, float* in, float* out, float* set, float k
 	pid_limits(pid, 0, 255);
 
 	// Set default sample time to 100 ms
-	pid->sampletime = 100;
+	pid->sampletime = 20;
 	//printf("sampletime = %.5f", pid->sampletime);
 
 	pid_direction(pid, E_PID_DIRECT);
