@@ -17,6 +17,8 @@
 #define PICO_BAUD_RATE 115200
 #define PPR_1QUAD 200
 #define TICKS2DEGREES ((double) 360)/((double) PPR_1QUAD)
+#define HW_IF_UPDATE_FREQ 10000
+#define LAST_BYTE_MASK 0xFF
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
