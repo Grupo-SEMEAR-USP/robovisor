@@ -85,37 +85,17 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 
     // 4*sizeof(uint8_t) = sizeof(uint32_t)
     uint8_t serialBuffer[4];
-
     uint32_t velocity, result;
 
+    // --- Left 
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[0]);
-    
     writeInt2SerialBuff(serialBuffer, velocity);
+    result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
 
-    // ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
-    // std::cout << "[WRITE] Left Motor:" << " joint_velocity_command_[0] = " << joint_velocity_command_[0] << " velocity = " << velocity << " serialBuffer[0] = " << serialBuffer[0] << " serialBuffer[1] = " << serialBuffer[1] << std::endl;
-
-    if (left_prev_cmd != velocity)
-    {
-        result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
-        // ROS_INFO("Writen successfully result=%d", result);
-        left_prev_cmd = velocity;
-    }
-
+    // --- Right
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[1]);
-
     writeInt2SerialBuff(serialBuffer, velocity);
-
-    // ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
-    // std::cout << "[WRITE] Left Motor:" << " joint_velocity_command_[0] = " << joint_velocity_command_[0] << " velocity = " << velocity << " serialBuffer[0] = " << serialBuffer[0] << " serialBuffer[1] = " << serialBuffer[1] << std::endl;
-
-    if (right_prev_cmd != velocity)
-    {
-
-        result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
-        // ROS_INFO("Writen successfully result=%d", result);
-        right_prev_cmd = velocity;
-    }
+    result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
 }
 
 int main(int argc, char **argv)

@@ -30,7 +30,8 @@
 /*-------------------------------------------------------------*/
 /*		Macros and definitions				*/
 /*-------------------------------------------------------------*/
-#define TICK_SECOND 1
+#define TICK_SECOND 1000.0
+#define PID_SAMPLE_TIME_MS 20
 
 /*-------------------------------------------------------------*/
 /*		Typedefs enums & structs			*/
@@ -39,7 +40,8 @@
 /**
  * Defines if the controler is direct or reverse
  */
-enum pid_control_directions {
+enum pid_control_directions
+{
 	E_PID_DIRECT,
 	E_PID_REVERSE,
 };
@@ -48,11 +50,12 @@ enum pid_control_directions {
  * Structure that holds PID all the PID controller data, multiple instances are
  * posible using different structures for each controller
  */
-struct pid_controller {
+struct pid_controller
+{
 	// Input, output and setpoint
-	float * input; //!< Current Process Value
-	float * output; //!< Corrective Output from PID Controller
-	float * setpoint; //!< Controller Setpoint
+	float *input;	 //!< Current Process Value
+	float *output;	 //!< Corrective Output from PID Controller
+	float *setpoint; //!< Controller Setpoint
 	// Tuning parameters
 	float Kp; //!< Stores the gain for the Proportional term
 	float Ki; //!< Stores the gain for the Integral term
@@ -61,23 +64,24 @@ struct pid_controller {
 	float omin; //!< Maximum value allowed at the output
 	float omax; //!< Minimum value allowed at the output
 	// Variables for PID algorithm
-	float iterm; //!< Accumulator for integral term
+	float iterm;  //!< Accumulator for integral term
 	float lastin; //!< Last input value for differential term
 	// Time related
-	uint32_t lasttime; //!< Stores the time when the control loop ran last time
+	uint32_t lasttime;	 //!< Stores the time when the control loop ran last time
 	uint32_t sampletime; //!< Defines the PID sample time
 	// Operation mode
 	uint8_t automode; //!< Defines if the PID controller is enabled or disabled
 	enum pid_control_directions direction;
 };
 
-typedef struct pid_controller * pid_cont_t;
+typedef struct pid_controller *pid_cont_t;
 
 /*-------------------------------------------------------------*/
 /*		Function prototypes				*/
 /*-------------------------------------------------------------*/
-#ifdef	__cplusplus
-extern "C" {
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 	/**
 	 * @brief Creates a new PID controller
@@ -95,7 +99,7 @@ extern "C" {
 	 *
 	 * @return returns a pid_cont_t controller handle
 	 */
-	pid_cont_t pid_create(pid_cont_t pid, float* in, float* out, float* set, float kp, float ki, float kd);
+	pid_cont_t pid_create(pid_cont_t pid, float *in, float *out, float *set, float kp, float ki, float kd);
 
 	/**
 	 * @brief Check if PID loop needs to run
@@ -184,7 +188,7 @@ extern "C" {
 	 */
 	void pid_direction(pid_cont_t pid, enum pid_control_directions dir);
 
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 

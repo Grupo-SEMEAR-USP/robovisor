@@ -35,16 +35,16 @@
 int read_order = LEFT;
 
 //Global variable that storages the current velocity of each motor.
-float current_velocity[2];
+float current_velocity[2] = {0.0, 0.0};
 
 //Global variable that storages the target velocity.
-float velocity_target[2];
+float velocity_target[2]= {0.0, 0.0};
 
 //Global variable that storages the PWM value to be fed to the motors.
-float output_PWM[2];
+float output_PWM[2]= {0.0, 0.0};
 
 //Debug - CLEAN LATER.
-float last_velocity_target[2];
+float last_velocity_target[2]= {0.0, 0.0};
 
 float absFloat(float value)
 {
@@ -146,10 +146,13 @@ int main(void)
     double kp = 183;
     double ki = 0;
     double kd = 0;
+
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
     pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp, ki, kd);
-    pid_limits(pid_left, -65535, 65535);
-    pid_limits(pid_right, -65535, 65535);
+
+    pid_limits(pid_left, -MAX_PWM, MAX_PWM);
+    pid_limits(pid_right, -MAX_PWM, MAX_PWM);
+
     pid_auto(pid_left);
     pid_auto(pid_right);
 

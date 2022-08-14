@@ -10,8 +10,7 @@
 
 // Maximum "top" is set at 65534 to be able to achieve 100% duty with 65535.
 #define PWM_FREQ 2000
-#define TOP_MAX 65534
-#define DUTY_50_PCT (TOP_MAX/2)
+#define MAX_PWM 65535
 
 void init_pwm_pinnage();                                                  
 void set_velocity(float* velocity);

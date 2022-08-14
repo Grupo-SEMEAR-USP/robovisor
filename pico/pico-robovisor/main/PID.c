@@ -19,6 +19,7 @@
  */
 #include "PID.h"
 
+
 uint32_t tick_get()
 {
 	return to_ms_since_boot(get_absolute_time());
@@ -33,10 +34,10 @@ pid_cont_t pid_create(pid_cont_t pid, float* in, float* out, float* set, float k
 
 	pid_limits(pid, 0, 255);
 
-	// Set default sample time to 100 ms
-	pid->sampletime = 20;
-	//printf("sampletime = %.5f", pid->sampletime);
+	// Set sample time to 20 ms (original value was 100 ms)
+	pid->sampletime = PID_SAMPLE_TIME_MS * (TICK_SECOND / 1000);;
 
+	// Positive error should mean positive PWM (error = ref - y)
 	pid_direction(pid, E_PID_DIRECT);
 	pid_cont_tune(pid, kp, ki, kd);
 
@@ -124,6 +125,7 @@ void pid_limits(pid_cont_t pid, float min, float max)
 	if (min >= max) return;
 	pid->omin = min;
 	pid->omax = max;
+
 	//Adjust output to new limits
 	if (pid->automode) {
 		if (*(pid->output) > pid->omax)
