@@ -9,15 +9,6 @@ void write_Int32_to_SerialBuffer(uint8_t *serialBuffer, uint32_t value)
     
 }
 
-void write_Int8_to_SerialBuffer(uint32_t *serialBuffer, uint8_t *value)
-{
-    *serialBuffer = 0;
-    for(int i=3; i>=0; i--){
-        (*serialBuffer) << 8 
-        value[i]
-    }
-    
-}
 
 RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
 {
@@ -99,12 +90,12 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 
     // --- Left 
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[0]);
-    writeInt2SerialBuff(serialBuffer, velocity);
+    write_Int32_to_SerialBuffer(serialBuffer, velocity);
     result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
 
     // --- Right
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[1]);
-    writeInt2SerialBuff(serialBuffer, velocity);
+    write_Int32_to_SerialBuffer(serialBuffer, velocity);
     result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
 }
 
