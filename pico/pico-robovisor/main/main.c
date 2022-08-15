@@ -88,7 +88,7 @@ void read_velocity_commands(float* velocity)
     velocity[LEFT] = (float) velocity_l[1]*256 + velocity_l[0];
     velocity[RIGHT] = (float) velocity_r[1]*256 + velocity_r[0];
 
-    if(DEBUG_MAIN)
+    if(DEBUG_MAIN_RECEIVE)
     {
         if(velocity[LEFT] != last_velocity_target[LEFT] || velocity[RIGHT] != last_velocity_target[RIGHT])
         {
@@ -113,7 +113,7 @@ void get_current_velocity_interrupt_handle()
                 //current_velocity[LEFT] = absFloat((float) raw);
                 current_velocity[LEFT] = (float) raw;
                 
-                if(DEBUG_MAIN)
+                if(DEBUG_MAIN_RECEIVE)
                     printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
                 
                 break;
@@ -122,7 +122,7 @@ void get_current_velocity_interrupt_handle()
                 //current_velocity[RIGHT] = absFloat((float) raw);
                 current_velocity[RIGHT] = (float) raw;
                 
-                if(DEBUG_MAIN)
+                if(DEBUG_MAIN_RECEIVE)
                     printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
                 
                 break;
@@ -167,7 +167,7 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 183;
+    double kp = 150;
     double ki = 0;
     double kd = 0;
 
@@ -187,7 +187,7 @@ int main(void)
         //tight_loop_contents();
 
         // Read velocity from Serial
-        /*read_velocity_commands(velocity_target);
+        read_velocity_commands(velocity_target);
 
         if (pid_need_compute(pid_left)) 
 			pid_compute(pid_left);
@@ -196,11 +196,9 @@ int main(void)
             pid_compute(pid_right);
 
         if(DEBUG_MAIN)
-            printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);*/
+            printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
 
         // Send velocity target to motors.
-        //set_velocity(output_PWM);
-        float aaaa[2] = {65535, 65535};
-        set_velocity(aaaa);
+        set_velocity(output_PWM);
     }
 }
