@@ -106,10 +106,11 @@ void get_encoder_processed_values()
 		increment = 0;
 	}
 
+	//Checks if the last info from encoders was more than VELOCITY_MOTORS_TIMOUT (in ms).
 	for(int i = 0; i < 2; i++)
 	{
 		float time_now = to_ms_since_boot(get_absolute_time());
-		if(time_now - last_time[i] > 100)
+		if(time_now - last_time[i] > VELOCITY_MOTORS_TIMEOUT)
 			current_velocity_[i] = 0;
 	}
 }

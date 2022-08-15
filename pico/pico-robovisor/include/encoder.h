@@ -6,6 +6,7 @@
 #include "common.h"
 
 #define TICKS2DEGREES 3.6
+#define VELOCITY_MOTORS_TIMEOUT 100
 
 void get_encoder_processed_values();
 
