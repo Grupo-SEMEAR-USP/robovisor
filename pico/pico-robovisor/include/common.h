@@ -8,9 +8,11 @@
 #include "pico/time.h"
 
 #define INITIAL_TIMEOUT_MS 10
-#define DEBUG_MAIN 1
+#define DEBUG_MAIN 0
 #define DEBUG_MAIN_RECEIVE 0
 #define DEBUG_PWM 0
+#define DEBUG_SEND_CORE0 0
+#define DEBUG_SEND_ROS 0
 #define DEBUG_ENCODER_CALLBACK 0
 #define DEBUG_ENCODER_PROCESS 0
 #define DEBUG_PID 0
