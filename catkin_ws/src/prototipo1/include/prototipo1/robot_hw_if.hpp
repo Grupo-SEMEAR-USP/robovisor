@@ -18,7 +18,8 @@
 #define PPR_1QUAD 200
 #define TICKS2DEGREES ((double) 360)/((double) PPR_1QUAD)
 #define HW_IF_UPDATE_FREQ 10000.0
-#define LAST_BYTE_MASK 0xFF
+#define LAST_BYTE_TAKE_MASK 0xFF
+#define LAST_BYTE_EXCLUDE_MASK 0xFFFFFF00
 #define N_THREADS 4
 class RobotHWInterface : public hardware_interface::RobotHW 
 {

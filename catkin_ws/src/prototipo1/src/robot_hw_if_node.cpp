@@ -1,12 +1,22 @@
 #include <prototipo1/robot_hw_if.hpp>
 #include <iostream>
+#include <string>
 
-void writeInt2SerialBuff(uint8_t *serialBuffer, uint32_t velocity)
+void write_Int32_to_SerialBuffer(uint8_t *serialBuffer, uint32_t value)
 {
-    serialBuffer[0] = (velocity) & LAST_BYTE_MASK;
-    serialBuffer[1] = (velocity >> 8) & LAST_BYTE_MASK;
-    serialBuffer[2] = (velocity >> 16) & LAST_BYTE_MASK;
-    serialBuffer[3] = (velocity >> 24) & LAST_BYTE_MASK;
+    for(int i=0; i<4; i++)
+        serialBuffer[i] = (value >> 8*i) & LAST_BYTE_TAKE_MASK;
+    
+}
+
+void write_Int8_to_SerialBuffer(uint32_t *serialBuffer, uint8_t *value)
+{
+    *serialBuffer = 0;
+    for(int i=3; i>=0; i--){
+        (*serialBuffer) << 8 
+        value[i]
+    }
+    
 }
 
 RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
@@ -61,22 +71,22 @@ void RobotHWInterface::update(const ros::TimerEvent &e)
 
 void RobotHWInterface::read()
 {
-    uint8_t serialBuffer[1];
-    int dtheta;
+    std::string serialBuffer;
+    float dtheta;
 
-    serialPort->read(serialBuffer, sizeof(uint8_t));
-    dtheta = (int8_t)serialBuffer[0];
-    left_motor_pos += angles::from_degrees(TICKS2DEGREES * (double)dtheta);
+    serialPort->read(serialBuffer, 4);
+    memcpy(&dtheta, serialBuffer.c_str(), 4);
+    left_motor_pos += angles::from_degrees((double)dtheta);
     joint_position_[0] = left_motor_pos;
 
-    // std::cout << "[READ] Left Motor: " << " dtheta = " << dtheta << " joint_position_[0] = " << joint_position_[0] << std::endl;
+    std::cout << "[READ] Left Motor: " << " dtheta = " << dtheta << " joint_position_[0] = " << joint_position_[0] << std::endl;
 
-    serialPort->read(serialBuffer, sizeof(uint8_t));
-    dtheta = (int8_t)serialBuffer[0];
-    right_motor_pos += angles::from_degrees(TICKS2DEGREES * (double)dtheta);
+    serialPort->read(serialBuffer, 4);
+    memcpy(&dtheta, serialBuffer.c_str(), 4);
+    right_motor_pos += angles::from_degrees((double)dtheta);
     joint_position_[1] = right_motor_pos;
 
-    // std::cout << "[READ] Right Motor: " << " dtheta = " << dtheta << " joint_position_[0] = " << joint_position_[0] << std::endl;
+    std::cout << "[READ] Right Motor: " << " dtheta = " << dtheta << " joint_position_[1] = " << joint_position_[1] << std::endl;
 }
 
 void RobotHWInterface::write(ros::Duration elapsed_time)
