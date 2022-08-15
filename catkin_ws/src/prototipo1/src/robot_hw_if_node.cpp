@@ -67,6 +67,9 @@ void RobotHWInterface::read()
 
     serialPort->read(serialBuffer, 4);
     memcpy(&dtheta, serialBuffer.c_str(), 4);
+    
+    std::cout << "String recebida left = " << serialBuffer.c_str() << std::endl;
+
     left_motor_pos += angles::from_degrees((double)dtheta);
     joint_position_[0] = left_motor_pos;
 
@@ -74,6 +77,9 @@ void RobotHWInterface::read()
 
     serialPort->read(serialBuffer, 4);
     memcpy(&dtheta, serialBuffer.c_str(), 4);
+
+    std::cout << "String recebida left = " << serialBuffer.c_str() << std::endl;
+
     right_motor_pos += angles::from_degrees((double)dtheta);
     joint_position_[1] = right_motor_pos;
 
