@@ -13,31 +13,39 @@ uint32_t time_now;
 uint32_t deltaT[2];
 int8_t increment;
 
-void send_encoder_values()
+void send_ROS(float *dtheta)
+{
+	printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
+
+	if(DEBUG_SEND_ROS)
+	{
+		printf("[send_ROS] Valores dos encoders: %f, %f\n", dtheta[LEFT], dtheta[RIGHT]);
+	}
+}
+
+void send_core0()
 {
 	// Send encoder values to core0
 	multicore_fifo_push_blocking((uint32_t)current_velocity_[LEFT]);
 	multicore_fifo_push_blocking((uint32_t)current_velocity_[RIGHT]);
+}
 
-	// Send encoder values to Serial
-	// TODO: SEND THIS TO JETSON
-	// ROS requires, by the current logic, to be sent
-	// the angle increment, in degrees, since last request
+void send_encoder_values()
+{
+	//Send velocity to core0.
+	send_core0();
 
-	/* Pseudocode
+	//Calculates the movement until last ROS iteration.
+	float dtheta[2] = {
+		(current_angle[LEFT] - last_sent_angle[LEFT]),
+		(current_angle[RIGHT] - last_sent_angle[RIGHT])
+	};
 
-		int32_t dtheta_l = current_angle[LEFT] - last_sent_angle[LEFT] ;
-		int32_t dtheta_r = current_angle[RIGHT] - last_sent_angle[RIGHT] ;
+	//Send angle shift to ROS.
+	send_ROS(dtheta);
 
-		send_ROS(dtheta_l, dtheta_r);
-
-		last_sent_angle[LEFT] = current_angle[LEFT];
-		last_sent_angle[RIGHT] = current_angle[RIGHT];
-
-	*/
-
-	// printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
-	// printf("[SENDING] Valores dos encoders: %d, %d\n", dtheta[LEFT], dtheta[RIGHT]);
+	last_sent_angle[LEFT] = current_angle[LEFT];
+	last_sent_angle[RIGHT] = current_angle[RIGHT];
 }
 
 void init_encoder_pinnage()
@@ -92,9 +100,9 @@ void get_encoder_processed_values()
 
 		if(DEBUG_ENCODER_PROCESS)
 		{
-			//printf("[get_encoder_processed_values] increment = %d, angle_increment = %.2f\n",
-			//	   increment,
-			//	   angle_increment);
+			printf("[get_encoder_processed_values] increment = %d, angle_increment = %.2f\n",
+				   increment,
+				   angle_increment);
 			printf("[get_encoder_processed_values]  current_angle[LEFT] = %.2f,  current_velocity_[LEFT] = %.2f\n",
 				   current_angle[LEFT],
 				   current_velocity_[LEFT]);
