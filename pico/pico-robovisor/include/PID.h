@@ -31,7 +31,7 @@
 /*		Macros and definitions				*/
 /*-------------------------------------------------------------*/
 #define TICK_SECOND 1000.0
-#define PID_SAMPLE_TIME_MS 20
+#define PID_SAMPLE_TIME_MS 1
 
 /*-------------------------------------------------------------*/
 /*		Typedefs enums & structs			*/

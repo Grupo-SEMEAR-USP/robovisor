@@ -167,8 +167,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 150;
-    double ki = 0;
+    double kp = 57;
+    double ki = 463.4143;
     double kd = 0;
 
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
@@ -180,6 +180,11 @@ int main(void)
     pid_auto(pid_left);
     pid_auto(pid_right);
 
+    /*float delta_time_left = 0;
+    float delta_time_right = 0;
+    float last_time_left = to_ms_since_boot(get_absolute_time());
+    float last_time_right = to_ms_since_boot(get_absolute_time());*/
+
     //Core 0 main loop.
     while(1)
     {
@@ -189,13 +194,24 @@ int main(void)
         // Read velocity from Serial
         read_velocity_commands(velocity_target);
 
-        if (pid_need_compute(pid_left)) 
-			pid_compute(pid_left);
+        if (pid_need_compute(pid_left))
+        {
+            //delta_time_left = to_ms_since_boot(get_absolute_time()) - last_time_left;
+            pid_compute(pid_left);
+            //last_time_left = to_ms_since_boot(get_absolute_time());
+        } 
+			
 
         if (pid_need_compute(pid_right))
+        {
+            //delta_time_right = to_ms_since_boot(get_absolute_time()) - last_time_right;
             pid_compute(pid_right);
+            //last_time_right = to_ms_since_boot(get_absolute_time());
+        }
+            
 
         if(DEBUG_MAIN)
+            //printf("left frequency = %.2f, right frequency = %.2f\n", delta_time_left, delta_time_right);  
             printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
 
         // Send velocity target to motors.
