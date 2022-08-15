@@ -187,7 +187,7 @@ int main(void)
         //tight_loop_contents();
 
         // Read velocity from Serial
-        read_velocity_commands(velocity_target);
+        /*read_velocity_commands(velocity_target);
 
         if (pid_need_compute(pid_left)) 
 			pid_compute(pid_left);
@@ -196,9 +196,11 @@ int main(void)
             pid_compute(pid_right);
 
         if(DEBUG_MAIN)
-            printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+            printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);*/
 
         // Send velocity target to motors.
         //set_velocity(output_PWM);
+        float aaaa[2] = {65535, 65535};
+        set_velocity(aaaa);
     }
 }

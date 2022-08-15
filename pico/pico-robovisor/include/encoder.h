@@ -7,6 +7,8 @@
 
 #define TICKS2DEGREES 3.6
 
+void get_encoder_processed_values();
+
 void send_encoder_values();
 
 /*

@@ -20,6 +20,8 @@ if(TARGET tinyusb_device)
     pico_enable_stdio_usb(main 1)
     pico_enable_stdio_uart(main 0)
 
+    #pico_set_float_implementation(main compiler)
+
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(main)
 

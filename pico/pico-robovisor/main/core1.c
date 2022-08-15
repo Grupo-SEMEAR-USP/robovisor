@@ -17,6 +17,7 @@ void main_core1()
         tight_loop_contents();
 
         // Read displacement output from encoders, in degress, and pass those values back to ROS
+        get_encoder_processed_values();
         send_encoder_values();
         sleep_ms(1);
     }
