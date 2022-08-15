@@ -8,9 +8,25 @@
 #define TICKS2DEGREES 3.6
 #define VELOCITY_MOTORS_TIMEOUT 100
 
-void get_encoder_processed_values();
+/*
+Send motor position info to ROS.
+*/
+void send_ROS();
 
+/*
+Send velocity motor info to Core0.
+*/
+void send_core0();
+
+/*
+Send encoder values to Core0 and to ROS.
+*/
 void send_encoder_values();
+
+/*
+Calculates velocity using encoder values.
+*/
+void get_encoder_processed_values();
 
 /*
 Init all encoder relevant pins.
