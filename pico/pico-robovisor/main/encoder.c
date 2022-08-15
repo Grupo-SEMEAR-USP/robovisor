@@ -34,9 +34,7 @@ void send_encoder_values()
 
 void init_encoder_pinnage()
 {
-
 	// --- Left 
-
 	// Channel A
 	gpio_init(PICO_MOTOR_L_CHA);
 	gpio_set_dir(PICO_MOTOR_L_CHA, GPIO_IN);
@@ -48,7 +46,6 @@ void init_encoder_pinnage()
 
 
 	// --- Right 
-
 	// Channel A
 	gpio_init(PICO_MOTOR_R_CHA);
 	gpio_set_dir(PICO_MOTOR_R_CHA, GPIO_IN);
@@ -62,66 +59,40 @@ void init_encoder_pinnage()
 	last_time[RIGHT] = to_ms_since_boot(get_absolute_time());
 }
 
-/*void read_encoders()
-{
-	dpulses[LEFT] = (direction[LEFT] == CCW ? -1 : 1)*pulseCounter[LEFT];
-	dpulses[RIGHT] = (direction[RIGHT] == CCW ? 1 : -1)*pulseCounter[RIGHT];
-
-	read_current_velocity[LEFT] += ((float) dpulses[LEFT]*TICKS2DEGREES)/(read_delta_time/1000);
-	read_current_velocity[RIGHT] += ((float) dpulses[RIGHT]*TICKS2DEGREES)/(read_delta_time/1000);
-	//printf("[ENCODER] read_current_velocity[LEFT] = %.2f, read_current_velocity[RIGHT] = %.2f\n", read_current_velocity[LEFT], read_current_velocity[RIGHT]);
-
-	//Sends encoder information to the Core 0 for PID control.
-	multicore_fifo_push_blocking((uint32_t) read_current_velocity[LEFT]);
-	multicore_fifo_push_blocking((uint32_t) read_current_velocity[RIGHT]);
-
-	printf("%.8f, %.8f, %.2f, %.2f\n", read_delta_time, last_time, read_current_velocity[LEFT], read_current_velocity[RIGHT]);
-
-	if(last_current_velocity[LEFT] != read_current_velocity[LEFT] || last_current_velocity[RIGHT] != read_current_velocity[RIGHT])
-	{
-		printf("%.8f, %.8f, %.2f, %.2f\n", read_delta_time, last_time, read_current_velocity[LEFT], read_current_velocity[RIGHT]);
-	}
-
-	last_current_velocity[LEFT] = read_current_velocity[LEFT];
-	last_current_velocity[RIGHT] = read_current_velocity[RIGHT];
-
-	pulseCounter[LEFT] = 0;
-	pulseCounter[RIGHT] = 0;
-	read_delta_time = 0;
-	last_time = to_ms_since_boot(get_absolute_time());
-}*/
-
 void encoder_callback(uint gpio, uint32_t events)
 {
-	// printf("[encoder_callback] Active! gpio = %d, event = %d\n", gpio, events);
-
 	float time_now = to_ms_since_boot(get_absolute_time());
 	float deltaT[2] = {(time_now - last_time[LEFT]) / 1000,
 					   (time_now - last_time[RIGHT]) / 1000};
-	int angle_increment = 0;
+	float angle_increment = 0;
 
 	switch (gpio)
 	{
-	case PICO_MOTOR_L_CHA:
+		case PICO_MOTOR_L_CHA:
+			// Direction check
+			angle_increment = (gpio_get(PICO_MOTOR_L_CHB) ? -1 : 1) * TICKS2DEGREES;
+			current_angle[LEFT] += angle_increment;
+			current_velocity_[LEFT] = angle_increment / deltaT[LEFT];
+			last_time[LEFT] = time_now;
+			break;
 
-		// Direction check
-		angle_increment = (gpio_get(PICO_MOTOR_L_CHB) ? -1 : 1) * TICKS2DEGREES;
-		current_angle[LEFT] += angle_increment;
-		current_velocity[LEFT] = angle_increment / deltaT[LEFT];
-		last_time[LEFT] = time_now;
-		break;
+		case PICO_MOTOR_R_CHA:
+			// Direction check
+			angle_increment = (gpio_get(PICO_MOTOR_R_CHB) ? 1 : -1) * TICKS2DEGREES;
+			current_angle[RIGHT] += angle_increment;
+			current_velocity_[RIGHT] = angle_increment / deltaT[RIGHT];
+			last_time[RIGHT] = time_now;
+			break;
 
-	case PICO_MOTOR_R_CHA:
+		default:
+			printf("[encoder_callback] Problem reading encoders.");
+			break;
+	}
 
-		// Direction check
-		angle_increment = (gpio_get(PICO_MOTOR_R_CHB) ? 1 : -1) * TICKS2DEGREES;
-		current_angle[RIGHT] += angle_increment;
-		current_velocity[RIGHT] = angle_increment / deltaT[RIGHT];
-		last_time[RIGHT] = time_now;
-		break;
-
-	default:
-		printf("[encoder_callback] Problem reading encoders.");
-		break;
+	if(DEBUG_ENCODER)
+	{
+		printf("angle_increment = %.2f\n", angle_increment);
+		printf("[encoder_callback] deltaT[LEFT] = %.2f, current_angle[LEFT] = %.2f, current_velocity_[LEFT] = %.2f, last_time[LEFT] = %.2f\n", deltaT[LEFT], current_angle[LEFT], current_velocity_[LEFT], last_time[LEFT]);
+		printf("[encoder_callback] deltaT[RIGHT] = %.2f, current_angle[RIGHT] = %.2f, current_velocity_[RIGHT] = %.2f, last_time[RIGHT] = %.2f\n", deltaT[RIGHT], current_angle[RIGHT], current_velocity_[RIGHT], last_time[RIGHT]);
 	}
 }

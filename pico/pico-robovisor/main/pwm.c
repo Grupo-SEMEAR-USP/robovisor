@@ -11,9 +11,7 @@ float absFloat(float value)
 
 void init_pwm_pinnage()
 {
-
     // Left
-
     // --- BRK ---
     gpio_init(PICO_MOTOR_L_BRK);
     gpio_set_dir(PICO_MOTOR_L_BRK, GPIO_OUT);
@@ -27,7 +25,6 @@ void init_pwm_pinnage()
     pwm_set_wrap(slice_num_l, top);
 
     // Right
-
     // --- BRK ---
     gpio_init(PICO_MOTOR_R_BRK);
     gpio_set_dir(PICO_MOTOR_R_BRK, GPIO_OUT);
@@ -64,17 +61,17 @@ bool set_pwm_freq(uint slice, int freq, uint32_t *div, uint32_t *top)
     for (;;)
     {
         // Try a few small prime factors to get close to the desired frequency.
-        if (*div >= 16 * 5 && *div % 5 == 0 && *top * 5 <= TOP_MAX)
+        if (*div >= 16 * 5 && *div % 5 == 0 && *top * 5 <= MAX_PWM)
         {
             *div /= 5;
             *top *= 5;
         }
-        else if (*div >= 16 * 3 && *div % 3 == 0 && *top * 3 <= TOP_MAX)
+        else if (*div >= 16 * 3 && *div % 3 == 0 && *top * 3 <= MAX_PWM)
         {
             *div /= 3;
             *top *= 3;
         }
-        else if (*div >= 16 * 2 && *top * 2 <= TOP_MAX)
+        else if (*div >= 16 * 2 && *top * 2 <= MAX_PWM)
         {
             *div /= 2;
             *top *= 2;
@@ -105,7 +102,10 @@ int set_pwm_duty(uint slice, uint channel, uint32_t top, uint32_t duty)
 {
     // Set duty cycle.
     uint16_t cc = (uint16_t)duty * (top + 1) / 65535;
-    // printf("[PWM] cc = %d\n", cc);
+
+    if(DEBUG_PWM)
+        printf("[PWM] cc = %d\n", cc);
+
     pwm_set_chan_level(slice, channel, cc);
     pwm_set_enabled(slice, true);
 

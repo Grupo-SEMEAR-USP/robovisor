@@ -8,6 +8,10 @@
 #include "pico/time.h"
 
 #define INITIAL_TIMEOUT_MS 10
+#define DEBUG_MAIN 0
+#define DEBUG_PWM 0
+#define DEBUG_ENCODER 1
+#define DEBUG_PID 0
 
 typedef enum
 {

@@ -70,9 +70,9 @@ void pid_compute(pid_cont_t pid)
 	// Compute differential on input
 	float dinput = in - pid->lastin;
 	// Compute PID output
-	//printf("Kp = %.2f, error = %.2f, pid->iterm = %.2f, Kd = %.2f, dinput = %.2f\n", pid->Kp, error, pid->iterm, pid->Kd, dinput);
+	if(DEBUG_PID)
+		printf("Kp = %.2f, error = %.2f, pid->iterm = %.2f, Kd = %.2f, dinput = %.2f\n", pid->Kp, error, pid->iterm, pid->Kd, dinput);
 	float out = pid->Kp * error + pid->iterm - pid->Kd * dinput;
-	//printf("[PID] input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
 	// Apply limit to output value
 	if (out > pid->omax)
 		out = pid->omax;
@@ -80,7 +80,8 @@ void pid_compute(pid_cont_t pid)
 		out = pid->omin;
 	// Output to pointed variable
 	(*pid->output) = out;
-	//printf("input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
+	if(DEBUG_PID)
+		printf("input = %.2f, output = %.2f, set_point = %.2f, error = %.2f, out = %.2f\n", *pid->input, *pid->output, *pid->setpoint, error, out);
 	// Keep track of some variables for next execution
 	pid->lastin = in;
 	pid->lasttime = tick_get();
@@ -112,11 +113,12 @@ void pid_sample(pid_cont_t pid, uint32_t time)
 {
 	if (time > 0) {
 		float ratio = (float) (time * (TICK_SECOND / 1000)) / (float) pid->sampletime;
-		//printf("ratio = %.2f, sampletime = %.2f, kd = %.2f", ratio, pid->sampletime, pid->Kd);
+
 		pid->Ki *= ratio;
 		pid->Kd /= ratio;
 		pid->sampletime = time * (TICK_SECOND / 1000);
-		//printf("ratio = %.2f, sampletime = %.2f, kd = %.2f", ratio, pid->sampletime, pid->Kd);
+		if(DEBUG_PID)
+			printf("ratio = %.2f, sampletime = %.2f, kd = %.2f", ratio, pid->sampletime, pid->Kd);
 	}
 }
 

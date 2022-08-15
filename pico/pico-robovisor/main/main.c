@@ -45,7 +45,7 @@ float output_PWM[2]= {0.0, 0.0};
 
 // TODO
 //Debug - CLEAN LATER.
-// float last_velocity_target[2]= {0.0, 0.0};
+float last_velocity_target[2]= {0.0, 0.0};
 
 
 // TODO:
@@ -79,22 +79,25 @@ void read_velocity_commands(float* velocity)
         // velocity[...] = previous_velocity[...];
         // to avoid problems at startup and/or bad connection
 
-        //printf("[RECEIVING] TIMEOUT!\n");
+        if(DEBUG_MAIN)
+            printf("[RECEIVING] TIMEOUT!\n");
+
         return;
     }
         
     velocity[LEFT] = (float) velocity_l[1]*256 + velocity_l[0];
     velocity[RIGHT] = (float) velocity_r[1]*256 + velocity_r[0];
 
-    /*
-    if(velocity[LEFT] != last_velocity_target[LEFT] || velocity[RIGHT] != last_velocity_target[RIGHT])
+    if(DEBUG_MAIN)
     {
-        last_velocity_target[LEFT] = velocity[LEFT];
-        last_velocity_target[RIGHT] = velocity[RIGHT];
-        //printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
-        //printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+        if(velocity[LEFT] != last_velocity_target[LEFT] || velocity[RIGHT] != last_velocity_target[RIGHT])
+        {
+            last_velocity_target[LEFT] = velocity[LEFT];
+            last_velocity_target[RIGHT] = velocity[RIGHT];
+            printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
+            printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+        }
     }
-    */
 }
 
 void get_current_velocity_interrupt_handle()
@@ -109,13 +112,19 @@ void get_current_velocity_interrupt_handle()
             case LEFT:
                 //current_velocity[LEFT] = absFloat((float) raw);
                 current_velocity[LEFT] = (float) raw;
-                //printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
+                
+                if(DEBUG_MAIN)
+                    printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
+                
                 break;
 
             case RIGHT:
                 //current_velocity[RIGHT] = absFloat((float) raw);
                 current_velocity[RIGHT] = (float) raw;
-                //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
+                
+                if(DEBUG_MAIN)
+                    printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
+                
                 break;
 
             default:
@@ -180,18 +189,16 @@ int main(void)
         // Read velocity from Serial
         read_velocity_commands(velocity_target);
 
-        //printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
-        //printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
-
         if (pid_need_compute(pid_left)) 
 			pid_compute(pid_left);
 
         if (pid_need_compute(pid_right))
             pid_compute(pid_right);
 
-        printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+        if(DEBUG_MAIN)
+            printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
 
         // Send velocity target to motors.
-        set_velocity(output_PWM);
+        //set_velocity(output_PWM);
     }
 }
