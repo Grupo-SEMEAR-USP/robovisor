@@ -5,8 +5,6 @@ if(TARGET tinyusb_device)
         pwm.c
         core1.c
         PID.c
-        pbPlots.c
-        supportLib.c
     )
 
     include_directories(

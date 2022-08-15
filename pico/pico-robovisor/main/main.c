@@ -3,9 +3,6 @@
 #include "../include/core1.h"
 #include "hardware/irq.h"
 
-#include "pbPlots.h"
-#include "supportLib.h"
-
 /**
  * @brief main functionality of the low level control features of application
  *
