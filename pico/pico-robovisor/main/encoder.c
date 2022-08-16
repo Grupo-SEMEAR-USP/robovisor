@@ -29,7 +29,7 @@ void send_char_via_serial(char c)
 void send_ROS(float *dtheta)
 {
 	uint8_t *p = (uint8_t *) dtheta;
-	send_char_via_serial(p[3]);
+	/*send_char_via_serial(p[3]);
 	send_char_via_serial(p[2]);
 	send_char_via_serial(p[1]);
 	send_char_via_serial(p[0]);
@@ -39,7 +39,7 @@ void send_ROS(float *dtheta)
 	send_char_via_serial(p[2]);
 	send_char_via_serial(p[1]);
 	send_char_via_serial(p[0]);
-	printf("%c", 'g');
+	printf("%c", 'g');*/
 
 	//printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
 

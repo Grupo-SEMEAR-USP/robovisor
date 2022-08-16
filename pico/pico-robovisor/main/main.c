@@ -56,23 +56,34 @@ float last_velocity_target[2] = {0.0, 0.0};
 // especified in the end
 void read_velocity_commands(float *velocity)
 {
-    int velocity_l[2], velocity_r[2];
+    bool hasTimeout = false;
+    uint8_t velocity_l[4], velocity_r[4];
 
     // Left
     velocity_l[0] = getchar_timeout_us(READ_TIMEOUT_US);
     velocity_l[1] = getchar_timeout_us(READ_TIMEOUT_US);
+    velocity_l[2] = getchar_timeout_us(READ_TIMEOUT_US);
+    velocity_l[3] = getchar_timeout_us(READ_TIMEOUT_US);
 
     // Right
     velocity_r[0] = getchar_timeout_us(READ_TIMEOUT_US);
     velocity_r[1] = getchar_timeout_us(READ_TIMEOUT_US);
+    velocity_r[2] = getchar_timeout_us(READ_TIMEOUT_US);
+    velocity_r[3] = getchar_timeout_us(READ_TIMEOUT_US);
 
-    if (velocity_l[0] == PICO_ERROR_TIMEOUT ||
-        velocity_l[1] == PICO_ERROR_TIMEOUT ||
-        velocity_r[0] == PICO_ERROR_TIMEOUT ||
-        velocity_r[1] == PICO_ERROR_TIMEOUT)
+    for(int i = 0; i < 4; i++)
+    {
+        if(velocity_l[i] == PICO_ERROR_TIMEOUT || velocity_r[i] == PICO_ERROR_TIMEOUT)
+        {
+            hasTimeout = true;
+            break;
+        }
+    }
+
+    if(hasTimeout)
     {
         // If lost serial communication, let's stop running FN 
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 4; i++)
         {
             velocity_l[i] = 0;
             velocity_r[i] = 0;
@@ -83,19 +94,11 @@ void read_velocity_commands(float *velocity)
         return;
     }
 
-    velocity[LEFT] = (float)velocity_l[1] * 256 + velocity_l[0];
-    velocity[RIGHT] = (float)velocity_r[1] * 256 + velocity_r[0];
-
-    if (DEBUG_MAIN_RECEIVE)
-    {
-        if (velocity[LEFT] != last_velocity_target[LEFT] || velocity[RIGHT] != last_velocity_target[RIGHT])
-        {
-            last_velocity_target[LEFT] = velocity[LEFT];
-            last_velocity_target[RIGHT] = velocity[RIGHT];
-            printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_r[0] = %x, velocity_r[1] = %x\n", velocity_l[0], velocity_l[1], velocity_r[0], velocity_r[1]);
-            printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
-        }
-    }
+    //velocity[LEFT] = (float)velocity_l[1] * 256 + velocity_l[0];
+    //velocity[RIGHT] = (float)velocity_r[1] * 256 + velocity_r[0];
+    printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_l[2] = %x, velocity_l[3] = %x\n", velocity_l[0], velocity_l[1], velocity_l[2], velocity_l[3]);
+    printf("[RECEIVING] velocity_r[0] = %x, velocity_r[1] = %x, velocity_r[2] = %x, velocity_r[3] = %x\n", velocity_r[0], velocity_r[1], velocity_r[2], velocity_r[3]);
+    printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
 }
 
 void get_current_velocity_interrupt_handle()

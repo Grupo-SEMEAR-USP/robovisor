@@ -6,7 +6,6 @@ void write_Int32_to_SerialBuffer(uint8_t *serialBuffer, uint32_t value)
 {
     for(int i=0; i<4; i++)
         serialBuffer[i] = (value >> 8*i) & LAST_BYTE_TAKE_MASK;
-    
 }
 
 
@@ -75,7 +74,7 @@ uint8_t convert(char C){
 
 void RobotHWInterface::read()
 {
-    std::string serialBuffer;
+    /*std::string serialBuffer;
     while(!readStarted)
     {
         std::cout << "Trying to sync serial port..." << std::endl;
@@ -98,11 +97,10 @@ void RobotHWInterface::read()
             uint8_t p2 = convert(serialBuffer.c_str()[2*i + 1]);
             std::cout << "p1 = " << p1 << " p2 = " << p2 << std::endl;
             floatBuffer[3 - i] = p1 << 4 | p2;
-            printf("floatBuffer[i] = %d\n", floatBuffer[i]);
+            //printf("floatBuffer[i] = %d\n", floatBuffer[i]);
         }
-
         memcpy(&dtheta, floatBuffer, 4);
-        printf("String recebida = %s \n", serialBuffer.c_str());
+        /*printf("String recebida = %s \n", serialBuffer.c_str());
         printf("String recebida left = %x %x %x %x\n",
             floatBuffer[0],
             floatBuffer[1],
@@ -115,7 +113,7 @@ void RobotHWInterface::read()
         }
         printf("Float value: %f\n", (float) dtheta);
         serialBuffer.clear();
-    }
+    }*/
     
     
 
@@ -146,11 +144,13 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 
     // --- Left 
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[0]);
+    std::cout << "[left] velocity = " << velocity << std::endl;
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
     result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
 
     // --- Right
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[1]);
+    std::cout << "[right] velocity = " << velocity << std::endl;
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
     result = (uint32_t)serialPort->write(serialBuffer, 4 * sizeof(uint8_t));
 }
