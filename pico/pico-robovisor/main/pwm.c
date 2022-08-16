@@ -73,17 +73,17 @@ int set_pwm_freq(uint slice, int freq, uint32_t *div, uint32_t *top)
     for (;;)
     {
         // Try a few small prime factors to get close to the desired frequency.
-        if (*div >= 16 * 5 && *div % 5 == 0 && *top * 5 <= MAX_PWM)
+        if (*div >= 16 * 5 && *div % 5 == 0 && *top * 5 <= TOP_MAX)
         {
             *div /= 5;
             *top *= 5;
         }
-        else if (*div >= 16 * 3 && *div % 3 == 0 && *top * 3 <= MAX_PWM)
+        else if (*div >= 16 * 3 && *div % 3 == 0 && *top * 3 <= TOP_MAX)
         {
             *div /= 3;
             *top *= 3;
         }
-        else if (*div >= 16 * 2 && *top * 2 <= MAX_PWM)
+        else if (*div >= 16 * 2 && *top * 2 <= TOP_MAX)
         {
             *div /= 2;
             *top *= 2;
