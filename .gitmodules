@@ -1,0 +1,33 @@
+[submodule "catkin_ws/src/serial"]
+	path = catkin_ws/src/serial
+	url = https://github.com/wjwwood/serial.git
+[submodule "catkin_ws/src/four_wheel_steering_msgs"]
+	path = catkin_ws/src/four_wheel_steering_msgs
+	url = https://github.com/ros-drivers/four_wheel_steering_msgs.git
+[submodule "catkin_ws/src/geometry2"]
+	path = catkin_ws/src/geometry2
+	url = https://github.com/ros/geometry2.git
+[submodule "catkin_ws/src/navigation"]
+	path = catkin_ws/src/navigation
+	url = https://github.com/ros-planning/navigation.git
+[submodule "catkin_ws/src/navigation_msgs"]
+	path = catkin_ws/src/navigation_msgs
+	url = https://github.com/ros-planning/navigation_msgs.git
+[submodule "catkin_ws/src/openslam_gmapping"]
+	path = catkin_ws/src/openslam_gmapping
+	url = https://github.com/ros-perception/openslam_gmapping.git
+[submodule "catkin_ws/src/ros_controllers"]
+	path = catkin_ws/src/ros_controllers
+	url = https://github.com/ros-controls/ros_controllers.git
+[submodule "catkin_ws/src/rplidar_ros"]
+	path = catkin_ws/src/rplidar_ros
+	url = https://github.com/Slamtec/rplidar_ros.git
+[submodule "catkin_ws/src/slam_gmapping"]
+	path = catkin_ws/src/slam_gmapping
+	url = https://github.com/ros-perception/slam_gmapping.git
+[submodule "catkin_ws/src/teleop_twist_keyboard"]
+	path = catkin_ws/src/teleop_twist_keyboard
+	url = https://github.com/ros-teleop/teleop_twist_keyboard.git
+[submodule "catkin_ws/src/urdf_geometry_parser"]
+	path = catkin_ws/src/urdf_geometry_parser
+	url = https://github.com/ros-controls/urdf_geometry_parser.git
