@@ -71,10 +71,12 @@ void read_velocity_commands(float *velocity)
         velocity_r[0] == PICO_ERROR_TIMEOUT ||
         velocity_r[1] == PICO_ERROR_TIMEOUT)
     {
-
         // If lost serial communication, let's stop running FN 
-        velocity_l = {0.0, 0.0};
-        velocity_r = {0.0, 0.0};
+        for(int i = 0; i < 2; i++)
+        {
+            velocity_l[i] = 0;
+            velocity_r[i] = 0;
+        }
 
         if (DEBUG_MAIN) printf("[RECEIVING] TIMEOUT!\n");
 

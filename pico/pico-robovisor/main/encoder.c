@@ -13,9 +13,35 @@ uint32_t time_now;
 uint32_t deltaT[2];
 int8_t increment;
 
+float test = -7869.720;
+
+void send_char_via_serial(char c)
+{
+	if(c < 16)
+		printf("%d", 0);
+	
+	if(c == 0)
+		printf("%d", 0);
+	else
+		printf("%x", c);
+}
+
 void send_ROS(float *dtheta)
 {
-	printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
+	uint8_t *p = (uint8_t *) dtheta;
+	send_char_via_serial(p[3]);
+	send_char_via_serial(p[2]);
+	send_char_via_serial(p[1]);
+	send_char_via_serial(p[0]);
+	printf("%c", 'g');
+
+	send_char_via_serial(p[3]);
+	send_char_via_serial(p[2]);
+	send_char_via_serial(p[1]);
+	send_char_via_serial(p[0]);
+	printf("%c", 'g');
+
+	//printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
 
 	if(DEBUG_SEND_ROS)
 	{
@@ -27,8 +53,7 @@ void send_core0()
 {
 	// Send encoder values to core0
 	multicore_fifo_push_blocking((uint32_t)current_velocity_[LEFT]);
-	multicore_fifo_push_blocking((uint32_t)current_velocity_[RIGHT]);
-}
+	multicore_fifo_push_blocking((uint32_t)current_velocity_[RIGHT]);}
 
 void send_encoder_values()
 {
@@ -36,10 +61,17 @@ void send_encoder_values()
 	send_core0();
 
 	//Calculates the movement until last ROS iteration.
-	float dtheta[2] = {
+	/*float dtheta[2] = {
 		(current_angle[LEFT] - last_sent_angle[LEFT]),
 		(current_angle[RIGHT] - last_sent_angle[RIGHT])
+	};*/
+
+	//JUST FOR TESTING. ERASE LATER.
+	float dtheta[2] = {
+		(test),
+		(test)
 	};
+	//test = test + 0.5;
 
 	//Send angle shift to ROS.
 	send_ROS(dtheta);
@@ -77,6 +109,8 @@ void init_encoder_pinnage()
 
 	status_CHB_L = gpio_get(PICO_MOTOR_L_CHB);
 	status_CHB_R = gpio_get(PICO_MOTOR_R_CHB);
+
+	printf("%c", 'g');
 }
 
 void get_encoder_processed_values()

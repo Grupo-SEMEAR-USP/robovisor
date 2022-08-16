@@ -13,14 +13,20 @@
 #include <string>
 #include <serial/serial.h>
 
+#include <chrono>
+#include <thread>
+
 #define SERIAL_PORT_NAME "/dev/ttyACM0"
-#define PICO_BAUD_RATE 115200
+#define PICO_BAUD_RATE 9600
 #define PPR_1QUAD 200
 #define TICKS2DEGREES ((double) 360)/((double) PPR_1QUAD)
 #define HW_IF_UPDATE_FREQ 10000.0
 #define LAST_BYTE_TAKE_MASK 0xFF
 #define LAST_BYTE_EXCLUDE_MASK 0xFFFFFF00
 #define N_THREADS 4
+
+bool readStarted = false;
+
 class RobotHWInterface : public hardware_interface::RobotHW 
 {
 
