@@ -57,6 +57,8 @@ protected:
     double joint_velocity_[2];
     double joint_effort_[2];
     double joint_velocity_command_[2];
+    uint8_t write_flag_begin[1] = {'g'};
+    uint8_t write_flag_end[1] = {'\0'};
 
     double left_motor_pos = 0, right_motor_pos = 0;
 

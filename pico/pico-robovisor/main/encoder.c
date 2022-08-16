@@ -13,8 +13,6 @@ uint32_t time_now;
 uint32_t deltaT[2];
 int8_t increment;
 
-float test = -7869.720;
-
 void send_char_via_serial(char c)
 {
 	if(c < 16)
@@ -29,17 +27,17 @@ void send_char_via_serial(char c)
 void send_ROS(float *dtheta)
 {
 	uint8_t *p = (uint8_t *) dtheta;
-	/*send_char_via_serial(p[3]);
+	send_char_via_serial(p[3]);
 	send_char_via_serial(p[2]);
 	send_char_via_serial(p[1]);
 	send_char_via_serial(p[0]);
 	printf("%c", 'g');
 
-	send_char_via_serial(p[3]);
-	send_char_via_serial(p[2]);
-	send_char_via_serial(p[1]);
-	send_char_via_serial(p[0]);
-	printf("%c", 'g');*/
+	send_char_via_serial(p[7]);
+	send_char_via_serial(p[6]);
+	send_char_via_serial(p[5]);
+	send_char_via_serial(p[4]);
+	printf("%c", 'g');
 
 	//printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
 
@@ -61,17 +59,10 @@ void send_encoder_values()
 	send_core0();
 
 	//Calculates the movement until last ROS iteration.
-	/*float dtheta[2] = {
+	float dtheta[2] = {
 		(current_angle[LEFT] - last_sent_angle[LEFT]),
 		(current_angle[RIGHT] - last_sent_angle[RIGHT])
-	};*/
-
-	//JUST FOR TESTING. ERASE LATER.
-	float dtheta[2] = {
-		(test),
-		(test)
 	};
-	//test = test + 0.5;
 
 	//Send angle shift to ROS.
 	send_ROS(dtheta);
