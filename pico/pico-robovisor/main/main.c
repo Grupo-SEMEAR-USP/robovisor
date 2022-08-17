@@ -65,11 +65,6 @@ void read_velocity_commands(float *velocity)
     //Waits to ROS get ready.
     if(serialBuffer[0] == 'g')
     {
-        for(int i = 0; i < 10; i++)
-        {
-            printf("[%d] %d\n", i, serialBuffer[i]);
-        }
-    
         for(int i = 0; i < 4; i++)
         {
             velocity_l[i] = serialBuffer[i + 1];
@@ -78,43 +73,41 @@ void read_velocity_commands(float *velocity)
 
         velocity[LEFT] = velocity_l[0] | velocity_l[1] << 8 | velocity_l[2] << 16 | velocity_l[3] << 24;
         velocity[RIGHT] = velocity_r[0] | velocity_r[1] << 8 | velocity_r[2] << 16 | velocity_r[3] << 24;
-        
-        /*printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_l[2] = %x, velocity_l[3] = %x\n", velocity_l[0], velocity_l[1], velocity_l[2], velocity_l[3]);
-        printf("[RECEIVING] velocity_r[0] = %x, velocity_r[1] = %x, velocity_r[2] = %x, velocity_r[3] = %x\n", velocity_r[0], velocity_r[1], velocity_r[2], velocity_r[3]);
-        printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);*/
+
+        if(DEBUG_MAIN_RECEIVE)
+        {
+            for(int i = 0; i < 10; i++)
+            {
+                printf("[%d] %d\n", i, serialBuffer[i]);
+            }
+
+            printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_l[2] = %x, velocity_l[3] = %x\n", velocity_l[0], velocity_l[1], velocity_l[2], velocity_l[3]);
+            printf("[RECEIVING] velocity_r[0] = %x, velocity_r[1] = %x, velocity_r[2] = %x, velocity_r[3] = %x\n", velocity_r[0], velocity_r[1], velocity_r[2], velocity_r[3]);
+            printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
+        }
     }
 }
 
 void get_current_velocity_interrupt_handle()
 {
-    while (multicore_fifo_rvalid())
-    {
-        uint32_t raw = multicore_fifo_pop_blocking();
-        // printf("raw = %x\n", raw);
+    uint32_t raw;
 
+    while (multicore_fifo_rvalid())   
+    {
+        raw = multicore_fifo_pop_blocking();
         switch (read_order)
         {
-        case LEFT:
-            // current_velocity[LEFT] = absFloat((float) raw);
-            current_velocity[LEFT] = (float)raw;
+            case LEFT:
+                memcpy(&current_velocity[LEFT], &raw, 4);
+                break;
 
-            if (DEBUG_MAIN_RECEIVE)
-                printf("current_velocity[LEFT] = %.2f\n", current_velocity[LEFT]);
+            case RIGHT:
+                memcpy(&current_velocity[RIGHT], &raw, 4);
+                break;
 
-            break;
-
-        case RIGHT:
-            // current_velocity[RIGHT] = absFloat((float) raw);
-            current_velocity[RIGHT] = (float)raw;
-
-            if (DEBUG_MAIN_RECEIVE)
-                printf("current_velocity[RIGHT] = %.2f\n", current_velocity[RIGHT]);
-
-            break;
-
-        default:
-            printf("[get_current_velocity_interrupt_handle] Erro no cálculo de velocidade atual!");
-            break;
+            default:
+                printf("[get_current_velocity_interrupt_handle] Erro no cálculo de velocidade atual!");
+                break;
         }
 
         read_order = 1 - read_order;
@@ -194,8 +187,11 @@ int main(void)
         }
 
         if (DEBUG_MAIN)
+        {
             // printf("left frequency = %.2f, right frequency = %.2f\n", delta_time_left, delta_time_right);
-            printf("%d, %.2f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+            printf("[RASP/READ] left motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+            printf("[RASP/READ] right motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
+        }
 
         // Send velocity target to motors.
         set_velocity(output_PWM);

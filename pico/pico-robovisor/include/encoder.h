@@ -4,6 +4,7 @@
 #include "pico/stdlib.h"
 #include "hardware/irq.h"
 #include "common.h"
+#include <string.h>
 
 #define TICKS2DEGREES 3.6
 #define VELOCITY_MOTORS_TIMEOUT 100

@@ -39,8 +39,6 @@ void send_ROS(float *dtheta)
 	send_char_via_serial(p[4]);
 	printf("%c", 'g');
 
-	//printf("%f%f", dtheta[LEFT], dtheta[RIGHT]);
-
 	if(DEBUG_SEND_ROS)
 	{
 		printf("[send_ROS] Valores dos encoders: %f, %f\n", dtheta[LEFT], dtheta[RIGHT]);
@@ -49,9 +47,17 @@ void send_ROS(float *dtheta)
 
 void send_core0()
 {
+	uint32_t left_motor_data, right_motor_data;
+	memcpy(&left_motor_data, &current_velocity_[LEFT], 4);
+	memcpy(&right_motor_data, &current_velocity_[RIGHT], 4);
+
+	//printf("left_motor_data = %x\n", left_motor_data);
+	//printf("right_motor_data = %x\n", right_motor_data);
+
 	// Send encoder values to core0
-	multicore_fifo_push_blocking((uint32_t)current_velocity_[LEFT]);
-	multicore_fifo_push_blocking((uint32_t)current_velocity_[RIGHT]);}
+	multicore_fifo_push_blocking(left_motor_data);
+	multicore_fifo_push_blocking(right_motor_data);
+}
 
 void send_encoder_values()
 {
@@ -157,7 +163,7 @@ void encoder_callback(uint gpio, uint32_t events)
 		case PICO_MOTOR_L_CHA:           
 			//Direction check
 			deltaT[LEFT] = time_now - last_time[LEFT];
-			increment = (status_CHB_L ? -1 : 1);
+			increment -= (status_CHB_L ? -1 : 1);
 			last_time[LEFT] = time_now;
 			
         	break;
@@ -182,7 +188,7 @@ void encoder_callback(uint gpio, uint32_t events)
         case PICO_MOTOR_R_CHA:
 			//Direction check
 			deltaT[RIGHT] = time_now - last_time[RIGHT];
-			increment = (status_CHB_R ? 1 : -1);
+			increment -= (status_CHB_R ? 1 : -1);
 			last_time[RIGHT] = time_now;
         	break;
 

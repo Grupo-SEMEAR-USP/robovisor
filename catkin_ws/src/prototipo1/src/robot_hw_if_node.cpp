@@ -54,7 +54,7 @@ void RobotHWInterface::update(const ros::TimerEvent &e)
 {
     // std::cout << "[UPDATE!]" << std::endl;
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
-    read();
+    //read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
     write(elapsed_time_);
 }
@@ -95,7 +95,7 @@ void RobotHWInterface::read()
         {
             uint8_t p1 = convert(serialBuffer.c_str()[2*i]);
             uint8_t p2 = convert(serialBuffer.c_str()[2*i + 1]);
-            std::cout << "p1 = " << p1 << " p2 = " << p2 << std::endl;
+            //std::cout << "p1 = " << p1 << " p2 = " << p2 << std::endl;
             floatBuffer[3 - i] = p1 << 4 | p2;
             //printf("floatBuffer[i] = %d\n", floatBuffer[i]);
         }
@@ -103,7 +103,7 @@ void RobotHWInterface::read()
         left_motor_pos += angles::from_degrees((double)dtheta);
         joint_position_[0] = left_motor_pos;
 
-        //std::cout << "[READ] Left Motor: " << " dtheta = " << (float) dtheta << " joint_position_[0] = " << joint_position_[0] << std::endl;
+        std::cout << "[ROS/READ] Left Motor: " << " dtheta = " << (float) dtheta << " joint_position_[0] = " << joint_position_[0] << std::endl;
 
         /*printf("String recebida = %s \n", serialBuffer.c_str());
         printf("String recebida left = %x %x %x %x\n",
@@ -125,24 +125,23 @@ void RobotHWInterface::read()
         {
             uint8_t p1 = convert(serialBuffer.c_str()[2*i]);
             uint8_t p2 = convert(serialBuffer.c_str()[2*i + 1]);
-            std::cout << "p1 = " << p1 << " p2 = " << p2 << std::endl;
+            //std::cout << "p1 = " << p1 << " p2 = " << p2 << std::endl;
             floatBuffer[3 - i] = p1 << 4 | p2;
             //printf("floatBuffer[i] = %d\n", floatBuffer[i]);
         }
         memcpy(&dtheta, floatBuffer, 4);
+        //TODO: check the motor way signal (+=)
         right_motor_pos += angles::from_degrees((double)dtheta);
         joint_position_[1] = right_motor_pos;
         serialBuffer.clear();
 
-        //std::cout << "[READ] Right Motor: " << " dtheta = " << dtheta << " joint_position_[1] = " << joint_position_[1] << std::endl;
+        std::cout << "[ROS/READ] Right Motor: " << " dtheta = " << dtheta << " joint_position_[1] = " << joint_position_[1] << std::endl;
     }
 }
 
 void RobotHWInterface::write(ros::Duration elapsed_time)
 {
-    velocityJointSaturationInterface.enforceLimits(elapsed_time);
-
-    // 4*sizeof(uint8_t) = sizeof(uint32_t)
+    //velocityJointSaturationInterface.enforceLimits(elapsed_time);
     
     serialPort->write(write_flag_begin, 1*sizeof(uint8_t));
     uint8_t serialBuffer[4];
@@ -150,22 +149,22 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
 
     // --- Left 
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[0]);
-    printf("[left] velocity = %d\n", velocity);
+    printf("[ROS/WRITE] left velocity  = %d\n", velocity);
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
-    for(int i = 0; i < 4; i++)
+    /*for(int i = 0; i < 4; i++)
     {
         printf("[left] serialBuffer[%d] = %x\n", i, serialBuffer[i]);
-    }
+    }*/
     result = (uint32_t)serialPort->write(serialBuffer, 4*sizeof(uint8_t));
 
     // --- Right
     velocity = (uint32_t)angles::to_degrees(joint_velocity_command_[1]);
-    printf("[right] velocity = %d\n", velocity);
+    printf("[ROS/WRITE] right velocity  = %d\n", velocity);
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
-    for(int i = 0; i < 4; i++)
+    /*for(int i = 0; i < 4; i++)
     {
         printf("[right] serialBuffer[%d] = %x\n", i, serialBuffer[i]);
-    }
+    }*/
     result = (uint32_t)serialPort->write(serialBuffer, 4*sizeof(uint8_t));
 
     serialPort->write(write_flag_end, 1*sizeof(uint8_t));

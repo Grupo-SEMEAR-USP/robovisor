@@ -54,11 +54,11 @@ void init_pwm_pinnage()
 void set_velocity(float *pwm_velocity)
 {
     // --- Left
-    gpio_set_outover(PICO_MOTOR_L_DIR, ((pwm_velocity[LEFT] >= 0) ? GPIO_OVERRIDE_HIGH : GPIO_OVERRIDE_LOW));
+    gpio_set_outover(PICO_MOTOR_L_DIR, ((pwm_velocity[LEFT] >= 0) ? GPIO_OVERRIDE_LOW : GPIO_OVERRIDE_HIGH));
     set_pwm_duty(slice_num_l, channel_l, top_l, (uint32_t)absFloat(pwm_velocity[LEFT]));
 
     // --- Right
-    gpio_set_outover(PICO_MOTOR_R_DIR, ((pwm_velocity[RIGHT] >= 0) ? GPIO_OVERRIDE_HIGH : GPIO_OVERRIDE_LOW));
+    gpio_set_outover(PICO_MOTOR_R_DIR, ((pwm_velocity[RIGHT] >= 0) ? GPIO_OVERRIDE_LOW : GPIO_OVERRIDE_HIGH));
     set_pwm_duty(slice_num_r, channel_r, top_r, (uint32_t)absFloat(pwm_velocity[RIGHT]));
     
     return;
