@@ -92,9 +92,6 @@ void read_velocity_commands(float *velocity)
         velocity[LEFT] = velocity_left_temp;
         velocity[RIGHT] = velocity_right_temp;
 
-        last_velocity_target[LEFT] = velocity[LEFT];
-        last_velocity_target[RIGHT] = velocity[RIGHT];
-
         if(DEBUG_MAIN_RECEIVE)
         {
             /*for(int i = 0; i < 10; i++)
@@ -109,6 +106,9 @@ void read_velocity_commands(float *velocity)
                 printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
             }
         }
+
+        last_velocity_target[LEFT] = velocity[LEFT];
+        last_velocity_target[RIGHT] = velocity[RIGHT];
     }
 }
 
