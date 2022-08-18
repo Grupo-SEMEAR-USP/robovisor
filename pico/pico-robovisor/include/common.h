@@ -9,7 +9,7 @@
 
 #define INITIAL_TIMEOUT_MS 10
 #define DEBUG_MAIN 0
-#define DEBUG_MAIN_RECEIVE 0
+#define DEBUG_MAIN_RECEIVE 1
 #define DEBUG_PWM 0
 #define DEBUG_SEND_CORE0 0
 #define DEBUG_SEND_ROS 0
