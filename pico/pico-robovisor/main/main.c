@@ -95,20 +95,40 @@ void read_velocity_commands(float *velocity)
             velocity_right_temp = last_velocity_target[RIGHT];
         }
 
-	if(velocity_left_temp == 0)
-	{
-	    zero_received_count_left++;
-	    if(zero_received_count_left > 5)
-		zero_left = true;
-	}
+        //TODO: please, find a better way to do this.
+        //Avoid random zeros.
+        if(velocity_left_temp == 0)
+        {
+            zero_received_count_left++;
+            if(zero_received_count_left >= 5)
+            {
+                zero_left = true;
+                
+            }
+        }
+        else
+        {
+            zero_left = false;
+            zero_received_count_left = 0;
+        }
 
-	if(velocity_right_temp == 0)
-	{
- 	    zero_received_count_right++;	
-	}
+        if(velocity_right_temp == 0)
+        {
+            zero_received_count_right++;
+            if(zero_received_count_right >= 5)
+            {
+                zero_right = true;
+                zero_received_count_right = 0;
+            }
+        }
+        else
+        {
+            zero_right = false;
+            zero_received_count_right = 0;
+        }
 
-        velocity[LEFT] = velocity_left_temp;
-        velocity[RIGHT] = velocity_right_temp;
+        velocity[LEFT] = (zero_left ? 0 : velocity_left_temp);
+        velocity[RIGHT] = (zero_right ? 0 : velocity_right_temp);
 
         if(DEBUG_MAIN_RECEIVE)
         {
