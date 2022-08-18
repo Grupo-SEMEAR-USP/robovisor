@@ -151,23 +151,23 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
     // --- Left 
     velocity_left = angles::to_degrees(joint_velocity_command_[0]);
     memcpy(&velocity, &velocity_left, 4);
-    printf("[ROS/WRITE] left velocity  = %.2f\n", velocity);
+    printf("[ROS/WRITE] left velocity  = %.2f\n", velocity_left);
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
-    /*for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 4; i++)
     {
         printf("[left] serialBuffer[%d] = %x\n", i, serialBuffer[i]);
-    }*/
+    }
     result = (uint32_t)serialPort->write(serialBuffer, 4*sizeof(uint8_t));
 
     // --- Right
     velocity_right = angles::to_degrees(joint_velocity_command_[1]);
     memcpy(&velocity, &velocity_right, 4);
-    printf("[ROS/WRITE] right velocity  = %.2f\n", velocity);
+    printf("[ROS/WRITE] right velocity  = %.2f\n", velocity_right);
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
-    /*for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 4; i++)
     {
         printf("[right] serialBuffer[%d] = %x\n", i, serialBuffer[i]);
-    }*/
+    }
     result = (uint32_t)serialPort->write(serialBuffer, 4*sizeof(uint8_t));
 
     serialPort->write(write_flag_end, 1*sizeof(uint8_t));
