@@ -17,6 +17,8 @@
 #define DEBUG_ENCODER_PROCESS 0
 #define DEBUG_PID 0
 
+#define MAX_VELOCITY_SPIKE 2000
+
 typedef enum
 {
     LEFT,

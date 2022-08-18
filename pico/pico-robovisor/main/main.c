@@ -59,6 +59,7 @@ void read_velocity_commands(float *velocity)
     bool hasTimeout = false;
     uint8_t velocity_l[4], velocity_r[4];
     uint32_t velocity_left_, velocity_right_;
+    float velocity_left_temp, velocity_right_temp;
 
     char serialBuffer[10];
     fgets(serialBuffer, 10, stdin);
@@ -66,23 +67,41 @@ void read_velocity_commands(float *velocity)
     //Waits to ROS get ready.
     if(serialBuffer[0] == 'g')
     {
-        for(int i = 0; i < 4; i++)
+        /*for(int i = 0; i < 4; i++)
         {
             velocity_l[i] = serialBuffer[i + 1];
             velocity_r[i] = serialBuffer[i + 5];
-        }
+        }*/
 
         velocity_left_ = velocity_l[0] | velocity_l[1] << 8 | velocity_l[2] << 16 | velocity_l[3] << 24;
-        memcpy(&velocity[LEFT], &velocity_left_, 4);
+        memcpy(&velocity_left_temp, &velocity_left_, 4);
         velocity_right_ = velocity_r[0] | velocity_r[1] << 8 | velocity_r[2] << 16 | velocity_r[3] << 24;
-        memcpy(&velocity[RIGHT], &velocity_right_, 4);
+        memcpy(&velocity_right_temp, &velocity_right_, 4);
+
+        //TODO: please, find a better way to do this.
+        //Avoid spikes in velocity commands.
+        if(absFloat(last_velocity_target[LEFT] - velocity_left_temp) > MAX_VELOCITY_SPIKE)
+        {
+            velocity_left_temp = last_velocity_target[LEFT];
+        }
+        
+        if(absFloat(last_velocity_target[RIGHT] - velocity_right_temp) > MAX_VELOCITY_SPIKE)
+        {
+            velocity_right_temp = last_velocity_target[RIGHT];
+        }
+
+        velocity[LEFT] = velocity_left_temp;
+        velocity[RIGHT] = velocity_right_temp;
+
+        last_velocity_target[LEFT] = velocity[LEFT];
+        last_velocity_target[RIGHT] = velocity[RIGHT];
 
         if(DEBUG_MAIN_RECEIVE)
         {
-            for(int i = 0; i < 10; i++)
+            /*for(int i = 0; i < 10; i++)
             {
                 printf("[%d] %d\n", i, serialBuffer[i]);
-            }
+            }*/
 
             if(last_velocity_target[LEFT] != velocity[LEFT] || last_velocity_target[RIGHT] != velocity[RIGHT])
             {
