@@ -43,6 +43,12 @@ float output_PWM[2] = {0.0, 0.0};
 // Global variable that storages the last target velocity.
 float last_velocity_target[2] = {0.0, 0.0};
 
+// Global variable that tracks the number of zeros received as target velocity.
+int zero_received_count_left = 0;
+int zero_received_count_right = 0;
+bool zero_left = false;
+bool zero_right = false;
+
 // TODO:
 // Need's further consideration of types & sizes, using int
 // in this manner is bad, since it doesnt especify the size
@@ -66,11 +72,11 @@ void read_velocity_commands(float *velocity)
     //Waits to ROS get ready.
     if(serialBuffer[0] == 'g')
     {
-        /*for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
             velocity_l[i] = serialBuffer[i + 1];
             velocity_r[i] = serialBuffer[i + 5];
-        }*/
+        }
 
         velocity_left_ = velocity_l[0] | velocity_l[1] << 8 | velocity_l[2] << 16 | velocity_l[3] << 24;
         memcpy(&velocity_left_temp, &velocity_left_, 4);
@@ -89,11 +95,20 @@ void read_velocity_commands(float *velocity)
             velocity_right_temp = last_velocity_target[RIGHT];
         }
 
+	if(velocity_left_temp == 0)
+	{
+	    zero_received_count_left++;
+	    if(zero_received_count_left > 5)
+		zero_left = true;
+	}
+
+	if(velocity_right_temp == 0)
+	{
+ 	    zero_received_count_right++;	
+	}
+
         velocity[LEFT] = velocity_left_temp;
         velocity[RIGHT] = velocity_right_temp;
-
-        last_velocity_target[LEFT] = velocity[LEFT];
-        last_velocity_target[RIGHT] = velocity[RIGHT];
 
         if(DEBUG_MAIN_RECEIVE)
         {
@@ -109,6 +124,9 @@ void read_velocity_commands(float *velocity)
                 printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
             }
         }
+	
+	last_velocity_target[LEFT] = velocity[LEFT];
+	last_velocity_target[RIGHT] = velocity[RIGHT];
     }
 }
 
