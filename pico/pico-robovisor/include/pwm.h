@@ -12,6 +12,7 @@
 #define PWM_FREQ 2000
 #define TOP_MAX 65534
 #define MAX_PWM 65535
+#define MIN_PWM MAX_PWM/10
 
 float absFloat(float value);
 void init_pwm_pinnage();                                                  
