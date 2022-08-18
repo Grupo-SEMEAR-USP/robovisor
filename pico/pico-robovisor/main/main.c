@@ -124,9 +124,9 @@ void read_velocity_commands(float *velocity)
                 printf("[RECEIVING] velocity[LEFT] = %.2f, velocity[RIGHT] = %.2f\n", velocity[LEFT], velocity[RIGHT]);
             }
         }
-	
-	last_velocity_target[LEFT] = velocity[LEFT];
-	last_velocity_target[RIGHT] = velocity[RIGHT];
+
+        last_velocity_target[LEFT] = velocity[LEFT];
+        last_velocity_target[RIGHT] = velocity[RIGHT];
     }
 }
 
