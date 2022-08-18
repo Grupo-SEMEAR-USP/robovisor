@@ -58,6 +58,7 @@ void read_velocity_commands(float *velocity)
 {
     bool hasTimeout = false;
     uint8_t velocity_l[4], velocity_r[4];
+    uint32_t velocity_left_, velocity_right_;
 
     char serialBuffer[10];
     fgets(serialBuffer, 10, stdin);
@@ -71,8 +72,10 @@ void read_velocity_commands(float *velocity)
             velocity_r[i] = serialBuffer[i + 5];
         }
 
-        velocity[LEFT] = velocity_l[0] | velocity_l[1] << 8 | velocity_l[2] << 16 | velocity_l[3] << 24;
-        velocity[RIGHT] = velocity_r[0] | velocity_r[1] << 8 | velocity_r[2] << 16 | velocity_r[3] << 24;
+        velocity_left_ = velocity_l[0] | velocity_l[1] << 8 | velocity_l[2] << 16 | velocity_l[3] << 24;
+        memcpy(&velocity[LEFT], &velocity_left_, 4);
+        velocity_right_ = velocity_r[0] | velocity_r[1] << 8 | velocity_r[2] << 16 | velocity_r[3] << 24;
+        memcpy(&velocity[RIGHT], &velocity_right_, 4);
 
         if(DEBUG_MAIN_RECEIVE)
         {

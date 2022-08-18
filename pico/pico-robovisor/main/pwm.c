@@ -14,7 +14,7 @@ float absFloat(float value)
 float testFloat (float value)
 {
     if (absFloat(value) >= MIN_PWM)
-        return value;
+        return absFloat(value);
     else
         return 0; 
 }
