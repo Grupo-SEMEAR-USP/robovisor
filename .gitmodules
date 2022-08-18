@@ -31,3 +31,6 @@
 [submodule "catkin_ws/src/urdf_geometry_parser"]
 	path = catkin_ws/src/urdf_geometry_parser
 	url = https://github.com/ros-controls/urdf_geometry_parser.git
+[submodule "pico/pico-sdk"]
+	path = pico/pico-sdk
+	url = git@github.com:raspberrypi/pico-sdk.git
