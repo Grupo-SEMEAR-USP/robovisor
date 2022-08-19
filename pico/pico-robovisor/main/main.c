@@ -100,7 +100,7 @@ void read_velocity_commands(float *velocity)
         if(velocity_left_temp == 0)
         {
             zero_received_count_left++;
-            if(zero_received_count_left >= 5)
+            if(zero_received_count_left >= 20)
             {
                 zero_left = true;
                 
@@ -115,7 +115,7 @@ void read_velocity_commands(float *velocity)
         if(velocity_right_temp == 0)
         {
             zero_received_count_right++;
-            if(zero_received_count_right >= 5)
+            if(zero_received_count_right >= 20)
             {
                 zero_right = true;
                 zero_received_count_right = 0;
