@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target force_torque_sensor_controller[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/force_torque_sensor_controller.dir/src/force_torque_sensor_controller.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/force_torque_sensor_controller/lib/libforce_torque_sensor_controller.so[0m
+[100%] Built target force_torque_sensor_controller

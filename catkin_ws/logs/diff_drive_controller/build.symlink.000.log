@@ -1,0 +1,13 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/include/diff_drive_controller/DiffDriveControllerConfig.h
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libdiff_drive_controller.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/diff_drive_controller.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/diff_drive_controller/__init__.py
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/diff_drive_controller/cfg/__init__.py
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/diff_drive_controller/cfg/DiffDriveControllerConfig.py
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/diff_drive_controller/diffbot
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/diff_drive_controller/skidsteerbot
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/diff_drive_controller/cmake/diff_drive_controllerConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/diff_drive_controller/cmake/diff_drive_controllerConfig.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/diff_drive_controller/docs/DiffDriveControllerConfig.dox
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/diff_drive_controller/docs/DiffDriveControllerConfig-usage.dox
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/diff_drive_controller/docs/DiffDriveControllerConfig.wikidoc

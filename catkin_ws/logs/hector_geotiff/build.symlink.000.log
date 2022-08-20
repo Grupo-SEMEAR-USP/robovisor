@@ -1,0 +1,6 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libgeotiff_writer.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/hector_geotiff.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/hector_geotiff/geotiff_saver
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/hector_geotiff/geotiff_node
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_geotiff/cmake/hector_geotiffConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_geotiff/cmake/hector_geotiffConfig.cmake

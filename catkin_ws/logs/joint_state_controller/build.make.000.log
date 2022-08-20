@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target joint_state_controller[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/joint_state_controller.dir/src/joint_state_controller.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/joint_state_controller/lib/libjoint_state_controller.so[0m
+[100%] Built target joint_state_controller

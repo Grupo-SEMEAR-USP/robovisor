@@ -1,0 +1,4 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libhector_geotiff_plugins.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/hector_geotiff_plugins.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_geotiff_plugins/cmake/hector_geotiff_pluginsConfig.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_geotiff_plugins/cmake/hector_geotiff_pluginsConfig-version.cmake

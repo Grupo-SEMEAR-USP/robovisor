@@ -1,0 +1,26 @@
+[  0%] Built target _hector_nav_msgs_generate_messages_check_deps_GetSearchPosition
+[  0%] Built target _hector_nav_msgs_generate_messages_check_deps_GetDistanceToObstacle
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target nav_msgs_generate_messages_cpp
+[  0%] Built target _hector_nav_msgs_generate_messages_check_deps_GetRobotTrajectory
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target _hector_nav_msgs_generate_messages_check_deps_GetRecoveryInfo
+[  0%] Built target nav_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target nav_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target _hector_nav_msgs_generate_messages_check_deps_GetNormal
+[  0%] Built target nav_msgs_generate_messages_nodejs
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target nav_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_eus
+[ 29%] Built target hector_nav_msgs_generate_messages_py
+[ 40%] Built target hector_nav_msgs_generate_messages_cpp
+[ 59%] Built target hector_nav_msgs_generate_messages_lisp
+[ 81%] Built target hector_nav_msgs_generate_messages_eus
+[100%] Built target hector_nav_msgs_generate_messages_nodejs
+[100%] Built target hector_nav_msgs_generate_messages

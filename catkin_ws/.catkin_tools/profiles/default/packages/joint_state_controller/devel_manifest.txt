@@ -1,0 +1,6 @@
+ros_controllers/joint_state_controller
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/joint_state_controller/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/joint_state_controller/lib/libjoint_state_controller.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libjoint_state_controller.so
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/joint_state_controller/lib/pkgconfig/joint_state_controller.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/joint_state_controller.pc
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/joint_state_controller/share/joint_state_controller/cmake/joint_state_controllerConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/joint_state_controller/cmake/joint_state_controllerConfig.cmake
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/joint_state_controller/share/joint_state_controller/cmake/joint_state_controllerConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/joint_state_controller/cmake/joint_state_controllerConfig-version.cmake

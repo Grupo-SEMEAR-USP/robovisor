@@ -1,0 +1,4 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/liburdf_geometry_parser.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/urdf_geometry_parser.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/urdf_geometry_parser/cmake/urdf_geometry_parserConfig.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/urdf_geometry_parser/cmake/urdf_geometry_parserConfig-version.cmake

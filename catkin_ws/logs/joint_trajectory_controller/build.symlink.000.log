@@ -1,0 +1,6 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libjoint_trajectory_controller.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/joint_trajectory_controller.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/joint_trajectory_controller/rrbot_wrapping
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/joint_trajectory_controller/rrbot
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/joint_trajectory_controller/cmake/joint_trajectory_controllerConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/joint_trajectory_controller/cmake/joint_trajectory_controllerConfig.cmake

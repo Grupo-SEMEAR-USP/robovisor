@@ -1,0 +1,5 @@
+[35m[1mScanning dependencies of target position_controllers[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/position_controllers.dir/src/joint_group_position_controller.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/position_controllers.dir/src/joint_position_controller.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/position_controllers/lib/libposition_controllers.so[0m
+[100%] Built target position_controllers

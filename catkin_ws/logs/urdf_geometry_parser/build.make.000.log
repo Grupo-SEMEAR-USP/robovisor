@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target urdf_geometry_parser[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/urdf_geometry_parser.dir/src/urdf_geometry_parser.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/urdf_geometry_parser/lib/liburdf_geometry_parser.so[0m
+[100%] Built target urdf_geometry_parser

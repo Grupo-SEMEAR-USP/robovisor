@@ -1,0 +1,4 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/hector_map_server.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/hector_map_server/hector_map_server
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_map_server/cmake/hector_map_serverConfig.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_map_server/cmake/hector_map_serverConfig-version.cmake

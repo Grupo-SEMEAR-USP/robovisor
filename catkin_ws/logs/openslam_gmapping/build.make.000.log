@@ -1,0 +1,89 @@
+[35m[1mScanning dependencies of target sensor_base[0m
+[  1%] [32mBuilding CXX object CMakeFiles/sensor_base.dir/sensor/sensor_base/sensor.cpp.o[0m
+[  3%] [32mBuilding CXX object CMakeFiles/sensor_base.dir/sensor/sensor_base/sensorreading.cpp.o[0m
+[  5%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libsensor_base.so[0m
+[  5%] Built target sensor_base
+[35m[1mScanning dependencies of target utils[0m
+[  7%] [32mBuilding CXX object CMakeFiles/utils.dir/utils/stat.cpp.o[0m
+[  9%] [32mBuilding CXX object CMakeFiles/utils.dir/utils/movement.cpp.o[0m
+[ 11%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libutils.so[0m
+[ 11%] Built target utils
+[35m[1mScanning dependencies of target autoptr_test[0m
+[ 13%] [32mBuilding CXX object CMakeFiles/autoptr_test.dir/utils/autoptr_test.cpp.o[0m
+[ 15%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/autoptr_test[0m
+[ 15%] Built target autoptr_test
+[35m[1mScanning dependencies of target configfile[0m
+[ 17%] [32mBuilding CXX object CMakeFiles/configfile.dir/configfile/configfile.cpp.o[0m
+[ 19%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libconfigfile.so[0m
+[ 19%] Built target configfile
+[35m[1mScanning dependencies of target sensor_odometry[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/sensor_odometry.dir/sensor/sensor_odometry/odometrysensor.cpp.o[0m
+[ 23%] [32mBuilding CXX object CMakeFiles/sensor_odometry.dir/sensor/sensor_odometry/odometryreading.cpp.o[0m
+[ 25%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libsensor_odometry.so[0m
+[ 25%] Built target sensor_odometry
+[35m[1mScanning dependencies of target sensor_range[0m
+[ 27%] [32mBuilding CXX object CMakeFiles/sensor_range.dir/sensor/sensor_range/rangesensor.cpp.o[0m
+[ 29%] [32mBuilding CXX object CMakeFiles/sensor_range.dir/sensor/sensor_range/rangereading.cpp.o[0m
+[ 31%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libsensor_range.so[0m
+[ 31%] Built target sensor_range
+[35m[1mScanning dependencies of target configfile_test[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/configfile_test.dir/configfile/configfile_test.cpp.o[0m
+[ 35%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/configfile_test[0m
+[ 35%] Built target configfile_test
+[35m[1mScanning dependencies of target log[0m
+[ 37%] [32mBuilding CXX object CMakeFiles/log.dir/log/configuration.cpp.o[0m
+[ 39%] [32mBuilding CXX object CMakeFiles/log.dir/log/carmenconfiguration.cpp.o[0m
+[ 41%] [32mBuilding CXX object CMakeFiles/log.dir/log/sensorlog.cpp.o[0m
+[ 43%] [32mBuilding CXX object CMakeFiles/log.dir/log/sensorstream.cpp.o[0m
+[ 45%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/liblog.so[0m
+[ 45%] Built target log
+[35m[1mScanning dependencies of target scanmatcher[0m
+[35m[1mScanning dependencies of target scanstudio2carmen[0m
+[35m[1mScanning dependencies of target log_test[0m
+[ 47%] [32mBuilding CXX object CMakeFiles/scanstudio2carmen.dir/log/scanstudio2carmen.cpp.o[0m
+[ 49%] [32mBuilding CXX object CMakeFiles/log_test.dir/log/log_test.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/scanmatcher.dir/scanmatcher/smmap.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/scanmatcher.dir/scanmatcher/scanmatcher.cpp.o[0m
+[ 54%] [32mBuilding CXX object CMakeFiles/scanmatcher.dir/scanmatcher/scanmatcherprocessor.cpp.o[0m
+[35m[1mScanning dependencies of target rdk2carmen[0m
+[ 56%] [32mBuilding CXX object CMakeFiles/rdk2carmen.dir/log/rdk2carmen.cpp.o[0m
+[ 58%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/scanstudio2carmen[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/scanmatcher.dir/scanmatcher/eig3.cpp.o[0m
+[ 60%] Built target scanstudio2carmen
+[35m[1mScanning dependencies of target log_plot[0m
+[ 62%] [32mBuilding CXX object CMakeFiles/log_plot.dir/log/log_plot.cpp.o[0m
+[ 64%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/log_test[0m
+[ 64%] Built target log_test
+[ 66%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/rdk2carmen[0m
+[ 68%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libscanmatcher.so[0m
+[ 68%] Built target rdk2carmen
+[ 68%] Built target scanmatcher
+[35m[1mScanning dependencies of target icptest[0m
+[35m[1mScanning dependencies of target gridfastslam[0m
+[35m[1mScanning dependencies of target scanmatch_test[0m
+[ 70%] [32mBuilding CXX object CMakeFiles/icptest.dir/scanmatcher/icptest.cpp.o[0m
+[ 72%] [32mBuilding CXX object CMakeFiles/scanmatch_test.dir/scanmatcher/scanmatch_test.cpp.o[0m
+[ 74%] [32mBuilding CXX object CMakeFiles/gridfastslam.dir/gridfastslam/motionmodel.cpp.o[0m
+[ 76%] [32mBuilding CXX object CMakeFiles/gridfastslam.dir/gridfastslam/gridslamprocessor_tree.cpp.o[0m
+[ 78%] [32mBuilding CXX object CMakeFiles/gridfastslam.dir/gridfastslam/gridslamprocessor.cpp.o[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/gridfastslam.dir/gridfastslam/gfsreader.cpp.o[0m
+[ 82%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/log_plot[0m
+[ 82%] Built target log_plot
+[ 84%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/icptest[0m
+[ 84%] Built target icptest
+[ 86%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/scanmatch_test[0m
+[ 86%] Built target scanmatch_test
+[ 88%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/libgridfastslam.so[0m
+[ 88%] Built target gridfastslam
+[35m[1mScanning dependencies of target gfs2neff[0m
+[35m[1mScanning dependencies of target gfs2log[0m
+[35m[1mScanning dependencies of target gfs2rec[0m
+[ 90%] [32mBuilding CXX object CMakeFiles/gfs2neff.dir/gridfastslam/gfs2neff.cpp.o[0m
+[ 92%] [32mBuilding CXX object CMakeFiles/gfs2log.dir/gridfastslam/gfs2log.cpp.o[0m
+[ 94%] [32mBuilding CXX object CMakeFiles/gfs2rec.dir/gridfastslam/gfs2rec.cpp.o[0m
+[ 96%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/gfs2neff[0m
+[ 96%] Built target gfs2neff
+[ 98%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/gfs2log[0m
+[ 98%] Built target gfs2log
+[100%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/openslam_gmapping/lib/openslam_gmapping/gfs2rec[0m
+[100%] Built target gfs2rec

@@ -1,0 +1,7 @@
+serial
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/serial/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/serial/lib/libserial.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libserial.so
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/serial/lib/pkgconfig/serial.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/serial.pc
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/serial/lib/serial/serial_example /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/serial/serial_example
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/serial/share/serial/cmake/serialConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/serial/cmake/serialConfig.cmake
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/serial/share/serial/cmake/serialConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/serial/cmake/serialConfig-version.cmake

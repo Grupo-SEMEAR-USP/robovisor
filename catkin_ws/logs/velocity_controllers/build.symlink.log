@@ -1,0 +1,4 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libvelocity_controllers.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/velocity_controllers.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/velocity_controllers/cmake/velocity_controllersConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/velocity_controllers/cmake/velocity_controllersConfig.cmake

@@ -1,0 +1,2 @@
+ros_controllers/ros_controllers
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/ros_controllers/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock

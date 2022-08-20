@@ -1,0 +1,5 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/teleop_twist_keyboard.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/teleop_twist_keyboard/cmake.lock
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/teleop_twist_keyboard/teleop_twist_keyboard.py
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/teleop_twist_keyboard/cmake/teleop_twist_keyboardConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/teleop_twist_keyboard/cmake/teleop_twist_keyboardConfig.cmake

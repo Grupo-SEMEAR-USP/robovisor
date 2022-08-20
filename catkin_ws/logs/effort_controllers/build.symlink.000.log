@@ -1,0 +1,5 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libeffort_controllers.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/effort_controllers.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/effort_controllers/simple_bot_hw
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/effort_controllers/cmake/effort_controllersConfig.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/effort_controllers/cmake/effort_controllersConfig-version.cmake

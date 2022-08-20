@@ -1,0 +1,19 @@
+[35m[1mScanning dependencies of target diff_drive_controller_gencfg[0m
+[ 11%] [34m[1mGenerating dynamic reconfigure files from cfg/DiffDriveController.cfg: /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/diff_drive_controller/include/diff_drive_controller/DiffDriveControllerConfig.h /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/diff_drive_controller/lib/python3/dist-packages/diff_drive_controller/cfg/DiffDriveControllerConfig.py[0m
+Generating reconfiguration files for DiffDriveController in diff_drive_controller
+Wrote header file in /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/diff_drive_controller/include/diff_drive_controller/DiffDriveControllerConfig.h
+[ 11%] Built target diff_drive_controller_gencfg
+[35m[1mScanning dependencies of target diffbot[0m
+[ 22%] [32mBuilding CXX object CMakeFiles/diffbot.dir/test/diffbot.cpp.o[0m
+[35m[1mScanning dependencies of target skidsteerbot[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/skidsteerbot.dir/test/skidsteerbot.cpp.o[0m
+[ 44%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/diff_drive_controller/lib/diff_drive_controller/diffbot[0m
+[ 44%] Built target diffbot
+[ 55%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/diff_drive_controller/lib/diff_drive_controller/skidsteerbot[0m
+[ 55%] Built target skidsteerbot
+[35m[1mScanning dependencies of target diff_drive_controller[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/diff_drive_controller.dir/src/diff_drive_controller.cpp.o[0m
+[ 77%] [32mBuilding CXX object CMakeFiles/diff_drive_controller.dir/src/odometry.cpp.o[0m
+[ 88%] [32mBuilding CXX object CMakeFiles/diff_drive_controller.dir/src/speed_limiter.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/diff_drive_controller/lib/libdiff_drive_controller.so[0m
+[100%] Built target diff_drive_controller

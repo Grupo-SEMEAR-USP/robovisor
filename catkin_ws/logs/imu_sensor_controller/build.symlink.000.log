@@ -1,0 +1,4 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libimu_sensor_controller.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/imu_sensor_controller.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/imu_sensor_controller/cmake/imu_sensor_controllerConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/imu_sensor_controller/cmake/imu_sensor_controllerConfig.cmake

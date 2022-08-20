@@ -1,0 +1,4 @@
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libgripper_action_controller.so
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/gripper_action_controller.pc
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/gripper_action_controller/cmake/gripper_action_controllerConfig-version.cmake
+Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/gripper_action_controller/cmake/gripper_action_controllerConfig.cmake

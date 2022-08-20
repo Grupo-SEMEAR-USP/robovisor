@@ -1,0 +1,6 @@
+prototipo1
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/prototipo1/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/prototipo1/lib/pkgconfig/prototipo1.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/prototipo1.pc
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/prototipo1/lib/prototipo1/robot_hw_if_node /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/prototipo1/robot_hw_if_node
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/prototipo1/share/prototipo1/cmake/prototipo1Config.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/prototipo1/cmake/prototipo1Config.cmake
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/prototipo1/share/prototipo1/cmake/prototipo1Config-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/prototipo1/cmake/prototipo1Config-version.cmake
