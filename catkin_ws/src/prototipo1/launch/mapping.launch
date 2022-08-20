@@ -26,20 +26,19 @@
     <!-- LiDAR setup, publishes in /scan topic -->
     <include file="$(find prototipo1)/launch/rplidar.launch"/>
 
+    <!-- Laser filter settings -->
+    <rosparam file="$(find prototipo1)/config/laser_filter.yaml" command="load"/>
+    <!-- Laser filter -->
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+        name="laser_filter">
+        <remap from="scan" to="base_scan" />
+    </node>
+
     <!-- Manual robot control -->
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
 
     <!-- Launch RVIZ with config file for visualization -->
     <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" /> -->
 
-    <arg name="geotiff_map_file_path" default="$(find hector_geotiff)/maps"/>
-
-    <param name="/use_sim_time" value="true"/>
-
-    <include file="$(find hector_mapping)/launch/mapping_default.launch"/>
-
-    <include file="$(find hector_geotiff_launch)/launch/geotiff_mapper.launch">
-        <arg name="trajectory_source_frame_name" value="scanmatcher_frame"/>
-        <arg name="map_file_path" value="$(arg geotiff_map_file_path)"/>
-    </include>
+    
 </launch>
