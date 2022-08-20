@@ -34,6 +34,13 @@
         <remap from="base_scan" to="scan" />
     </node>
 
+    <!-- SLAM configuration -->
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen"> 
+	    <param name="scan" value="scan_filtered" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_frame" value="base_link" />
+	</node>
+
     <!-- Manual robot control -->
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
 
