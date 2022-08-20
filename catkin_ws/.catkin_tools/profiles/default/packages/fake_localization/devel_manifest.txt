@@ -1,6 +1,0 @@
-navigation/fake_localization
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/fake_localization/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/fake_localization/lib/pkgconfig/fake_localization.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/fake_localization.pc
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/fake_localization/lib/fake_localization/fake_localization /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/fake_localization/fake_localization
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/fake_localization/share/fake_localization/cmake/fake_localizationConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/fake_localization/cmake/fake_localizationConfig-version.cmake
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/fake_localization/share/fake_localization/cmake/fake_localizationConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/fake_localization/cmake/fake_localizationConfig.cmake

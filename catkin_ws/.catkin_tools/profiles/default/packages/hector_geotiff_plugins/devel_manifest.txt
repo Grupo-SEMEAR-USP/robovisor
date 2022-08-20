@@ -1,6 +1,0 @@
-hector_slam/hector_geotiff_plugins
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/hector_geotiff_plugins/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/hector_geotiff_plugins/lib/libhector_geotiff_plugins.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libhector_geotiff_plugins.so
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/hector_geotiff_plugins/lib/pkgconfig/hector_geotiff_plugins.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/hector_geotiff_plugins.pc
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/hector_geotiff_plugins/share/hector_geotiff_plugins/cmake/hector_geotiff_pluginsConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_geotiff_plugins/cmake/hector_geotiff_pluginsConfig.cmake
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/hector_geotiff_plugins/share/hector_geotiff_plugins/cmake/hector_geotiff_pluginsConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/hector_geotiff_plugins/cmake/hector_geotiff_pluginsConfig-version.cmake

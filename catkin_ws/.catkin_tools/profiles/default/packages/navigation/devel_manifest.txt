@@ -1,2 +1,0 @@
-navigation/navigation
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/navigation/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock

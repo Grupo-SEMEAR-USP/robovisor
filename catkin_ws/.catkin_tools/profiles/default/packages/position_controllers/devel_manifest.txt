@@ -1,6 +1,0 @@
-ros_controllers/position_controllers
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/position_controllers/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/position_controllers/lib/libposition_controllers.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libposition_controllers.so
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/position_controllers/lib/pkgconfig/position_controllers.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/position_controllers.pc
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/position_controllers/share/position_controllers/cmake/position_controllersConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/position_controllers/cmake/position_controllersConfig.cmake
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/position_controllers/share/position_controllers/cmake/position_controllersConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/position_controllers/cmake/position_controllersConfig-version.cmake

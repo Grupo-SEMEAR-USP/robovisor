@@ -1,7 +1,0 @@
-ros_controllers/effort_controllers
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/effort_controllers/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/effort_controllers/lib/libeffort_controllers.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libeffort_controllers.so
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/effort_controllers/lib/pkgconfig/effort_controllers.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/effort_controllers.pc
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/effort_controllers/lib/effort_controllers/simple_bot_hw /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/effort_controllers/simple_bot_hw
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/effort_controllers/share/effort_controllers/cmake/effort_controllersConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/effort_controllers/cmake/effort_controllersConfig.cmake
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/effort_controllers/share/effort_controllers/cmake/effort_controllersConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/effort_controllers/cmake/effort_controllersConfig-version.cmake

@@ -1,6 +1,0 @@
-ros_controllers/imu_sensor_controller
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/imu_sensor_controller/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/imu_sensor_controller/lib/libimu_sensor_controller.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libimu_sensor_controller.so
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/imu_sensor_controller/lib/pkgconfig/imu_sensor_controller.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/imu_sensor_controller.pc
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/imu_sensor_controller/share/imu_sensor_controller/cmake/imu_sensor_controllerConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/imu_sensor_controller/cmake/imu_sensor_controllerConfig-version.cmake
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/imu_sensor_controller/share/imu_sensor_controller/cmake/imu_sensor_controllerConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/imu_sensor_controller/cmake/imu_sensor_controllerConfig.cmake

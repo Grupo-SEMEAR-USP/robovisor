@@ -1,2 +1,0 @@
-geometry2/geometry2
-/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/geometry2/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
