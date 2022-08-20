@@ -37,3 +37,7 @@
 [submodule "catkin_ws/src/hector_slam"]
 	path = catkin_ws/src/hector_slam
 	url = git@github.com:tu-darmstadt-ros-pkg/hector_slam.git
+[submodule "catkin_ws/src/laser_filters"]
+	path = catkin_ws/src/laser_filters
+	url = git@github.com:ros-perception/laser_filters.git
+	branch = noetic-devel
