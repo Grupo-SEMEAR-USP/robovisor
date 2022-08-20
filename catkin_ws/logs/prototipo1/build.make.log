@@ -1,4 +1,0 @@
-[35m[1mScanning dependencies of target robot_hw_if_node[0m
-[ 50%] [32mBuilding CXX object CMakeFiles/robot_hw_if_node.dir/src/robot_hw_if_node.cpp.o[0m
-[100%] [32m[1mLinking CXX executable /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/prototipo1/lib/prototipo1/robot_hw_if_node[0m
-[100%] Built target robot_hw_if_node

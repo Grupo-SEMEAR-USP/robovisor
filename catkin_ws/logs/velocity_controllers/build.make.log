@@ -1,6 +1,0 @@
-[35m[1mScanning dependencies of target velocity_controllers[0m
-[ 25%] [32mBuilding CXX object CMakeFiles/velocity_controllers.dir/src/joint_velocity_controller.cpp.o[0m
-[ 50%] [32mBuilding CXX object CMakeFiles/velocity_controllers.dir/src/joint_position_controller.cpp.o[0m
-[ 75%] [32mBuilding CXX object CMakeFiles/velocity_controllers.dir/src/joint_group_velocity_controller.cpp.o[0m
-[100%] [32m[1mLinking CXX shared library /home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/velocity_controllers/lib/libvelocity_controllers.so[0m
-[100%] Built target velocity_controllers

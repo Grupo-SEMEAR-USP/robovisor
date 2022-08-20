@@ -1,0 +1,14 @@
+navigation/global_planner
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/cmake.lock /home/ltoschi/Documents/robovisor/catkin_ws/devel/./cmake.lock
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/include/global_planner/GlobalPlannerConfig.h /home/ltoschi/Documents/robovisor/catkin_ws/devel/include/global_planner/GlobalPlannerConfig.h
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/lib/libglobal_planner.so /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/libglobal_planner.so
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/lib/pkgconfig/global_planner.pc /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/global_planner.pc
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/lib/python3/dist-packages/global_planner/__init__.py /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/global_planner/__init__.py
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/lib/python3/dist-packages/global_planner/cfg/__init__.py /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/global_planner/cfg/__init__.py
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/lib/python3/dist-packages/global_planner/cfg/GlobalPlannerConfig.py /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/global_planner/cfg/GlobalPlannerConfig.py
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/lib/global_planner/planner /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/global_planner/planner
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/share/global_planner/cmake/global_plannerConfig.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/global_planner/cmake/global_plannerConfig.cmake
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/share/global_planner/cmake/global_plannerConfig-version.cmake /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/global_planner/cmake/global_plannerConfig-version.cmake
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/share/global_planner/docs/GlobalPlannerConfig.dox /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/global_planner/docs/GlobalPlannerConfig.dox
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/share/global_planner/docs/GlobalPlannerConfig.wikidoc /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/global_planner/docs/GlobalPlannerConfig.wikidoc
+/home/ltoschi/Documents/robovisor/catkin_ws/devel/.private/global_planner/share/global_planner/docs/GlobalPlannerConfig-usage.dox /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/global_planner/docs/GlobalPlannerConfig-usage.dox

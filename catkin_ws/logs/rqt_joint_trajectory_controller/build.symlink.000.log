@@ -1,6 +1,0 @@
-Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/pkgconfig/rqt_joint_trajectory_controller.pc
-Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/python3/dist-packages/rqt_joint_trajectory_controller/__init__.py
-Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/rqt_joint_trajectory_controller/rqt_joint_trajectory_controller
-Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/lib/rqt_joint_trajectory_controller/cmake.lock
-Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/rqt_joint_trajectory_controller/cmake/rqt_joint_trajectory_controllerConfig.cmake
-Symlinking /home/ltoschi/Documents/robovisor/catkin_ws/devel/share/rqt_joint_trajectory_controller/cmake/rqt_joint_trajectory_controllerConfig-version.cmake
