@@ -7,7 +7,7 @@
 
 	<!-- Joint distance parameters -->
 	<xacro:property name="CAMERA_HEIGHT" value="${(4/5)*SUPPORT_THICKNESS}" />
-	<xacro:property name="BASE_LIDAR_DIST" value="0.2" />
+	<xacro:property name="BASE_LIDAR_DIST" value="0.247" />
 	<xacro:property name="BASE_WHEEL_DIST" value="0.28" />
 	<xacro:property name="BASE_SUPPORT_DIST" value="0.205" />
 	<xacro:property name="CHASSI_HEIGHT" value="0.05" />
@@ -73,7 +73,7 @@
 		<parent link="base_link" />
 		<child link="lidar_link" />
 
-		<origin xyz="${BASE_LIDAR_DIST} 0 ${(1/2)*CHASSI_THICKNESS}" rpy="0 0 0" />
+		<origin xyz="${BASE_LIDAR_DIST} 0 ${(1/2)*CHASSI_THICKNESS}" rpy="0 0 ${PI}" />
 
 	</joint>
 
