@@ -24,19 +24,19 @@
     </node>
 
     <!-- LiDAR setup, publishes in /scan topic -->
-    <include file="$(find prototipo1)/launch/rplidar.launch"/>
+    <include file="$(find prototipo1)/launch/rplidar.launch">
+        <remap from="/scan" to="/base_scan"/>
+    </include>
 
     <!-- Laser filter settings -->
     <rosparam file="$(find prototipo1)/config/laser_filter.yaml" command="load"/>
     <!-- Laser filter -->
-    <node pkg="laser_filters" type="scan_to_scan_filter_chain"
-        name="laser_filter">
-        <remap from="base_scan" to="scan" />
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+        <remap from="/scan_filtered" to="/scan"/>
     </node>
 
     <!-- SLAM configuration -->
-    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen"> 
-	    <param name="scan" value="scan_filtered" />
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
         <param name="odom_frame" value="odom" />
         <param name="base_frame" value="base_link" />
 	</node>
