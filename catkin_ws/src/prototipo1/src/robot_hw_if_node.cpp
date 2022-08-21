@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+
 void write_Int32_to_SerialBuffer(uint8_t *serialBuffer, uint32_t value)
 {
     for(int i=0; i<4; i++)
@@ -75,40 +76,38 @@ uint8_t convert(char C){
 void RobotHWInterface::read()
 {
     std::string serialBuffer;
-    while(!readStarted)
-    {
-        std::cout << "Trying to sync serial port..." << std::endl;
-        serialPort->read(serialBuffer, 9*sizeof(char));
-        std::cout << "I received: " << serialBuffer.c_str() << std::endl;
-        if(serialBuffer.c_str()[0] == 'g' || serialBuffer.c_str()[0] == 'h')
-            readStarted = true;
-        serialBuffer.clear();
-    }
-    
     uint8_t floatBuffer[4];
     float dtheta;
     if(serialPort->available())
     {
         for(int i = 0; i < 2; i++)
         {
-            serialPort->read(serialBuffer, 9);
+	    std::string pos_flag;
 
-            if(!serialBuffer.c_str()[0] == 'g' && !serialBuffer.c_str()[0] == 'h')
-            {
-                joint_position_[0] = left_motor_pos;
-                joint_position_[1] = right_motor_pos;
-                return;
-            }
+ 	    do                                                                                 
+	    {                                                                                  
+		pos_flag.clear();
+            	serialPort->read(pos_flag, 1);                                         
+	    } while((
+		!(pos_flag.c_str()[0] == 'g') &&
+		!(pos_flag.c_str()[0] == 'h')
+		)||(
+		(pos_flag.c_str()[0] == 'g') &&
+		(pos_flag.c_str()[0] == 'h')
+		) );
+
+	    serialBuffer.clear();
+	    serialPort->read(serialBuffer, 8);
 
             for(int j = 0; j < 4; j++)
             {
-                uint8_t p1 = convert(serialBuffer.c_str()[2*j + 1]);
-                uint8_t p2 = convert(serialBuffer.c_str()[2*j + 2]);
+                uint8_t p1 = convert(serialBuffer.c_str()[2*j]);
+                uint8_t p2 = convert(serialBuffer.c_str()[2*j + 1]);
                 floatBuffer[3 - j] = p1 << 4 | p2;
             }
             memcpy(&dtheta, floatBuffer, 4);
 
-            switch (serialBuffer.c_str()[0])
+            switch (pos_flag.c_str()[0])
             {
             case 'g':
                 left_motor_pos += angles::from_degrees((double)dtheta);
@@ -126,21 +125,19 @@ void RobotHWInterface::read()
                 break;
             }
 
-            serialBuffer.clear();
+            /*printf("String recebida = %s \n", serialBuffer.c_str());                   	   
+            printf("String recebida = %x %x %x %x\n",
+                floatBuffer[3],
+                floatBuffer[2],
+                floatBuffer[1],
+                floatBuffer[0]);
+            const unsigned char * pf = reinterpret_cast<const unsigned char*>(&dtheta);
+            for(int j = 3; j >= 0; j--)
+            {
+                printf("[READ] float hex[%d] = %x\n", j, pf[j]);
+            }
+            printf("Float value: %f\n", (float) dtheta);*/
         }
-
-        /*printf("String recebida = %s \n", serialBuffer.c_str());
-        printf("String recebida left = %x %x %x %x\n",
-            floatBuffer[0],
-            floatBuffer[1],
-            floatBuffer[2],
-            floatBuffer[3]);
-        const unsigned char * pf = reinterpret_cast<const unsigned char*>(&dtheta);
-        for(int i = 0; i < 4; i++)
-        {
-            printf("[READ] float hex[%d] = %x\n", i, pf[i]);
-        }
-        printf("Float value: %f\n", (float) dtheta);*/
     }
 }
 
