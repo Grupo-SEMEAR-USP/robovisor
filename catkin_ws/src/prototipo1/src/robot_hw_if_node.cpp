@@ -75,7 +75,7 @@ uint8_t convert(char C){
 void RobotHWInterface::read()
 {
     std::string serialBuffer;
-    while(!readStarted)
+    /*while(!readStarted)
     {
         std::cout << "Trying to sync serial port..." << std::endl;
         serialPort->read(serialBuffer, 9*sizeof(char));
@@ -83,13 +83,19 @@ void RobotHWInterface::read()
         if(serialBuffer.c_str()[0] == 'g')
             readStarted = true;
         serialBuffer.clear();
-    }
+    }*/
     
     uint8_t floatBuffer[4];
     float dtheta;
     if(serialPort->available())
     {
         serialPort->readline(serialBuffer, 9, "g");
+        if(!serialBuffer.c_str()[0] == 'g')
+        {
+            joint_position_[0] = left_motor_pos;
+            joint_position_[1] = right_motor_pos;
+            return;
+        }
 
         for(int i = 0; i < 4; i++)
         {
@@ -133,18 +139,20 @@ void RobotHWInterface::read()
         //TODO: check the motor way signal (+=)
         right_motor_pos += angles::from_degrees((double)dtheta);
         joint_position_[1] = right_motor_pos;
-	        printf("String recebida = %s \n", serialBuffer.c_str());
-                printf("String recebida right = %x %x %x %x\n",
-                    floatBuffer[0],
-                    floatBuffer[1],
-                    floatBuffer[2],
-                    floatBuffer[3]);
-                const unsigned char * pf2 = reinterpret_cast<const unsigned char*>(&dtheta);
-                for(int i = 0; i < 4; i++)
-                {
-                    printf("[READ] float hex[%d] = %x\n", i, pf2[i]);
-                }
-                printf("Float value: %f\n", (float) dtheta);
+
+        printf("String recebida = %s \n", serialBuffer.c_str());
+        printf("String recebida right = %x %x %x %x\n",
+            floatBuffer[0],
+            floatBuffer[1],
+            floatBuffer[2],
+            floatBuffer[3]);
+        const unsigned char * pf2 = reinterpret_cast<const unsigned char*>(&dtheta);
+        for(int i = 0; i < 4; i++)
+        {
+            printf("[READ] float hex[%d] = %x\n", i, pf2[i]);
+        }
+        printf("Float value: %f\n", (float) dtheta);
+
         serialBuffer.clear();
 
         //std::cout << "[ROS/READ] Right Motor: " << " dtheta = " << dtheta << " joint_position_[1] = " << joint_position_[1] << std::endl;
