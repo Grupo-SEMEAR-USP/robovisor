@@ -6,6 +6,7 @@
 
     <!-- Load controller settings -->
 	<rosparam file="$(find prototipo1)/config/diff_drive_controller_params.yaml" command="load"/>
+
     <!-- Load motors settings -->
     <rosparam file="$(find prototipo1)/config/joint_limits.yaml" command="load"/>
 
