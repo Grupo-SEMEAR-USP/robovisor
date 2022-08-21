@@ -37,7 +37,7 @@
     <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
         <param name="odom_frame" value="odom" />
         <param name="base_frame" value="base_link" />
-	</node>
+	</node> 
 
     <!-- Manual robot control -->
     <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->

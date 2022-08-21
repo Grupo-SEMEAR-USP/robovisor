@@ -27,17 +27,17 @@ void send_char_via_serial(char c)
 void send_ROS(float *dtheta)
 {
 	uint8_t *p = (uint8_t *) dtheta;
+
+	printf("%c", 'g');
 	send_char_via_serial(p[3]);
 	send_char_via_serial(p[2]);
 	send_char_via_serial(p[1]);
 	send_char_via_serial(p[0]);
-	printf("%c", 'g');
 
 	send_char_via_serial(p[7]);
 	send_char_via_serial(p[6]);
 	send_char_via_serial(p[5]);
 	send_char_via_serial(p[4]);
-	printf("%c", 'g');
 
 	if(DEBUG_SEND_ROS)
 	{
@@ -106,8 +106,6 @@ void init_encoder_pinnage()
 
 	status_CHB_L = gpio_get(PICO_MOTOR_L_CHB);
 	status_CHB_R = gpio_get(PICO_MOTOR_R_CHB);
-
-	printf("%c", 'g');
 }
 
 void get_encoder_processed_values()
