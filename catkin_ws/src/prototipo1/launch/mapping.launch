@@ -6,6 +6,7 @@
 
     <!-- Load controller settings -->
 	<rosparam file="$(find prototipo1)/config/diff_drive_controller_params.yaml" command="load"/>
+
     <!-- Load motors settings -->
     <rosparam file="$(find prototipo1)/config/joint_limits.yaml" command="load"/>
 
@@ -37,6 +38,15 @@
     <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
         <param name="odom_frame" value="odom" />
         <param name="base_frame" value="base_link" />
+	<param name="angularUpdate" value="0.05" />
+	<param name="linearUpdate" value="0.05" />
+	<param name="lskip" value="10" />
+	<param name="xmax" value="10" />
+	<param name="xmin" value="-10" />
+	<param name="ymax" value="10" />
+	<param name="ymin" value="-10" />
+	<param name="map_update_interval" value="1" />
+	<param name="delta" value="0.01" />
 	</node> 
 
     <!-- Manual robot control -->
