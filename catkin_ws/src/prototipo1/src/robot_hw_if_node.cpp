@@ -147,7 +147,7 @@ void RobotHWInterface::read()
 
 void RobotHWInterface::write(ros::Duration elapsed_time)
 {
-    //velocityJointSaturationInterface.enforceLimits(elapsed_time);
+    velocityJointSaturationInterface.enforceLimits(elapsed_time);
     
     serialPort->write(write_flag_begin, 1*sizeof(uint8_t));
     uint8_t serialBuffer[4];

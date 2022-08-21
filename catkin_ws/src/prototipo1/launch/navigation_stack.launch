@@ -1,4 +1,40 @@
 <launch>
+    
+     <!-- Load robot model-->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find prototipo1)/urdf/robot.urdf.xacro'" />
+    <!-- Converts URDF model in TF -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Load controller settings -->
+	<rosparam file="$(find prototipo1)/config/diff_nav_drive_controller_params.yaml" command="load"/>
+
+    <!-- Load motors settings -->
+    <rosparam file="$(find prototipo1)/config/joint_limits.yaml" command="load"/>
+
+    <!-- Hardware interface -->
+    <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
+	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
+	</node>
+
+    <!-- Controller Manager 
+    joints_update configures a JointStateController 
+    mobile_base_controller configures a DiffDriveController -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+        args="
+            /joints_update
+            /mobile_base_controller">
+    </node>
+
+    <!-- LiDAR setup, publishes in /scan topic -->
+    <include file="$(find prototipo1)/launch/rplidar.launch">
+    </include>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    	<rosparam file="$(find prototipo1)/config/laser_filter.yaml" command="load"/>
+	<remap from="/scan" to ="/base_scan"/>
+	<remap from="/scan_filtered" to="/scan"/>
+    </node>
+
     <!-- Run the map server --> 
     <!-- To save a map, run the mapping algorithm and save it using "rosrun map_server map_saver -f *filename*". Sensor info can be provided to mapping algorithm by a rosbag. -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(find prototipo1)/maps/basidesSEMEAR.pgm 0.01"/>
