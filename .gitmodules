@@ -33,11 +33,11 @@
 	url = https://github.com/ros-controls/urdf_geometry_parser.git
 [submodule "pico/pico-sdk"]
 	path = pico/pico-sdk
-	url = git@github.com:raspberrypi/pico-sdk.git
+	url = https://github.com/raspberrypi/pico-sdk.git
 [submodule "catkin_ws/src/hector_slam"]
 	path = catkin_ws/src/hector_slam
-	url = git@github.com:tu-darmstadt-ros-pkg/hector_slam.git
+	url = https://github.com/tu-darmstadt-ros-pkg/hector_slam.git
 [submodule "catkin_ws/src/laser_filters"]
 	path = catkin_ws/src/laser_filters
-	url = git@github.com:ros-perception/laser_filters.git
+	url = https://github.com/ros-perception/laser_filters.git
 	branch = noetic-devel

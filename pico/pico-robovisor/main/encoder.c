@@ -6,6 +6,8 @@ float current_angle[2] = {0.0, 0.0};
 float last_sent_angle[2] = {0.0, 0.0};
 float last_time[2] = {0.0, 0.0};
 
+bool status_CHA_L;
+bool status_CHA_R;
 bool status_CHB_L;
 bool status_CHB_R;
 
@@ -84,7 +86,7 @@ void init_encoder_pinnage()
 	// Channel A
 	gpio_init(PICO_MOTOR_L_CHA);
 	gpio_set_dir(PICO_MOTOR_L_CHA, GPIO_IN);
-	gpio_set_irq_enabled_with_callback(PICO_MOTOR_L_CHA, GPIO_IRQ_EDGE_FALL, 1, encoder_callback);
+	gpio_set_irq_enabled_with_callback(PICO_MOTOR_L_CHA, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, 1, encoder_callback);
 
 	// Channel B
 	gpio_init(PICO_MOTOR_L_CHB);
@@ -95,7 +97,7 @@ void init_encoder_pinnage()
 	// Channel A
 	gpio_init(PICO_MOTOR_R_CHA);
 	gpio_set_dir(PICO_MOTOR_R_CHA, GPIO_IN);
-	gpio_set_irq_enabled_with_callback(PICO_MOTOR_R_CHA, GPIO_IRQ_EDGE_FALL, 1, encoder_callback);
+	gpio_set_irq_enabled_with_callback(PICO_MOTOR_R_CHA, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, 1, encoder_callback);
 
 	// Channel B
 	gpio_init(PICO_MOTOR_R_CHB);
@@ -159,23 +161,40 @@ void encoder_callback(uint gpio, uint32_t events)
 
 	switch(gpio)
     {
-		case PICO_MOTOR_L_CHA:           
-			//Direction check
+		case PICO_MOTOR_L_CHA:
 			deltaT[LEFT] = time_now - last_time[LEFT];
-			increment -= (status_CHB_L ? -1 : 1);
 			last_time[LEFT] = time_now;
-			
+			switch(events)
+			{
+				case GPIO_IRQ_EDGE_FALL:
+					status_CHA_L = false;
+					increment += (status_CHB_L ? 1 : -1);
+					break;
+
+				case GPIO_IRQ_EDGE_RISE:
+					status_CHA_L = true;
+					increment += (status_CHB_L ? -1 : 1);
+					break;
+				
+				default:
+					printf("[encoder_callback] Problem reading encoders.\n");
+					break; 
+			}         
         	break;
 
 		case PICO_MOTOR_L_CHB:
+			deltaT[LEFT] = time_now - last_time[LEFT];
+			last_time[LEFT] = time_now;
 			switch (events)
 			{
 				case GPIO_IRQ_EDGE_FALL:
 					status_CHB_L = false;
+					increment += (status_CHA_L ? -1 : 1);
 					break;
 
 				case GPIO_IRQ_EDGE_RISE:
 					status_CHB_L = true;
+					increment += (status_CHA_L ? 1 : -1);
 					break;
 				
 				default:
@@ -185,21 +204,39 @@ void encoder_callback(uint gpio, uint32_t events)
 			break;
 
         case PICO_MOTOR_R_CHA:
-			//Direction check
 			deltaT[RIGHT] = time_now - last_time[RIGHT];
-			increment -= (status_CHB_R ? 1 : -1);
 			last_time[RIGHT] = time_now;
+			switch (events)
+			{
+				case GPIO_IRQ_EDGE_FALL:
+					status_CHA_R = false;
+					increment += (status_CHB_R ? -1 : 1);
+					break;
+
+				case GPIO_IRQ_EDGE_RISE:
+					status_CHA_R = true;
+					increment += (status_CHB_R ? 1 : -1);
+					break;
+				
+				default:
+					printf("[encoder_callback] Problem reading encoders.\n");
+					break;
+			}
         	break;
 
 		case PICO_MOTOR_R_CHB:
+			deltaT[RIGHT] = time_now - last_time[RIGHT];
+			last_time[RIGHT] = time_now;
 			switch (events)
 			{
 				case GPIO_IRQ_EDGE_FALL:
 					status_CHB_R = false;
+					increment += (status_CHA_R ? 1 : -1);
 					break;
 
 				case GPIO_IRQ_EDGE_RISE:
 					status_CHB_R = true;
+					increment += (status_CHA_R ? -1 : 1);
 					break;
 				
 				default:

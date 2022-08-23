@@ -5,12 +5,12 @@
 #The "width," "height," and "resolution" parameters set the width (meters), height (meters), and resolution (meters/cell) of the costmap.
 
 local_costmap:
-  global_frame: odom
+  global_frame: map 
   robot_base_frame: base_link
-  update_frequency: 5.0
-  publish_frequency: 2.0
+  update_frequency: 10
+  publish_frequency: 9
   static_map: false
   rolling_window: true
-  width: 6.0
-  height: 6.0
-  resolution: 0.05
+  width: 1.0
+  height: 1.0
+  resolution: 0.01

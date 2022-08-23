@@ -6,7 +6,7 @@
 #include "common.h"
 #include <string.h>
 
-#define TICKS2DEGREES 3.6
+#define TICKS2DEGREES 0.9
 #define VELOCITY_MOTORS_TIMEOUT 100
 
 /*

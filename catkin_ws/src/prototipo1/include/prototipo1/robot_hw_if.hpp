@@ -18,8 +18,6 @@
 
 #define SERIAL_PORT_NAME "/dev/ttyACM0"
 #define PICO_BAUD_RATE 9600
-#define PPR_1QUAD 200
-#define TICKS2DEGREES ((double) 360)/((double) PPR_1QUAD)
 #define HW_IF_UPDATE_FREQ 20000.0
 #define LAST_BYTE_TAKE_MASK 0xFF
 #define LAST_BYTE_EXCLUDE_MASK 0xFFFFFF00

@@ -53,7 +53,6 @@ void RobotHWInterface::init()
 
 void RobotHWInterface::update(const ros::TimerEvent &e)
 {
-    // std::cout << "[UPDATE!]" << std::endl;
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
     read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
@@ -78,6 +77,11 @@ void RobotHWInterface::read()
     std::string serialBuffer;
     uint8_t floatBuffer[4];
     float dtheta;
+    
+    // Technically it would be optimal if left state were to always be read first
+    // as it would respect the time ordering of the messages L(t) --> R(t); t++
+    // however, as states are unlikely to change much between timestamps, this is
+    // not a big deal and works fine for now.
     if(serialPort->available())
     {
         for(int i = 0; i < 2; i++)
@@ -88,13 +92,10 @@ void RobotHWInterface::read()
 	    {                                                                                  
 		pos_flag.clear();
             	serialPort->read(pos_flag, 1);                                         
-	    } while((
-		!(pos_flag.c_str()[0] == 'g') &&
-		!(pos_flag.c_str()[0] == 'h')
-		)||(
-		(pos_flag.c_str()[0] == 'g') &&
-		(pos_flag.c_str()[0] == 'h')
-		) );
+	    } while(!((pos_flag.c_str()[0] == 'g') || (pos_flag.c_str()[0] == 'h')));
+        // Initial idea was about using a XNOR, but as g = true ==> h == false
+        // and as h == true ==> g == false (but not necessarily the other way around)
+        // it's easier to use the !(g or h), which is the same for this case
 
 	    serialBuffer.clear();
 	    serialPort->read(serialBuffer, 8);
@@ -125,7 +126,10 @@ void RobotHWInterface::read()
                 break;
             }
 
-            /*printf("String recebida = %s \n", serialBuffer.c_str());                   	   
+	    /*
+	    if(serialBuffer.compare(std::string("00000000")))
+	    {
+            printf("String recebida = %s \n", serialBuffer.c_str());                   	   
             printf("String recebida = %x %x %x %x\n",
                 floatBuffer[3],
                 floatBuffer[2],
@@ -136,14 +140,16 @@ void RobotHWInterface::read()
             {
                 printf("[READ] float hex[%d] = %x\n", j, pf[j]);
             }
-            printf("Float value: %f\n", (float) dtheta);*/
+            printf("Float value: %f\n", (float) dtheta);
+	    }
+	    */
         }
     }
 }
 
 void RobotHWInterface::write(ros::Duration elapsed_time)
 {
-    //velocityJointSaturationInterface.enforceLimits(elapsed_time);
+    velocityJointSaturationInterface.enforceLimits(elapsed_time);
     
     serialPort->write(write_flag_begin, 1*sizeof(uint8_t));
     uint8_t serialBuffer[4];
