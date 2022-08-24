@@ -8,6 +8,7 @@
 
 #define TICKS2DEGREES 0.9
 #define VELOCITY_MOTORS_TIMEOUT 100000
+#define EPSILON_T 5000
 
 /*
 Send motor position info to ROS.
@@ -34,12 +35,12 @@ Init all encoder relevant pins.
 */
 void init_encoder_pinnage();
 
-/* 
+/*
 Get encoder values.
 Positive values means the robot is driving fowards;
 Negative values means the robot is driving backwards.
 */
-void read_encoders(int* dtheta);
+void read_encoders(int *dtheta);
 
 /* Encoder Callback*/
 /*

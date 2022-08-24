@@ -78,7 +78,7 @@ void send_encoder_values()
         (current_angle[RIGHT] - last_sent_angle[RIGHT])};
 
     // Send angle shift to ROS.
-    //send_ROS(dtheta);
+    // send_ROS(dtheta);
 
     last_sent_angle[LEFT] = current_angle[LEFT];
     last_sent_angle[RIGHT] = current_angle[RIGHT];
@@ -132,59 +132,63 @@ float calculate_mean_velocity(float *velocities)
 
 void get_encoder_processed_values()
 {
-    if (increment[LEFT] != 0 && deltaT[LEFT] != 0)
+    if (increment[LEFT] != 0)
     {
         float angle_increment_left = increment[LEFT] * TICKS2DEGREES;
         current_angle[LEFT] += angle_increment_left;
 
-        left_last_velocity[left_vector_average_index] = angle_increment_left / (deltaT[LEFT] / (double)1000000);
+        uint64_t time = (deltaT[LEFT] < EPSILON_T) ? EPSILON_T : deltaT[LEFT];
+
+        left_last_velocity[left_vector_average_index] = angle_increment_left / (time / (double)1000000);
         left_vector_average_index++;
         left_vector_average_index %= 5;
 
         current_velocity_[LEFT] = calculate_mean_velocity(left_last_velocity);
 
-        //printf("[get_encoder_processed_values] angle_increment_left = %f\n", angle_increment_left);
-        //printf("[get_encoder_processed_values] deltaT[LEFT] = %d\n", deltaT[LEFT]);
+        // printf("[get_encoder_processed_values] angle_increment_left = %f\n", angle_increment_left);
+        // printf("[get_encoder_processed_values] deltaT[LEFT] = %d\n", deltaT[LEFT]);
 
         increment[LEFT] = 0;
         deltaT[LEFT] = 0;
     }
 
-    if (increment[RIGHT] != 0 && deltaT[RIGHT] != 0)
+    if (increment[RIGHT] != 0)
     {
         float angle_increment_right = increment[RIGHT] * TICKS2DEGREES;
         current_angle[RIGHT] += angle_increment_right;
 
-        right_last_velocity[right_vector_average_index] = angle_increment_right / (deltaT[RIGHT] / (double)1000000);
+        uint64_t time = (deltaT[RIGHT] < EPSILON_T) ? EPSILON_T : deltaT[RIGHT];
+
+        right_last_velocity[right_vector_average_index] = angle_increment_right / (time / (double)1000000);
         right_vector_average_index++;
         right_vector_average_index %= 5;
 
         current_velocity_[RIGHT] = calculate_mean_velocity(right_last_velocity);
 
-        //printf("[get_encoder_processed_values] angle_increment_right = %f\n", angle_increment_right);
-        //printf("[get_encoder_processed_values] deltaT[RIGHT] = %d\n", deltaT[RIGHT]);
+        // printf("[get_encoder_processed_values] angle_increment_right = %f\n", angle_increment_right);
+        // printf("[get_encoder_processed_values] deltaT[RIGHT] = %d\n", deltaT[RIGHT]);
 
         increment[RIGHT] = 0;
         deltaT[RIGHT] = 0;
-   }
-   
-   if (DEBUG_ENCODER_PROCESS)
-   {
-       printf("[get_encoder_processed_values]  current_angle[LEFT] = %.2f,  current_velocity_[LEFT] = %.2f\n",
-              current_angle[LEFT],
-              current_velocity_[LEFT]);
-       printf("[get_encoder_processed_values] current_angle[RIGHT] = %.2f, current_velocity_[RIGHT] = %.2f\n",
-              current_angle[RIGHT],
-              current_velocity_[RIGHT]);
-   }
-   
-   // Checks if the last info from encoders was more than VELOCITY_MOTORS_TIMOUT (in us).
-   for (int i = 0; i < 2; i++)
-   {
-       uint64_t time_now = to_us_since_boot(get_absolute_time());
-       if (time_now - last_time[i] > VELOCITY_MOTORS_TIMEOUT)
-           current_velocity_[i] = 0;
-   }
+    }
+
+    if (DEBUG_ENCODER_PROCESS)
+    {
+        printf("[get_encoder_processed_values]  current_angle[LEFT] = %.2f,  current_velocity_[LEFT] = %.2f\n",
+               current_angle[LEFT],
+               current_velocity_[LEFT]);
+        printf("[get_encoder_processed_values] current_angle[RIGHT] = %.2f, current_velocity_[RIGHT] = %.2f\n",
+               current_angle[RIGHT],
+               current_velocity_[RIGHT]);
+    }
+
+    // Checks if the last info from encoders was more than VELOCITY_MOTORS_TIMOUT (in us).
+    for (int i = 0; i < 2; i++)
+    {
+        uint64_t time_now = to_us_since_boot(get_absolute_time());
+        if (time_now - last_time[i] > VELOCITY_MOTORS_TIMEOUT)
+            current_velocity_[i] = 0;
+    }
 }
 
 void encoder_callback(uint gpio, uint32_t events)
