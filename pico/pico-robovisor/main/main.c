@@ -251,9 +251,8 @@ int main(void)
         if (DEBUG_MAIN)
         {
            //printf("left frequency = %.2f, right frequency = %.2f\n", delta_time_left, delta_time_right);
-           //printf("[RASP/READ] left motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
-           //printf("[RASP/READ] right motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
-	   printf("a%d, %f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT]);
+           printf("[RASP/READ] left motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+           printf("[RASP/READ] right motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
         }
 
         // Send velocity target to motors.
