@@ -126,8 +126,7 @@ void RobotHWInterface::read()
                 break;
             }
 
-	    /*
-	    if(serialBuffer.compare(std::string("00000000")))
+	    /*if(serialBuffer.compare(std::string("00000000")))
 	    {
             printf("String recebida = %s \n", serialBuffer.c_str());                   	   
             printf("String recebida = %x %x %x %x\n",
@@ -141,8 +140,7 @@ void RobotHWInterface::read()
                 printf("[READ] float hex[%d] = %x\n", j, pf[j]);
             }
             printf("Float value: %f\n", (float) dtheta);
-	    }
-	    */
+	    }*/
         }
     }
 }

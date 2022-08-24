@@ -1,19 +1,19 @@
 #include "../include/encoder.h"
 #include "pico/float.h"
 
-float current_velocity_[2] = {0.0, 0.0};
-float current_angle[2] = {0.0, 0.0};
+double current_velocity_[2] = {0.0, 0.0};
+double current_angle[2] = {0.0, 0.0};
 float last_sent_angle[2] = {0.0, 0.0};
-float last_time[2] = {0.0, 0.0};
+uint64_t last_time[2] = {0, 0};
 
 bool status_CHA_L;
 bool status_CHA_R;
 bool status_CHB_L;
 bool status_CHB_R;
 
-uint32_t time_now;
-uint32_t deltaT[2];
-int8_t increment[2] = {0, 0};
+uint64_t time_now;
+uint64_t deltaT[2] = {0, 0};
+int16_t increment[2] = {0, 0};
 
 void send_char_via_serial(char c)
 {
@@ -73,7 +73,7 @@ void send_encoder_values()
 		(current_angle[RIGHT] - last_sent_angle[RIGHT])};
 
 	// Send angle shift to ROS.
-	send_ROS(dtheta);
+	//send_ROS(dtheta);
 
 	last_sent_angle[LEFT] = current_angle[LEFT];
 	last_sent_angle[RIGHT] = current_angle[RIGHT];
@@ -103,38 +103,50 @@ void init_encoder_pinnage()
 	gpio_set_dir(PICO_MOTOR_R_CHB, GPIO_IN);
 	gpio_set_irq_enabled_with_callback(PICO_MOTOR_R_CHB, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, 1, encoder_callback);
 
-	last_time[LEFT] = to_ms_since_boot(get_absolute_time());
-	last_time[RIGHT] = to_ms_since_boot(get_absolute_time());
+	last_time[LEFT] = to_us_since_boot(get_absolute_time());
+	last_time[RIGHT] = to_us_since_boot(get_absolute_time());
+}
 
-	status_CHB_L = gpio_get(PICO_MOTOR_L_CHB);
-	status_CHB_R = gpio_get(PICO_MOTOR_R_CHB);
+void interruption_set_status(bool status)
+{
+	gpio_set_irq_enabled_with_callback(PICO_MOTOR_L_CHA, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, status, encoder_callback);
+	gpio_set_irq_enabled_with_callback(PICO_MOTOR_L_CHB, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, status, encoder_callback);
+	gpio_set_irq_enabled_with_callback(PICO_MOTOR_R_CHA, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, status, encoder_callback);
+	gpio_set_irq_enabled_with_callback(PICO_MOTOR_R_CHB, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, status, encoder_callback);
+
+	return;
 }
 
 void get_encoder_processed_values()
 {
+	interruption_set_status(false);
 
-	if (increment[LEFT] != 0)
+	float angle_increment_left = increment[LEFT] * TICKS2DEGREES;
+	float angle_increment_right = increment[RIGHT] * TICKS2DEGREES;
+	printf("--------------------------------------\n");
+	printf("[get_encoder_processed_values] angle_increment_left = %f\n", angle_increment_left);
+	printf("[get_encoder_processed_values] angle_increment_right = %f\n", angle_increment_right);
+
+	if (increment[LEFT] != 0 && deltaT[LEFT] != 0)
 	{
-		float angle_increment_left = increment[LEFT] * TICKS2DEGREES;
+		printf("[get_encoder_processed_values] deltaT[LEFT] = %d\n", deltaT[LEFT]);
 		current_angle[LEFT] += angle_increment_left;
-		current_velocity_[LEFT] = angle_increment_left / (deltaT[LEFT] / (float)1000);
+		current_velocity_[LEFT] = angle_increment_left / (deltaT[LEFT] / (double)1000000);
 		increment[LEFT] = 0;
+		deltaT[LEFT] = 0;
 	}
 
-	if (increment[RIGHT] != 0)
+	if (increment[RIGHT] != 0 && deltaT[RIGHT] != 0)
 	{
-		float angle_increment_right = increment[RIGHT] * TICKS2DEGREES;
+		printf("[get_encoder_processed_values] deltaT[RIGHT] = %d\n", deltaT[RIGHT]);
 		current_angle[RIGHT] += angle_increment_right;
-		current_velocity_[RIGHT] = angle_increment_right / (deltaT[RIGHT] / (float)1000);
+		current_velocity_[RIGHT] = angle_increment_right / (deltaT[RIGHT] / (double)1000000);
 		increment[RIGHT] = 0;
+		deltaT[RIGHT] = 0;
 	}
 
-	/* DO jeito q ta n faz mto sentido mas n precisa debuggar eu acho
 	if(DEBUG_ENCODER_PROCESS)
 	{
-		printf("[get_encoder_processed_values] increment[LEFT] = %d, angle_increment[LEFT] = %.2f\n",
-			   increment[LEFT],
-			   angle_increment[LEFT]);
 		printf("[get_encoder_processed_values]  current_angle[LEFT] = %.2f,  current_velocity_[LEFT] = %.2f\n",
 			   current_angle[LEFT],
 			   current_velocity_[LEFT]);
@@ -142,25 +154,27 @@ void get_encoder_processed_values()
 			   current_angle[RIGHT],
 			   current_velocity_[RIGHT]);
 	}
-	*/
 
-	// Checks if the last info from encoders was more than VELOCITY_MOTORS_TIMOUT (in ms).
+	// Checks if the last info from encoders was more than VELOCITY_MOTORS_TIMOUT (in us).
 	for (int i = 0; i < 2; i++)
 	{
-		float time_now = to_ms_since_boot(get_absolute_time());
+		uint64_t time_now = to_us_since_boot(get_absolute_time());
 		if (time_now - last_time[i] > VELOCITY_MOTORS_TIMEOUT)
 			current_velocity_[i] = 0;
 	}
+	printf("--------------------------------------\n");
+
+	interruption_set_status(true);
 }
 
 void encoder_callback(uint gpio, uint32_t events)
 {
-	time_now = to_ms_since_boot(get_absolute_time());
+	time_now = to_us_since_boot(get_absolute_time());
 
 	switch (gpio)
 	{
 	case PICO_MOTOR_L_CHA:
-		deltaT[LEFT] = time_now - last_time[LEFT];
+		deltaT[LEFT] += time_now - last_time[LEFT];
 		last_time[LEFT] = time_now;
 		switch (events)
 		{
@@ -181,7 +195,7 @@ void encoder_callback(uint gpio, uint32_t events)
 		break;
 
 	case PICO_MOTOR_L_CHB:
-		deltaT[LEFT] = time_now - last_time[LEFT];
+		deltaT[LEFT] += time_now - last_time[LEFT];
 		last_time[LEFT] = time_now;
 		switch (events)
 		{
@@ -202,7 +216,7 @@ void encoder_callback(uint gpio, uint32_t events)
 		break;
 
 	case PICO_MOTOR_R_CHA:
-		deltaT[RIGHT] = time_now - last_time[RIGHT];
+		deltaT[RIGHT] += time_now - last_time[RIGHT];
 		last_time[RIGHT] = time_now;
 		switch (events)
 		{
@@ -223,7 +237,7 @@ void encoder_callback(uint gpio, uint32_t events)
 		break;
 
 	case PICO_MOTOR_R_CHB:
-		deltaT[RIGHT] = time_now - last_time[RIGHT];
+		deltaT[RIGHT] += time_now - last_time[RIGHT];
 		last_time[RIGHT] = time_now;
 		switch (events)
 		{
@@ -248,11 +262,15 @@ void encoder_callback(uint gpio, uint32_t events)
 		break;
 	}
 
-	/*
 	if (DEBUG_ENCODER_CALLBACK)
 	{
 		printf("[encoder_callback] gpio = %d, events = %d\n", gpio, events);
-		printf("[encoder_callback] increment = %d\n", increment);
+		printf("[encoder_callback] increment[LEFT] = %d\n", increment[LEFT]);
+		printf("[encoder_callback] increment[RIGHT] = %d\n", increment[RIGHT]);
+		printf("[encoder_callback] time_now = %llu\n", time_now);
+		printf("[encoder_callback] last_time[LEFT] = %llu\n", last_time[LEFT]);
+		printf("[encoder_callback] last_time[RIGHT] = %llu\n", last_time[RIGHT]);
+		printf("[encoder_callback] deltaT[LEFT] = %llu\n", deltaT[LEFT]);
+		printf("[encoder_callback] deltaT[RIGHT] = %llu\n", deltaT[RIGHT]);
 	}
-	*/
 }

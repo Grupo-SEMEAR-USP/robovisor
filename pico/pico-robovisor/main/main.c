@@ -229,12 +229,12 @@ int main(void)
     while (1)
     {
         // AFAIK this is intended for SMALL loop optimization, not sure if useful here
-        // tight_loop_contents();
+        //tight_loop_contents();
 
         // Read velocity from Serial
-        read_velocity_commands(velocity_target);
+        //read_velocity_commands(velocity_target);
 
-        if (pid_need_compute(pid_left))
+        /*if (pid_need_compute(pid_left))
         {
             // delta_time_left = to_ms_since_boot(get_absolute_time()) - last_time_left;
             pid_compute(pid_left);
@@ -246,7 +246,7 @@ int main(void)
             // delta_time_right = to_ms_since_boot(get_absolute_time()) - last_time_right;
             pid_compute(pid_right);
             // last_time_right = to_ms_since_boot(get_absolute_time());
-        }
+	}*/
 
         if (DEBUG_MAIN)
         {
@@ -256,6 +256,7 @@ int main(void)
         }
 
         // Send velocity target to motors.
-        set_velocity(output_PWM);
+	float me_mama_ze[2] = {65535, -29490.75};
+        set_velocity(me_mama_ze);
     }
 }

@@ -7,7 +7,7 @@
 #include <string.h>
 
 #define TICKS2DEGREES 0.9
-#define VELOCITY_MOTORS_TIMEOUT 100
+#define VELOCITY_MOTORS_TIMEOUT 100000
 
 /*
 Send motor position info to ROS.
