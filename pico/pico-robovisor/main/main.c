@@ -207,8 +207,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 57;
-    double ki = 463.4143;
+    double kp = 220;
+    double ki = 0;
     double kd = 0;
 
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
@@ -232,9 +232,9 @@ int main(void)
         //tight_loop_contents();
 
         // Read velocity from Serial
-        //read_velocity_commands(velocity_target);
+        read_velocity_commands(velocity_target);
 
-        /*if (pid_need_compute(pid_left))
+        if (pid_need_compute(pid_left))
         {
             // delta_time_left = to_ms_since_boot(get_absolute_time()) - last_time_left;
             pid_compute(pid_left);
@@ -246,7 +246,7 @@ int main(void)
             // delta_time_right = to_ms_since_boot(get_absolute_time()) - last_time_right;
             pid_compute(pid_right);
             // last_time_right = to_ms_since_boot(get_absolute_time());
-	}*/
+	}
 
         if (DEBUG_MAIN)
         {
@@ -256,7 +256,6 @@ int main(void)
         }
 
         // Send velocity target to motors.
-	float me_mama_ze[2] = {65535, -29490.75};
-        set_velocity(me_mama_ze);
+        set_velocity(output_PWM);
     }
 }
