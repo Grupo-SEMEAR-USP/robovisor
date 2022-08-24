@@ -1,8 +1,8 @@
 #include "../include/encoder.h"
 #include "pico/float.h"
 
-double current_velocity_[2] = {0.0, 0.0};
-double current_angle[2] = {0.0, 0.0};
+float current_velocity_[2] = {0.0, 0.0};
+float current_angle[2] = {0.0, 0.0};
 float last_sent_angle[2] = {0.0, 0.0};
 uint64_t last_time[2] = {0, 0};
 
@@ -119,16 +119,14 @@ void interruption_set_status(bool status)
 
 void get_encoder_processed_values()
 {
-	interruption_set_status(false);
+	//interruption_set_status(false);
 
-	float angle_increment_left = increment[LEFT] * TICKS2DEGREES;
-	float angle_increment_right = increment[RIGHT] * TICKS2DEGREES;
 	printf("--------------------------------------\n");
-	printf("[get_encoder_processed_values] angle_increment_left = %f\n", angle_increment_left);
-	printf("[get_encoder_processed_values] angle_increment_right = %f\n", angle_increment_right);
 
 	if (increment[LEFT] != 0 && deltaT[LEFT] != 0)
 	{
+		float angle_increment_left = increment[LEFT] * TICKS2DEGREES;
+		printf("[get_encoder_processed_values] angle_increment_left = %f\n", angle_increment_left);
 		printf("[get_encoder_processed_values] deltaT[LEFT] = %d\n", deltaT[LEFT]);
 		current_angle[LEFT] += angle_increment_left;
 		current_velocity_[LEFT] = angle_increment_left / (deltaT[LEFT] / (double)1000000);
@@ -138,6 +136,8 @@ void get_encoder_processed_values()
 
 	if (increment[RIGHT] != 0 && deltaT[RIGHT] != 0)
 	{
+		float angle_increment_right = increment[RIGHT] * TICKS2DEGREES;
+		printf("[get_encoder_processed_values] angle_increment_right = %f\n", angle_increment_right);
 		printf("[get_encoder_processed_values] deltaT[RIGHT] = %d\n", deltaT[RIGHT]);
 		current_angle[RIGHT] += angle_increment_right;
 		current_velocity_[RIGHT] = angle_increment_right / (deltaT[RIGHT] / (double)1000000);
@@ -164,7 +164,7 @@ void get_encoder_processed_values()
 	}
 	printf("--------------------------------------\n");
 
-	interruption_set_status(true);
+	//interruption_set_status(true);
 }
 
 void encoder_callback(uint gpio, uint32_t events)
