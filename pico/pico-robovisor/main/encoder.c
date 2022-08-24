@@ -78,11 +78,7 @@ void send_encoder_values()
         (current_angle[RIGHT] - last_sent_angle[RIGHT])};
 
     // Send angle shift to ROS.
-<<<<<<< HEAD
-    // send_ROS(dtheta);
-=======
     send_ROS(dtheta);
->>>>>>> f4152ed4d516d4a8404de656b7deb99640ed973e
 
     last_sent_angle[LEFT] = current_angle[LEFT];
     last_sent_angle[RIGHT] = current_angle[RIGHT];
