@@ -207,8 +207,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 220;
-    double ki = 0;
+    double kp = 100;
+    double ki = 448.5981;
     double kd = 0;
 
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
@@ -250,9 +250,10 @@ int main(void)
 
         if (DEBUG_MAIN)
         {
-            // printf("left frequency = %.2f, right frequency = %.2f\n", delta_time_left, delta_time_right);
-            printf("[RASP/READ] left motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
-            printf("[RASP/READ] right motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
+           //printf("left frequency = %.2f, right frequency = %.2f\n", delta_time_left, delta_time_right);
+           //printf("[RASP/READ] left motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT], output_PWM[LEFT], velocity_target[LEFT]);
+           //printf("[RASP/READ] right motor -> %d, %f, %.2f, %.2f\n", to_ms_since_boot(get_absolute_time()), current_velocity[RIGHT], output_PWM[RIGHT], velocity_target[RIGHT]);
+	   printf("a%d, %f\n", to_ms_since_boot(get_absolute_time()), current_velocity[LEFT]);
         }
 
         // Send velocity target to motors.
