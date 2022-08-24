@@ -13,6 +13,7 @@
 #define DEBUG_PWM 0
 #define DEBUG_SEND_CORE0 0
 #define DEBUG_SEND_ROS 0
+#define DEBUG_MEAN_VELOCITY 0
 #define DEBUG_ENCODER_CALLBACK 0
 #define DEBUG_ENCODER_PROCESS 1
 #define DEBUG_PID 0
@@ -25,7 +26,7 @@ typedef enum
     RIGHT
 } MOTOR_SIDE;
 
-typedef enum 
+typedef enum
 {
     CCW,
     CW
