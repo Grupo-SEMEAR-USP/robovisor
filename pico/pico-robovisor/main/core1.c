@@ -1,5 +1,6 @@
 #include "../include/core1.h"
 
+
 void setup_core1()
 {
     // As encoder is handled by core1, it's pinnage is setted here
@@ -19,6 +20,6 @@ void main_core1()
         // Read displacement output from encoders, in degress, and pass those values back to ROS
         get_encoder_processed_values();
         send_encoder_values();
-	sleep_us(1000);
+	sleep_us(SAMPLE_PERIOD);
     }
 }
