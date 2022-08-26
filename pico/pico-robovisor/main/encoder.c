@@ -129,7 +129,7 @@ float calculate_mean_velocity(float *velocities)
 
 float digital_filter(float *velocities, int side)
 {
-	return 0.8544*last_sent_velocity[side] + 0.0728*(velocities[0] + velocities[1]);
+	return 0.0296*last_sent_velocity[side] + 0.4852*(velocities[0] + velocities[1]);
 }
 
 void get_encoder_processed_values()
