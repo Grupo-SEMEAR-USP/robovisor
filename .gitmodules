@@ -41,3 +41,6 @@
 	path = catkin_ws/src/laser_filters
 	url = https://github.com/ros-perception/laser_filters.git
 	branch = noetic-devel
+[submodule "catkin_ws/src/robot_localization"]
+	path = catkin_ws/src/robot_localization
+	url = https://github.com/cra-ros-pkg/robot_localization.git
