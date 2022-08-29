@@ -44,3 +44,4 @@
 [submodule "catkin_ws/src/robot_localization"]
 	path = catkin_ws/src/robot_localization
 	url = https://github.com/cra-ros-pkg/robot_localization.git
+    branch = noetic-devel
