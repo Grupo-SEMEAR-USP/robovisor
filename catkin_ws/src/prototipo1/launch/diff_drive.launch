@@ -14,6 +14,11 @@
 	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
 	</node>
 
+    <!-- EKF Localization -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+        <rosparam command="load" file="$(find prototipo1)/config/ekf_localization_params.yaml" />
+    </node>
+
     <!-- Controller Manager 
     joints_update configures a JointStateController 
     mobile_base_controller configures a DiffDriveController -->
@@ -25,4 +30,5 @@
 
     <!-- Launch RVIZ with config file for visualization -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" />
+
 </launch>
