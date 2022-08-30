@@ -37,12 +37,6 @@ public:
     void read();
     void write(ros::Duration elapsed_time);
 
-    /* Not sure if needed 
-    ros::Publisher pub;
-    ros::ServiceClient client;
-    rospy_tutorials::Floats joints_pub;
-    */
-
 protected: 
 
     hardware_interface::JointStateInterface joint_state_interface_;

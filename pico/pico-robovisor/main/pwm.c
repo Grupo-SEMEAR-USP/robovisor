@@ -1,16 +1,19 @@
 #include "../include/pwm.h"
 
+// Parameters used for setting the PWM value
 uint32_t div_l = 0, top_l = 0;
 uint32_t div_r = 0, top_r = 0;
 uint slice_num_l, channel_l;
 uint slice_num_r, channel_r;
 uint8_t error;
 
+// Due to the need of sending the absolute value of the velocity to the motors
+// we need this function
 float absFloat(float value)
-{
-    return ((value < 0) ? -1 : 1) * value;
+{ return ((value < 0) ? -1 : 1) * value;
 }
 
+// Temporary fix to avoid the problem of the motors moving erratically at low frequencies
 float testFloat (float value)
 {
     if (absFloat(value) >= MIN_PWM)
@@ -19,6 +22,7 @@ float testFloat (float value)
         return 0; 
 }
 
+// Initializes the PWM pins for the left and right motors.
 void init_pwm_pinnage()
 {
     // Left
@@ -37,7 +41,6 @@ void init_pwm_pinnage()
     gpio_set_function(PICO_MOTOR_L_PWM, GPIO_FUNC_PWM);
     error = set_pwm_freq(slice_num_l, (int)PWM_FREQ, &div_l, &top_l);
     pwm_set_wrap(slice_num_l, top_l);
-    //printf("Erro de frequência: %d\n", error);
 
 
     // Right
@@ -56,9 +59,9 @@ void init_pwm_pinnage()
     gpio_set_function(PICO_MOTOR_R_PWM, GPIO_FUNC_PWM);
     error = set_pwm_freq(slice_num_r, (int)PWM_FREQ, &div_r, &top_r);
     pwm_set_wrap(slice_num_r, top_r);
-    //printf("Erro de frequência: %d\n", error);
 }
 
+// Sets the PWM value for the motors
 void set_velocity(float *pwm_velocity)
 {
     // --- Left
@@ -72,6 +75,7 @@ void set_velocity(float *pwm_velocity)
     return;
 }
 
+// Sets the range of actual frequencies that the duty cycle controls
 int set_pwm_freq(uint slice, int freq, uint32_t *div, uint32_t *top)
 {
     // Set the frequency, making "top" as large as possible for maximum resolution.

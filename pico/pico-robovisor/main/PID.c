@@ -19,12 +19,13 @@
  */
 #include "PID.h"
 
-
+// Gets the current system time in microseconds.
 uint32_t tick_get()
 {
 	return to_ms_since_boot(get_absolute_time());
 }
 
+// Initializes the PID controller.
 pid_cont_t pid_create(pid_cont_t pid, float* in, float* out, float* set, float kp, float ki, float kd)
 {
 	pid->input = in;
@@ -46,12 +47,14 @@ pid_cont_t pid_create(pid_cont_t pid, float* in, float* out, float* set, float k
 	return pid;
 }
 
+// Checks if the PID controller needs to update values.
 bool pid_need_compute(pid_cont_t pid)
 {
 	// Check if the PID period has elapsed
 	return(tick_get() - pid->lasttime >= pid->sampletime) ? true : false;
 }
 
+// Computes the control command via PID algorithm.
 void pid_compute(pid_cont_t pid)
 {
 	// Check if control is enabled
@@ -87,6 +90,7 @@ void pid_compute(pid_cont_t pid)
 	pid->lasttime = tick_get();
 }
 
+// Automatically tunes some values according to the input.
 void pid_cont_tune(pid_cont_t pid, float kp, float ki, float kd)
 {
 	// Check for validity
@@ -109,6 +113,7 @@ void pid_cont_tune(pid_cont_t pid, float kp, float ki, float kd)
 	}
 }
 
+// Sets sample time and values that are influenced by it
 void pid_sample(pid_cont_t pid, uint32_t time)
 {
 	if (time > 0) {
@@ -122,6 +127,7 @@ void pid_sample(pid_cont_t pid, uint32_t time)
 	}
 }
 
+// Enforces PID limits
 void pid_limits(pid_cont_t pid, float min, float max)
 {
 	if (min >= max) return;
@@ -142,6 +148,7 @@ void pid_limits(pid_cont_t pid, float min, float max)
 	}
 }
 
+// Sets pid auto mode, that means that PID is on
 void pid_auto(pid_cont_t pid)
 {
 	// If going from manual to auto
@@ -156,11 +163,13 @@ void pid_auto(pid_cont_t pid)
 	}
 }
 
+// Unsets pid auto mode, that means that PID is off
 void pid_manual(pid_cont_t pid)
 {
 	pid->automode = false;
 }
 
+// Sets PID direction according to parameters given in constructor
 void pid_direction(pid_cont_t pid, enum pid_control_directions dir)
 {
 	if (pid->automode && pid->direction != dir) {

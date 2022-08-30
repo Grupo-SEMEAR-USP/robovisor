@@ -20,6 +20,8 @@ int16_t increment[2] = {0, 0};
 int8_t left_vector_average_index = 0;
 int8_t right_vector_average_index = 0;
 
+// As there's need for sending through serial port via print function, from char value,
+// this small piece of logic is used to translate the value to a string.
 void send_char_via_serial(char c)
 {
     if (c < 16)
@@ -31,6 +33,7 @@ void send_char_via_serial(char c)
         printf("%x", c);
 }
 
+// This function is used to send the values through serial port.
 void send_ROS(float *dtheta)
 {
     uint8_t *p = (uint8_t *)dtheta;
@@ -53,20 +56,19 @@ void send_ROS(float *dtheta)
     }
 }
 
+// This function is used to send the velocity estimates to core0 via fifo inter-core communication.
 void send_core0()
 {
     uint32_t left_motor_data, right_motor_data;
     memcpy(&left_motor_data, &current_velocity_[LEFT], 4);
     memcpy(&right_motor_data, &current_velocity_[RIGHT], 4);
 
-    // printf("left_motor_data = %x\n", left_motor_data);
-    // printf("right_motor_data = %x\n", right_motor_data);
-
     // Send encoder values to core0
     multicore_fifo_push_blocking(left_motor_data);
     multicore_fifo_push_blocking(right_motor_data);
 }
 
+// This function is used to send the angular displacement to ROS via serial port.
 void send_encoder_values()
 {
     // Send velocity to core0.
@@ -84,6 +86,7 @@ void send_encoder_values()
     last_sent_angle[RIGHT] = current_angle[RIGHT];
 }
 
+// Initiates the encoder pins
 void init_encoder_pinnage()
 {
     // --- Left
@@ -112,6 +115,7 @@ void init_encoder_pinnage()
     last_time[RIGHT] = to_us_since_boot(get_absolute_time());
 }
 
+// Filters the velocities
 float calculate_mean_velocity(float *velocities)
 {
     float mean_velocity = 0.0;
@@ -130,6 +134,7 @@ float calculate_mean_velocity(float *velocities)
     return mean_velocity;
 }
 
+// Called in main loop of core1, used to get the current velocity.
 void get_encoder_processed_values()
 {
     if (increment[LEFT] != 0)
@@ -144,9 +149,6 @@ void get_encoder_processed_values()
         left_vector_average_index %= 5;
 
         current_velocity_[LEFT] = calculate_mean_velocity(left_last_velocity);
-
-        // printf("[get_encoder_processed_values] angle_increment_left = %f\n", angle_increment_left);
-        // printf("[get_encoder_processed_values] deltaT[LEFT] = %d\n", deltaT[LEFT]);
 
         increment[LEFT] = 0;
         deltaT[LEFT] = 0;
@@ -164,9 +166,6 @@ void get_encoder_processed_values()
         right_vector_average_index %= 5;
 
         current_velocity_[RIGHT] = calculate_mean_velocity(right_last_velocity);
-
-        // printf("[get_encoder_processed_values] angle_increment_right = %f\n", angle_increment_right);
-        // printf("[get_encoder_processed_values] deltaT[RIGHT] = %d\n", deltaT[RIGHT]);
 
         increment[RIGHT] = 0;
         deltaT[RIGHT] = 0;
@@ -191,6 +190,10 @@ void get_encoder_processed_values()
     }
 }
 
+// Encoder callback that is called when the encoder detects a change in state.
+// There was an attempt to make it easier to read, but the loss in performance
+// (due to the introduction more comparisons) was too high to be worth it.
+// Interrupt callbacks should be as fast as possible.
 void encoder_callback(uint gpio, uint32_t events)
 {
     time_now = to_us_since_boot(get_absolute_time());

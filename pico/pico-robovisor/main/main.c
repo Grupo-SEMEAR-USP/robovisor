@@ -3,28 +3,6 @@
 #include "../include/core1.h"
 #include "hardware/irq.h"
 
-/**
- * @brief main functionality of the low level control features of application
- *
- * TODO:
- * PID logic control
- * See any adversities that can arise from uint_32 implicit conversion
- *
- * FIRST:
- * Read displacement angles, in degrees, since last call
- *
- * SECOND:
- * Return values of previously read angle displacement for left THEN right values
- *
- * THIRD:
- * Read values for velocity commands (in m/s), in the same order as mentioned above
- * receives two uint8 values, that when concatenated (each pair), recovers true velocity command
- * If no velocity command is given, than previous one is maintained
- *
- * FOURTH:
- * Send this command to set_velocity function, whose implementation is in another file
- *
- */
 
 #define READ_TIMEOUT_US 5000000
 
@@ -49,16 +27,7 @@ int zero_received_count_right = 0;
 bool zero_left = false;
 bool zero_right = false;
 
-// TODO:
-// Need's further consideration of types & sizes, using int
-// in this manner is bad, since it doesnt especify the size
-// eg: ROS is sending unsigned 32 bit integer per motor, which
-// only makes sense here if sizeof(int) == 16 bits == 2 bytes,
-// which is not according to docs
-// https://raspberry-projects.com/pi/programming-in-c/memory/variables
-// for now let's abstract that, in the end, velocity
-// (which is a signed floating type) is correctly
-// especified in the end
+// Reads velocity commands from ROS, through serial, and stores them in the global variables.
 void read_velocity_commands(float *velocity)
 {
     bool hasTimeout = false;
@@ -83,7 +52,6 @@ void read_velocity_commands(float *velocity)
         velocity_right_ = velocity_r[0] | velocity_r[1] << 8 | velocity_r[2] << 16 | velocity_r[3] << 24;
         memcpy(&velocity_right_temp, &velocity_right_, 4);
 
-        //TODO: please, find a better way to do this.
         //Avoid spikes in velocity commands.
         if(absFloat(last_velocity_target[LEFT] - velocity_left_temp) > MAX_VELOCITY_SPIKE)
         {
@@ -95,8 +63,7 @@ void read_velocity_commands(float *velocity)
             velocity_right_temp = last_velocity_target[RIGHT];
         }
 
-        //TODO: please, find a better way to do this.
-        //Avoid random zeros.
+        //Avoid random zeros
         if(velocity_left_temp == 0)
         {
             zero_received_count_left++;
@@ -132,11 +99,6 @@ void read_velocity_commands(float *velocity)
 
         if(DEBUG_MAIN_RECEIVE)
         {
-            /*for(int i = 0; i < 10; i++)
-            {
-                printf("[%d] %d\n", i, serialBuffer[i]);
-            }*/
-
             if(last_velocity_target[LEFT] != velocity[LEFT] || last_velocity_target[RIGHT] != velocity[RIGHT])
             {
                 printf("[RECEIVING] velocity_l[0] = %x, velocity_l[1] = %x, velocity_l[2] = %x, velocity_l[3] = %x\n", velocity_l[0], velocity_l[1], velocity_l[2], velocity_l[3]);
@@ -150,6 +112,7 @@ void read_velocity_commands(float *velocity)
     }
 }
 
+// Gets the current velocity of each motor, from core1, and stores it in the global variables.
 void get_current_velocity_interrupt_handle()
 {
     uint32_t raw;
@@ -178,6 +141,7 @@ void get_current_velocity_interrupt_handle()
     multicore_fifo_clear_irq();
 }
 
+// Initiates all the core pinnage functionality
 void setup_core0()
 {
     // Init pinnage
@@ -198,6 +162,7 @@ void setup_core0()
     return;
 }
 
+// Main function for core0.
 int main(void)
 {
     // Set all pins and init multicore and PID.
@@ -207,46 +172,41 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
+    // Current best estimates for PID parameters.
     double kp = 100;
     double ki = 448.5981;
     double kd = 0;
 
+    // Attaches the parameters to the PID controllers.
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
     pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp, ki, kd);
-
+    
+    // Attaches limits to the PID controllers.
     pid_limits(pid_left, -MAX_PWM, MAX_PWM);
     pid_limits(pid_right, -MAX_PWM, MAX_PWM);
 
+    // Let's the PID controllers have full control (auto mode) over the PWM commands
     pid_auto(pid_left);
     pid_auto(pid_right);
-
-    /*float delta_time_left = 0;
-    float delta_time_right = 0;
-    float last_time_left = to_ms_since_boot(get_absolute_time());
-    float last_time_right = to_ms_since_boot(get_absolute_time());*/
 
     // Core 0 main loop.
     while (1)
     {
-        // AFAIK this is intended for SMALL loop optimization, not sure if useful here
-        //tight_loop_contents();
 
-        // Read velocity from Serial
+        // Reads velocities from Serial
         read_velocity_commands(velocity_target);
 
+        // Updates the PID controllers.
         if (pid_need_compute(pid_left))
         {
-            // delta_time_left = to_ms_since_boot(get_absolute_time()) - last_time_left;
             pid_compute(pid_left);
-            // last_time_left = to_ms_since_boot(get_absolute_time());
         }
 
+        // Updates the PID controllers.
         if (pid_need_compute(pid_right))
         {
-            // delta_time_right = to_ms_since_boot(get_absolute_time()) - last_time_right;
             pid_compute(pid_right);
-            // last_time_right = to_ms_since_boot(get_absolute_time());
-	}
+	    }
 
         if (DEBUG_MAIN)
         {

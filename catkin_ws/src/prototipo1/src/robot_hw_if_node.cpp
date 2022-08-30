@@ -3,13 +3,14 @@
 #include <string>
 
 
+// Decomposes a uint32_t into a vector of 4 bytes (uint8_t)
 void write_Int32_to_SerialBuffer(uint8_t *serialBuffer, uint32_t value)
 {
     for(int i=0; i<4; i++)
         serialBuffer[i] = (value >> 8*i) & LAST_BYTE_TAKE_MASK;
 }
 
-
+// Constructor of the class, initializes the timer used for event handling and the controller manager
 RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
 {
     init();
@@ -20,11 +21,14 @@ RobotHWInterface::RobotHWInterface(ros::NodeHandle &nh) : nh_(nh)
     non_realtime_loop_ = nh_.createTimer(update_freq, &RobotHWInterface::update, this);
 }
 
+// Simple class destructor
 RobotHWInterface::~RobotHWInterface()
 {
     serialPort->close();
 }
 
+// Creates the JointVelocity interface and the JointState interface, 
+// attaching it to the handles and registering them in the controller manager
 void RobotHWInterface::init()
 {
 
@@ -51,14 +55,16 @@ void RobotHWInterface::init()
     registerInterface(&velocityJointSaturationInterface);
 }
 
+// Update function needed for the event loop of odometry in controller manager
 void RobotHWInterface::update(const ros::TimerEvent &e)
 {
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
-    //read();
+    read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
     write(elapsed_time_);
 }
 
+// Converts char value to int value
 uint8_t convert(char C){
 
     uint8_t retval;
@@ -72,6 +78,7 @@ uint8_t convert(char C){
     return retval;
 }
 
+// Read function for receiving data from the serial port of angle displacement
 void RobotHWInterface::read()
 {
     std::string serialBuffer;
@@ -126,30 +133,17 @@ void RobotHWInterface::read()
                 break;
             }
 
-	    /*if(serialBuffer.compare(std::string("00000000")))
-	    {
-            printf("String recebida = %s \n", serialBuffer.c_str());                   	   
-            printf("String recebida = %x %x %x %x\n",
-                floatBuffer[3],
-                floatBuffer[2],
-                floatBuffer[1],
-                floatBuffer[0]);
-            const unsigned char * pf = reinterpret_cast<const unsigned char*>(&dtheta);
-            for(int j = 3; j >= 0; j--)
-            {
-                printf("[READ] float hex[%d] = %x\n", j, pf[j]);
-            }
-            printf("Float value: %f\n", (float) dtheta);
-	    }*/
         }
     }
 }
 
+// Writes velocity commands to the serial port 
 void RobotHWInterface::write(ros::Duration elapsed_time)
 {
-    //velocityJointSaturationInterface.enforceLimits(elapsed_time);
+    velocityJointSaturationInterface.enforceLimits(elapsed_time);
     
     serialPort->write(write_flag_begin, 1*sizeof(uint8_t));
+
     uint8_t serialBuffer[4];
     uint32_t velocity, result;
     float velocity_left, velocity_right;
@@ -157,23 +151,13 @@ void RobotHWInterface::write(ros::Duration elapsed_time)
     // --- Left 
     velocity_left = angles::to_degrees(joint_velocity_command_[0]);
     memcpy(&velocity, &velocity_left, 4);
-    //printf("[ROS/WRITE] left velocity  = %.2f\n", velocity_left);
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
-    /*for(int i = 0; i < 4; i++)
-    {
-        printf("[left] serialBuffer[%d] = %x\n", i, serialBuffer[i]);
-    }*/
     result = (uint32_t)serialPort->write(serialBuffer, 4*sizeof(uint8_t));
 
     // --- Right
     velocity_right = angles::to_degrees(joint_velocity_command_[1]);
     memcpy(&velocity, &velocity_right, 4);
-    //printf("[ROS/WRITE] right velocity  = %.2f\n", velocity_right);
     write_Int32_to_SerialBuffer(serialBuffer, velocity);
-    /*for(int i = 0; i < 4; i++)
-    {
-        printf("[right] serialBuffer[%d] = %x\n", i, serialBuffer[i]);
-    }*/
     result = (uint32_t)serialPort->write(serialBuffer, 4*sizeof(uint8_t));
 
     serialPort->write(write_flag_end, 1*sizeof(uint8_t));
@@ -184,9 +168,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "prototipo1_hw_if");
     ros::NodeHandle nh;
 
-    // Not sure why needed
     ros::MultiThreadedSpinner spinner(N_THREADS);
-    // Interesting alternative: AsyncSpinner
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     RobotHWInterface robot(nh);
