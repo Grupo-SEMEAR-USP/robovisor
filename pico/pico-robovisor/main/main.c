@@ -200,16 +200,17 @@ void setup_core0()
 
 void obtainingMotorCurve()
 {
+    getchar();
     float desired_velocity[2];
-    int test_steps = 5000;
-    int n_tests = 65535/test_steps; 
+    int test_step = 100;
+    int n_tests = 65535/test_step; 
 
     for(int i = 0; i < n_tests; i++) 
     {
-        desired_velocity[LEFT] = i*test_steps;
-        desired_velocity[RIGHT] = i*test_steps;
+        desired_velocity[LEFT] = i*test_step;
+        desired_velocity[RIGHT] = i*test_step;
         set_velocity(desired_velocity);
-        sleep_ms(500);
+        sleep_ms(1000);
         printf("%.2f, %.2f, %.2f, %.2f\n", desired_velocity[LEFT], desired_velocity[RIGHT], current_velocity[LEFT], current_velocity[RIGHT]);
     }
 

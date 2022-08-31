@@ -56,7 +56,7 @@ void RobotHWInterface::update(const ros::TimerEvent &e)
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
     //read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
-    write(elapsed_time_);
+    //write(elapsed_time_);
 }
 
 uint8_t convert(char C){

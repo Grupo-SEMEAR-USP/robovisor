@@ -8,7 +8,7 @@
 
 #define TICKS2DEGREES 0.9
 #define VELOCITY_MOTORS_TIMEOUT 100000
-#define EPSILON_T 5000
+#define EPSILON_T 50
 
 /*
 Send motor position info to ROS.
