@@ -63,11 +63,11 @@ void set_velocity(float *pwm_velocity)
 {
     // --- Left
     gpio_set_outover(PICO_MOTOR_L_DIR, ((pwm_velocity[LEFT] >= 0) ? GPIO_OVERRIDE_LOW : GPIO_OVERRIDE_HIGH));
-    set_pwm_duty(slice_num_l, channel_l, top_l, (uint32_t)testFloat(pwm_velocity[LEFT]));
+    set_pwm_duty(slice_num_l, channel_l, top_l, (uint32_t) (pwm_velocity[LEFT]));
 
     // --- Right
     gpio_set_outover(PICO_MOTOR_R_DIR, ((pwm_velocity[RIGHT] >= 0) ? GPIO_OVERRIDE_LOW : GPIO_OVERRIDE_HIGH));
-    set_pwm_duty(slice_num_r, channel_r, top_r, (uint32_t)testFloat(pwm_velocity[RIGHT]));
+    set_pwm_duty(slice_num_r, channel_r, top_r, (uint32_t) (pwm_velocity[RIGHT]));
     
     return;
 }
