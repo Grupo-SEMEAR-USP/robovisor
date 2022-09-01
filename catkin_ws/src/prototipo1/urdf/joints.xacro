@@ -81,9 +81,18 @@
 	<joint name="vertical_support_camera_joint" type="fixed">
 
 		<parent link="vertical_support_link" />
-		<child link="camera_imu_optical_frame" />
+		<child link="camera_link" />
 
 		<origin xyz="${SUPPORT_RADIUS} 0 ${CAMERA_HEIGHT}" rpy="${PI/2} 0 0" />
 
 	</joint>
+
+	<!-- Connect unified IMU link to camera_link 
+	<joint name="imu_joint" type="fixed">
+	
+		<parent link="camera_link" />
+		<child link="camera_imu_optical_frame" />
+
+		<origin xyz="0 0 0" rpy="0 0 0" />
+	</joint> -->
 </robot>

@@ -9,7 +9,7 @@
 	<xacro:property name="CAMERA_RADIUS" value="0.05"/>
 	<xacro:property name="CAMERA_THICKNESS" value="0.1"/>
 
-	<link name="camera_imu_optical_frame">
+	<link name="camera_link">
 
 			<visual>
 					<geometry>	

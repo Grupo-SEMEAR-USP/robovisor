@@ -203,15 +203,31 @@ void obtainingMotorCurve()
     getchar();
     float desired_velocity[2];
     int test_step = 100;
-    int n_tests = 65535/test_step; 
+    int n_tests = 65535/test_step;
+    uint32_t time = to_ms_since_boot(get_absolute_time());
+    uint32_t actualTime = to_ms_since_boot(get_absolute_time());
 
-    for(int i = 0; i < n_tests; i++) 
+    while(actualTime - time < 5000) 
     {
-        desired_velocity[LEFT] = i*test_step;
-        desired_velocity[RIGHT] = -i*test_step;
+        desired_velocity[LEFT] = 40000;
+        desired_velocity[RIGHT] = -40000;
         set_velocity(desired_velocity);
-        sleep_ms(1000);
-        printf("%.2f, %.2f, %.2f, %.2f\n", desired_velocity[LEFT], desired_velocity[RIGHT], current_velocity[LEFT], current_velocity[RIGHT]);
+        printf("%.2f, %.2f, %.2f, %.2f, %d, %d, %d,\n", desired_velocity[LEFT], desired_velocity[RIGHT], current_velocity[LEFT], current_velocity[RIGHT], actualTime, time, (actualTime - time));
+    	sleep_ms(10);
+    	actualTime = to_ms_since_boot(get_absolute_time());
+    }
+
+    time = to_ms_since_boot(get_absolute_time());
+    actualTime = to_ms_since_boot(get_absolute_time());
+
+    while(actualTime - time < 5000)                                                                                                                                                                  
+    {
+        desired_velocity[LEFT] = 0;
+        desired_velocity[RIGHT] = 0;
+        set_velocity(desired_velocity);
+        printf("%.2f, %.2f, %.2f, %.2f, %d, %d, %d,\n", desired_velocity[LEFT], desired_velocity[RIGHT], current_velocity[LEFT], current_velocity[RIGHT], actualTime, time, (actualTime - time));
+    	sleep_ms(10);
+    	actualTime = to_ms_since_boot(get_absolute_time());
     }
 
     desired_velocity[LEFT] = 0;
@@ -228,12 +244,16 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 84.5667;
-    double ki = 4209.3578;
-    double kd = 0;
+    double kp_l = 58.5466;
+    double ki_l = 4.7594;
+    double kd_l = 0;
 
-    pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
-    pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp, ki, kd);
+    double kp_r = 58.5466;
+    double ki_r = 4.7594;
+    double kd_r = 0;
+
+    pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp_l, ki_l, kd_l);
+    pid_right = pid_create(&ctrldata_right, &current_velocity[RIGHT], &output_PWM[RIGHT], &velocity_target[RIGHT], kp_r, ki_r, kd_r);
 
     pid_limits(pid_left, -MAX_PWM, MAX_PWM);
     pid_limits(pid_right, -MAX_PWM, MAX_PWM);
@@ -249,8 +269,8 @@ int main(void)
     // Core 0 main loop.
     while (1)
     {
-        /* Obtains the motor curve for motor control 
-        obtainingMotorCurve();*/
+        //Obtains the motor curve for motor control 
+        //obtainingMotorCurve();
 
         // AFAIK this is intended for SMALL loop optimization, not sure if useful here
         //tight_loop_contents();
