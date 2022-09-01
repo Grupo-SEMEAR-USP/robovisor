@@ -208,7 +208,7 @@ void obtainingMotorCurve()
     for(int i = 0; i < n_tests; i++) 
     {
         desired_velocity[LEFT] = i*test_step;
-        desired_velocity[RIGHT] = i*test_step;
+        desired_velocity[RIGHT] = -i*test_step;
         set_velocity(desired_velocity);
         sleep_ms(1000);
         printf("%.2f, %.2f, %.2f, %.2f\n", desired_velocity[LEFT], desired_velocity[RIGHT], current_velocity[LEFT], current_velocity[RIGHT]);
@@ -249,10 +249,10 @@ int main(void)
     // Core 0 main loop.
     while (1)
     {
-        /* Obtains the motor curve for motor control */
-        obtainingMotorCurve();
+        /* Obtains the motor curve for motor control 
+        obtainingMotorCurve();*/
 
-        /*// AFAIK this is intended for SMALL loop optimization, not sure if useful here
+        // AFAIK this is intended for SMALL loop optimization, not sure if useful here
         //tight_loop_contents();
 
         // Read velocity from Serial
@@ -280,6 +280,6 @@ int main(void)
         }
 
         // Send velocity target to motors.
-        set_velocity(output_PWM);*/
+        set_velocity(output_PWM);
     }
 }
