@@ -228,8 +228,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 0;
-    double ki = 0;
+    double kp = 84.5667;
+    double ki = 4209.3578;
     double kd = 0;
 
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);

@@ -17,7 +17,6 @@
 
     <!-- Camera setup --> 
     <include file="$(find realsense2_camera)/launch/rs_camera.launch">
-        <remap from="/camera/gyro/imu_info" to ="/imu"/>
     </include>
 
     <!-- EKF Localization -->
