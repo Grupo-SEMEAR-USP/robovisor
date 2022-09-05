@@ -42,37 +42,4 @@
             /joints_update
             /mobile_base_controller">
     </node>
-
-    <!-- LiDAR setup, publishes in /scan topic -->
-    <include file="$(find prototipo1)/launch/rplidar.launch">
-    </include>
-
-    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
-    	<rosparam file="$(find prototipo1)/config/laser_filter.yaml" command="load"/>
-	<remap from="/scan" to ="/base_scan"/>
-	<remap from="/scan_filtered" to="/scan"/>
-    </node>
-
-    <!-- SLAM configuration -->
-    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
-        <param name="odom_frame" value="odom" />
-        <param name="base_frame" value="base_link" />
-	<param name="angularUpdate" value="0.05" />
-	<param name="linearUpdate" value="0.05" />
-	<param name="lskip" value="10" />
-	<param name="xmax" value="10" />
-	<param name="xmin" value="-10" />
-	<param name="ymax" value="10" />
-	<param name="ymin" value="-10" />
-	<param name="map_update_interval" value="0.001" />
-	<param name="delta" value="0.01" />
-	</node> 
-
-    <!-- Manual robot control -->
-    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
-
-    <!-- Launch RVIZ with config file for visualization -->
-    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" /> -->
-
-    
 </launch>

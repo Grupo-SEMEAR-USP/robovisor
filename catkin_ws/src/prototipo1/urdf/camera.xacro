@@ -39,6 +39,8 @@
 							izz="${(1/2) * CAMERA_MASS * CAMERA_RADIUS * CAMERA_RADIUS}"/>
 			</inertial>
 	</link>
-	
+
+	<!-- IMU reference 
+	<link name="camera_gyro_frame"/> --> 
 	
 </robot>

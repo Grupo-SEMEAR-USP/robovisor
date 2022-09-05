@@ -17,7 +17,7 @@ odom0_differential: false
 odom0_queue_size: 100
 
 
-imu0: camera/imu
+imu0: imu/data
 imu0_config: [false, false, false,
               true, true, true,
               false, false, false,
