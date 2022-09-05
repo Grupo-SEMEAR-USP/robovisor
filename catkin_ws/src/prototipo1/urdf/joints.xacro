@@ -6,7 +6,7 @@
 	<xacro:property name="PI" value="3.14159" />
 
 	<!-- Joint distance parameters -->
-	<xacro:property name="CAMERA_HEIGHT" value="${(4/5)*SUPPORT_THICKNESS}" />
+	<xacro:property name="CAMERA_HEIGHT" value="0.185" />
 	<xacro:property name="BASE_LIDAR_DIST" value="0.247" />
 	<xacro:property name="BASE_WHEEL_DIST" value="0.28" />
 	<xacro:property name="BASE_SUPPORT_DIST" value="0.205" />
@@ -77,22 +77,14 @@
 
 	</joint>
 
-	<!-- Joint to connect camera to support -->
-	<joint name="vertical_support_camera_joint" type="fixed">
+	<!-- Joint to connect camera to base-->
+	<joint name="camera_joint" type="fixed">
 
-		<parent link="vertical_support_link" />
+		<parent link="chassi_link" />
 		<child link="camera_link" />
 
-		<origin xyz="${SUPPORT_RADIUS} 0 ${CAMERA_HEIGHT}" rpy="${PI/2} 0 0" />
+		<origin xyz="${BASE_LIDAR_DIST} 0 ${CAMERA_HEIGHT}" rpy="0 0 0" />
 
 	</joint>
 
-	<!-- Connect unified IMU link to camera_link 
-	<joint name="imu_joint" type="fixed">
-	
-		<parent link="camera_link" />
-		<child link="camera_gyro_frame" />
-
-		<origin xyz="0 0 0" rpy="${PI} 0 0" />
-	</joint> --> 
 </robot>

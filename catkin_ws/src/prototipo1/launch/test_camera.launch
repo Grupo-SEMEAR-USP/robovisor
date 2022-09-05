@@ -1,0 +1,21 @@
+<launch>
+    <!-- Load robot model-->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find prototipo1)/urdf/robot.urdf.xacro'" />
+    <!-- Converts URDF model in TF -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Camera setup --> 
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="align_depth" value="true"/>
+        <arg name="unite_imu_method" value="linear_interpolation"/>
+        <arg name="enable_gyro" value="true"/>
+        <arg name="enable_accel" value="true"/>
+    </include>
+
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">
+        <param name="use_mag" type="bool" value="false" />
+        <param name="_publish_tf" type="bool" value="false" />
+        <param name="_world_frame" type="string" value="enu" />
+        <remap from="/imu/data_raw" to="/camera/imu"/>
+    </node>
+</launch>
