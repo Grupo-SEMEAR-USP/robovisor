@@ -3,13 +3,13 @@
 #The second section defines the acceleration limits of the robot.
 
 TrajectoryPlannerROS:
-  max_vel_x: 1.0
-  min_vel_x: 0.5
-  max_vel_theta: 3.0
+  max_vel_x: 3.0
+  min_vel_x: -3.0
+  max_vel_theta: 2.0
   min_in_place_vel_theta: 0.7
 
-  acc_lim_theta: 3.2
-  acc_lim_x: 2.5
-  acc_lim_y: 2.5
+  acc_lim_theta: 0.7
+  acc_lim_x: 0.75
+  acc_lim_y: 0.75
 
   holonomic_robot: false 

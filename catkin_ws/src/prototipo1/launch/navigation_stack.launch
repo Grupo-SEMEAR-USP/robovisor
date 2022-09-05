@@ -6,7 +6,7 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
     <!-- Load controller settings -->
-	<rosparam file="$(find prototipo1)/config/diff_nav_drive_controller_params.yaml" command="load"/>
+	<rosparam file="$(find prototipo1)/config/diff_drive_controller_params.yaml" command="load"/>
 
     <!-- Load motors settings -->
     <rosparam file="$(find prototipo1)/config/joint_limits.yaml" command="load"/>
@@ -15,6 +15,28 @@
     <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
 	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
 	</node>
+
+    <!-- Camera setup --> 
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="unite_imu_method" value="copy"/>
+        <arg name="enable_gyro" value="true"/>
+        <arg name="enable_accel" value="true"/>
+        <!-- <arg name="json_file_path" value="$(find prototipo1)/config/calibration.json"/>
+        <arg name="odom_frame_id" value="odom"/>
+        <arg name="base_frame_id" value="map"/> -->
+    </include>
+
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">
+        <param name="use_mag" type="bool" value="false" />
+        <param name="_publish_tf" type="bool" value="false" />
+        <param name="_world_frame" type="string" value="enu" />
+        <remap from="/imu/data_raw" to="/camera/imu"/>
+    </node>
+
+    <!-- EKF Localization -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+        <rosparam command="load" file="$(find prototipo1)/config/localization.yaml" />
+    </node>
 
     <!-- Controller Manager 
     joints_update configures a JointStateController 
@@ -37,7 +59,7 @@
 
     <!-- Run the map server --> 
     <!-- To save a map, run the mapping algorithm and save it using "rosrun map_server map_saver -f *filename*". Sensor info can be provided to mapping algorithm by a rosbag. -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find prototipo1)/maps/besidesSEMEAR.pgm 0.01"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find prototipo1)/maps/salinha.pgm 0.01"/>
 
     <!--- Run AMCL --> 
     <include file="$(find prototipo1)/launch/amcl_diff.launch" /> 

@@ -15,11 +15,11 @@
 	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
 	</node>
 
-    <!-- Camera setup --> 
+    <!-- Camera setup -->
     <include file="$(find realsense2_camera)/launch/rs_camera.launch">
-        <arg name="align_depth" value="true"/>
-        <arg name="linear_accel_cov" value="1.0"/>
         <arg name="unite_imu_method" value="linear_interpolation"/>
+        <arg name="enable_gyro" value="true"/>
+        <arg name="enable_accel" value="true"/>
     </include>
 
     <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">

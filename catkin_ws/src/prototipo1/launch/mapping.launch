@@ -12,14 +12,17 @@
 
     <!-- Hardware interface -->
     <node name="hardware_interface" pkg="prototipo1" type="robot_hw_if_node" output="screen"> 
-	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
-	</node>
+        <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
+    </node>
 
     <!-- Camera setup --> 
     <include file="$(find realsense2_camera)/launch/rs_camera.launch">
-        <arg name="align_depth" value="true"/>
-        <arg name="linear_accel_cov" value="1.0"/>
-        <arg name="unite_imu_method" value="linear_interpolation"/>
+        <arg name="unite_imu_method" value="copy"/>
+        <arg name="enable_gyro" value="true"/>
+        <arg name="enable_accel" value="true"/>
+        <!-- <arg name="json_file_path" value="$(find prototipo1)/config/calibration.json"/>
+        <arg name="odom_frame_id" value="odom"/>
+        <arg name="base_frame_id" value="map"/> -->
     </include>
 
     <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">
@@ -57,14 +60,14 @@
     <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
         <param name="odom_frame" value="odom" />
         <param name="base_frame" value="base_link" />
-	<param name="angularUpdate" value="0.05" />
-	<param name="linearUpdate" value="0.05" />
-	<param name="lskip" value="10" />
-	<param name="xmax" value="10" />
-	<param name="xmin" value="-10" />
-	<param name="ymax" value="10" />
-	<param name="ymin" value="-10" />
-	<param name="map_update_interval" value="0.001" />
+	<param name="angularUpdate" value="0.5" />
+	<param name="linearUpdate" value="0.5" />
+	<param name="lskip" value="0" />
+	<param name="xmax" value="1" />
+	<param name="xmin" value="-1" />
+	<param name="ymax" value="1" />
+	<param name="ymin" value="-1" />
+	<param name="map_update_interval" value="1.0" />
 	<param name="delta" value="0.01" />
 	</node> 
 

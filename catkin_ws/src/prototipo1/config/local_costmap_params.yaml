@@ -11,6 +11,6 @@ local_costmap:
   publish_frequency: 9
   static_map: false
   rolling_window: true
-  width: 1.0
-  height: 1.0
+  width: 2.5
+  height: 2.5
   resolution: 0.01
