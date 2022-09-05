@@ -198,6 +198,27 @@ void setup_core0()
     return;
 }
 
+void obtainingMotorCurve()
+{
+    getchar();
+    float desired_velocity[2];
+    int test_step = 100;
+    int n_tests = 65535/test_step; 
+
+    for(int i = 0; i < n_tests; i++) 
+    {
+        desired_velocity[LEFT] = i*test_step;
+        desired_velocity[RIGHT] = -i*test_step;
+        set_velocity(desired_velocity);
+        sleep_ms(1000);
+        printf("%.2f, %.2f, %.2f, %.2f\n", desired_velocity[LEFT], desired_velocity[RIGHT], current_velocity[LEFT], current_velocity[RIGHT]);
+    }
+
+    desired_velocity[LEFT] = 0;
+    desired_velocity[RIGHT] = 0;
+    set_velocity(desired_velocity);    
+}
+
 int main(void)
 {
     // Set all pins and init multicore and PID.
@@ -207,8 +228,8 @@ int main(void)
     struct pid_controller ctrldata_left, ctrldata_right;
     pid_cont_t pid_left, pid_right;
 
-    double kp = 100;
-    double ki = 448.5981;
+    double kp = 84.5667;
+    double ki = 4209.3578;
     double kd = 0;
 
     pid_left = pid_create(&ctrldata_left, &current_velocity[LEFT], &output_PWM[LEFT], &velocity_target[LEFT], kp, ki, kd);
@@ -228,6 +249,9 @@ int main(void)
     // Core 0 main loop.
     while (1)
     {
+        /* Obtains the motor curve for motor control 
+        obtainingMotorCurve();*/
+
         // AFAIK this is intended for SMALL loop optimization, not sure if useful here
         //tight_loop_contents();
 

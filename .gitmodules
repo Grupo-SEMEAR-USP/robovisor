@@ -54,3 +54,9 @@
 [submodule "catkin_ws/src/unique_identifier"]
 	path = catkin_ws/src/unique_identifier
 	url = https://github.com/ros-geographic-info/unique_identifier.git
+[submodule "catkin_ws/src/ddynamic_reconfigure"]
+	path = catkin_ws/src/ddynamic_reconfigure
+	url = https://github.com/pal-robotics/ddynamic_reconfigure.git
+[submodule "catkin_ws/src/realsense-ros"]
+	path = catkin_ws/src/realsense-ros
+	url = https://github.com/IntelRealSense/realsense-ros.git

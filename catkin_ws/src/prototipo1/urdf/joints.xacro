@@ -81,7 +81,7 @@
 	<joint name="vertical_support_camera_joint" type="fixed">
 
 		<parent link="vertical_support_link" />
-		<child link="camera_link" />
+		<child link="camera_imu_optical_frame" />
 
 		<origin xyz="${SUPPORT_RADIUS} 0 ${CAMERA_HEIGHT}" rpy="${PI/2} 0 0" />
 

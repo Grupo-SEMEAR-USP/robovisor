@@ -15,9 +15,13 @@
 	    <remap from="/mobile_base_controller/cmd_vel" to="/cmd_vel" />
 	</node>
 
+    <!-- Camera setup --> 
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    </include>
+
     <!-- EKF Localization -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
-        <rosparam command="load" file="$(find prototipo1)/config/ekf_localization_params.yaml" />
+        <rosparam command="load" file="$(find prototipo1)/config/localization.yaml" />
     </node>
 
     <!-- Controller Manager 
