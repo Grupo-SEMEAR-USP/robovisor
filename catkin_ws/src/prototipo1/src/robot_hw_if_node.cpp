@@ -111,13 +111,13 @@ void RobotHWInterface::read()
             switch (pos_flag.c_str()[0])
             {
             case 'g':
-                left_motor_pos += angles::from_degrees((double)dtheta);
+                left_motor_pos += angles::from_degrees((float)dtheta)*0.2122;
                 joint_position_[0] = left_motor_pos;
                 //std::cout << "[ROS/READ] Left Motor: " << " dtheta = " << (float) dtheta << " joint_position_[0] = " << joint_position_[0] << std::endl;
                 break;
 
             case 'h':
-                right_motor_pos += angles::from_degrees((double)dtheta);
+                right_motor_pos += angles::from_degrees((float)dtheta)*0.2122;
                 joint_position_[1] = right_motor_pos;
                 //std::cout << "[ROS/READ] Right Motor: " << " dtheta = " << dtheta << " joint_position_[1] = " << joint_position_[1] << std::endl;
                 break;

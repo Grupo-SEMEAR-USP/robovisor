@@ -42,4 +42,14 @@
             /joints_update
             /mobile_base_controller">
     </node>
+
+    <!-- LiDAR setup, publishes in /scan topic -->
+    <include file="$(find prototipo1)/launch/rplidar.launch">                        
+    </include>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    	<rosparam file="$(find prototipo1)/config/laser_filter.yaml" command="load"/>
+	<remap from="/scan" to ="/base_scan"/>
+	<remap from="/scan_filtered" to="/scan"/>
+    </node>
 </launch>
