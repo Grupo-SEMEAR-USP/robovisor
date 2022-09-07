@@ -63,19 +63,18 @@
         <param name="base_frame" value="base_link" />
         <param name="angularUpdate" value="0.5" />
         <param name="linearUpdate" value="0.5" />
-        <param name="lskip" value="0" />
+        <param name="lskip" value="5" />
         <param name="xmax" value="1" />
         <param name="xmin" value="-1" />
         <param name="ymax" value="1" />
         <param name="ymin" value="-1" />
 
-        <param name="map_update_interval" value="0.1" />
+        <param name="map_update_interval" value="2.5" />
         <param name="transform_publish_period" value="0.001" />
         <param name="delta" value="0.05" />
         <param name="astep" value="0.05" />
         <param name="lstep" value="0.05" />
         <param name="particles" value="80" />
-        
     </node> 
 
     <!-- Manual robot control -->
@@ -83,6 +82,4 @@
 
     <!-- Launch RVIZ with config file for visualization -->
     <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prototipo1)/rviz/model_visualization.rviz" /> -->
-
-    
 </launch>

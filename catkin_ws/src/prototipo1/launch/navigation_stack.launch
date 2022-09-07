@@ -59,7 +59,7 @@
 
     <!-- Run the map server --> 
     <!-- To save a map, run the mapping algorithm and save it using "rosrun map_server map_saver -f *filename*". Sensor info can be provided to mapping algorithm by a rosbag. -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find prototipo1)/maps/salinha.pgm 0.01"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find prototipo1)/maps/semear_corridor_0609_5.pgm 0.05"/>
 
     <!--- Run AMCL --> 
     <include file="$(find prototipo1)/launch/amcl_diff.launch" /> 
